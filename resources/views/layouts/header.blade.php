@@ -13,7 +13,10 @@
   <link href="{{ asset('vendor/fontawesome/css/all.min.css') }}" rel="stylesheet">
   <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('css/admin.min.css') }}" rel="stylesheet">
-
+  <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+  @if(Request::is('domain-resellers'))
+  <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+  @endif
 </head>
 
 <body id="page-top">

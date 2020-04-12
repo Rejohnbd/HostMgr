@@ -6,7 +6,7 @@
     <div class="sidebar-brand-text mx-3">HostMgr</div>
   </a>
   <hr class="sidebar-divider my-0">
-  <li class="nav-item active">
+  <li class="nav-item @if(Request::is('dashboard')) active @endif">
     <a class="nav-link" href="{{ url('dashboard') }}">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a>
@@ -59,29 +59,34 @@
   </li>
   <hr class="sidebar-divider">
   <div class="sidebar-heading">
-    Examples
+    Reseller
   </div>
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true" aria-controls="collapsePage">
-      <i class="fas fa-fw fa-columns"></i>
-      <span>Pages</span>
+  <li class="nav-item @if(Request::is('domain-resellers*')) active @endif">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDomain" aria-expanded="true" aria-controls="collapseDomain">
+      <i class="fab fa-adn"></i>
+      <span>Domain</span>
     </a>
-    <div id="collapsePage" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
+    <div id="collapseDomain" class="collapse @if(Request::is('domain-resellers*')) show @endif" aria-labelledby="headingPage" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Example Pages</h6>
-        <a class="collapse-item" href="login.html">Login</a>
-        <a class="collapse-item" href="register.html">Register</a>
-        <a class="collapse-item" href="404.html">404 Page</a>
-        <a class="collapse-item" href="blank.html">Blank Page</a>
+        <a class="collapse-item" href="{{ route('domain-resellers.index') }}">Domain Reseller List</a>
+        <a class="collapse-item" href="{{ route('domain-resellers.create') }}">Domain Reseller Create</a>
       </div>
     </div>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="charts.html">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>Charts</span>
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHosting" aria-expanded="true" aria-controls="collapseHosting">
+      <i class="fas fa-hdd"></i>
+      <span>Hosting</span>
     </a>
+    <div id="collapseHosting" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Example Pages</h6>
+        <a class="collapse-item" href="login.html">Login</a>
+        <a class="collapse-item" href="register.html">Register</a>
+      </div>
+    </div>
   </li>
+
   <hr class="sidebar-divider">
   <div class="version" id="version-ruangadmin"></div>
 </ul>

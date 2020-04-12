@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DomainReseller;
-use App\Http\Requests\StoreDomainResellerRequest;
+use App\Http\Requests\DomainResellerRequest;
 use Illuminate\Http\Request;
 
 class DomainResellerController extends Controller
@@ -15,7 +15,8 @@ class DomainResellerController extends Controller
      */
     public function index()
     {
-        return view('domain-resellers.index');
+        $resellers = DomainReseller::all();
+        return view('domain-resellers.index', compact('resellers'));
     }
 
     /**
@@ -34,7 +35,7 @@ class DomainResellerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDomainResellerRequest $request)
+    public function store(DomainResellerRequest $request)
     {
         DomainReseller::create($request->all());
 
@@ -51,7 +52,7 @@ class DomainResellerController extends Controller
      */
     public function show(DomainReseller $domainReseller)
     {
-        //
+        return view('domain-resellers.show', compact('domainReseller'));
     }
 
     /**
@@ -62,7 +63,7 @@ class DomainResellerController extends Controller
      */
     public function edit(DomainReseller $domainReseller)
     {
-        //
+        return view('domain-resellers.create', compact('domainReseller'));
     }
 
     /**
@@ -72,9 +73,13 @@ class DomainResellerController extends Controller
      * @param  \App\DomainReseller  $domainReseller
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DomainReseller $domainReseller)
+    public function update(DomainResellerRequest $request, DomainReseller $domainReseller)
     {
-        //
+        $domainReseller->update($request->all());
+
+        session()->flash('success', 'Domain Reseller Update');
+
+        return redirect()->back();
     }
 
     /**

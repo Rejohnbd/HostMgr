@@ -63,7 +63,7 @@
   </div>
   <li class="nav-item @if(Request::is('domain-resellers*')) active @endif">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDomain" aria-expanded="true" aria-controls="collapseDomain">
-      <i class="fab fa-adn"></i>
+      <i class="fab fa-hornbill"></i>
       <span>Domain</span>
     </a>
     <div id="collapseDomain" class="collapse @if(Request::is('domain-resellers*')) show @endif" aria-labelledby="headingPage" data-parent="#accordionSidebar">
@@ -88,5 +88,5 @@
   </li>
 
   <hr class="sidebar-divider">
-  <div class="version" id="version-ruangadmin"></div>
+  <!-- <div class="version" id="version-ruangadmin"></div> -->
 </ul>

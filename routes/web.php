@@ -20,3 +20,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('dashboard', 'DashboardController@index');
 Route::resource('domain-resellers', 'DomainResellerController');
+Route::resource('hosting-resellers', 'HostingResellerController');

@@ -73,20 +73,17 @@
       </div>
     </div>
   </li>
-  <li class="nav-item">
+  <li class="nav-item @if(Request::is('hosting-resellers*')) active @endif">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHosting" aria-expanded="true" aria-controls="collapseHosting">
       <i class="fas fa-hdd"></i>
       <span>Hosting</span>
     </a>
-    <div id="collapseHosting" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
+    <div id="collapseHosting" class="collapse @if(Request::is('hosting-resellers*')) show @endif" aria-labelledby="headingPage" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Example Pages</h6>
-        <a class="collapse-item" href="login.html">Login</a>
-        <a class="collapse-item" href="register.html">Register</a>
+        <a class="collapse-item" href="{{ route('hosting-resellers.index') }}">Hosting Reseller List</a>
+        <a class="collapse-item" href="{{ route('hosting-resellers.create') }}">Domain Reseller create</a>
       </div>
     </div>
   </li>
-
   <hr class="sidebar-divider">
-  <!-- <div class="version" id="version-ruangadmin"></div> -->
 </ul>

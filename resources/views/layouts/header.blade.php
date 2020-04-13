@@ -17,6 +17,10 @@
   @if(Request::is('domain-resellers'))
   <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
   @endif
+  @if(Request::is('customers/create'))
+  <link href="{{ asset('vendor/select-option/css/select2.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('vendor/datetimepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
+  @endif
 </head>
 
 <body id="page-top">

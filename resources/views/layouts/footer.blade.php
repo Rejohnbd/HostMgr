@@ -33,6 +33,28 @@
   });
 </script>
 @endif
+@if(Request::is('customers/create'))
+<script src="{{ asset('vendor/select-option/js/select2.min.js') }}"></script>
+<script src="{{ asset('vendor/datetimepicker/js/bootstrap-datepicker.min.js') }}"></script>
+<script>
+  $(document).ready(function() {
+    $('#customerEmail').select2();
+
+    $('#custJoinDate').datepicker({
+      format: 'yyyy-mm-dd',
+      todayHighlight: true
+    });
+    $('#joinYear').datepicker({
+      format: 'yyyy',
+      viewMode: "years",
+      minViewMode: "years",
+
+    });
+
+
+  });
+</script>
+@endif
 </body>
 
 </html>

@@ -54,6 +54,22 @@
   </li>
   <hr class="sidebar-divider">
   <div class="sidebar-heading">
+    Packages
+  </div>
+  <li class="nav-item @if(Request::is('hosting-packages*')) active @endif ">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHostingPackage" aria-expanded="true" aria-controls="collapseHostingPackage">
+      <i class="fas fa-fw fa-table"></i>
+      <span>Hosting Package</span>
+    </a>
+    <div id="collapseHostingPackage" class="collapse @if(Request::is('hosting-packages*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item" href="{{ route('hosting-packages.index') }}">Package List</a>
+        <a class="collapse-item" href="{{ route('hosting-packages.create') }}">Package Create</a>
+      </div>
+    </div>
+  </li>
+  <hr class="sidebar-divider">
+  <div class="sidebar-heading">
     Reseller
   </div>
   <li class="nav-item @if(Request::is('domain-resellers*')) active @endif">

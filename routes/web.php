@@ -16,8 +16,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('dashboard', 'DashboardController@index');
-Route::resource('domain-resellers', 'DomainResellerController');
-Route::resource('hosting-resellers', 'HostingResellerController');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('dashboard', 'DashboardController@index');
+    Route::resource('domain-resellers', 'DomainResellerController');
+    Route::resource('hosting-resellers', 'HostingResellerController');
+});

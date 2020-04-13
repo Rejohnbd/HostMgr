@@ -11,26 +11,38 @@
                     <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-4">Register</h1>
                     </div>
-                    <form>
+                    <form action="{{ route('register') }}" method="POST">
+                        @csrf
                         <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter First Name">
+                            <label for="emailAddress">Email Address</label>
+                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="emailAddress" placeholder="Enter Email Address" value="{{ old('email') }}" required>
+                            @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" id="exampleInputLastName" placeholder="Enter Last Name">
+                            <label for="mobileNumber">Mobile Number</label>
+                            <input type="tel" name="mobile" class="form-control @error('mobile') is-invalid @enderror" id="mobileNumber" placeholder="Enter First Name" value="{{ old('mobile') }}" required>
+                            @error('mobile')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Password" required>
+                            @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <label>Repeat Password</label>
-                            <input type="password" class="form-control" id="exampleInputPasswordRepeat" placeholder="Repeat Password">
+                            <label for="passwordRepet">Repeat Password</label>
+                            <input type="password" name="password_confirmation" class="form-control" id="passwordRepet" placeholder="Repeat Password" required>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">Register</button>

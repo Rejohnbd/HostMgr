@@ -18,8 +18,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-
-        return view('customers.index');
+        $customers = Customer::all();
+        return view('customers.index', compact('customers'));
     }
 
     /**
@@ -80,7 +80,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        return view('customers.show', compact('customer'));
     }
 
     /**

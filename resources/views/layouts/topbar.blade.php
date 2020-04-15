@@ -76,7 +76,7 @@
         </h6>
         <a class="dropdown-item d-flex align-items-center" href="#">
           <div class="dropdown-list-image mr-3">
-            <img class="rounded-circle" src="{{ asset('img/avatars/man.png') }}" style="max-width: 60px" alt="">
+            <img class="rounded-circle" src="{{ asset('resources/assets/img/avatars/man.png') }}" style="max-width: 60px" alt="">
             <div class="status-indicator bg-success"></div>
           </div>
           <div class="font-weight-bold">
@@ -87,7 +87,7 @@
         </a>
         <a class="dropdown-item d-flex align-items-center" href="#">
           <div class="dropdown-list-image mr-3">
-            <img class="rounded-circle" src="{{ asset('img/avatars/girl.png') }}" style="max-width: 60px" alt="">
+            <img class="rounded-circle" src="{{ asset('resources/assets/img/avatars/girl.png') }}" style="max-width: 60px" alt="">
             <div class="status-indicator bg-default"></div>
           </div>
           <div>
@@ -144,7 +144,7 @@
     <div class="topbar-divider d-none d-sm-block"></div>
     <li class="nav-item dropdown no-arrow">
       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <img class="img-profile rounded-circle" src="{{ asset('img/avatars/girl.png') }}" style="max-width: 60px">
+        <img class="img-profile rounded-circle" src="{{ asset('resources/assets/img/avatars/girl.png') }}" style="max-width: 60px">
         <span class="ml-2 d-none d-lg-inline text-white small">Maman Ketoprak</span>
       </a>
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

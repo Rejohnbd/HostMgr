@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="{{ asset('img/logo.png') }}" rel="icon">
+    <link href="{{ asset('resources/assets/img/logo.png') }}" rel="icon">
     <title>HostMgr :: @yield('title')</title>
     {{-- Styles --}}
-    <link href="{{ asset('vendor/fontawesome/css/all.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/admin.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('resources/assets/vendor/fontawesome/css/all.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('resources/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('resources/assets/css/admin.min.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-gradient-login">
@@ -24,10 +24,10 @@
         </div>
     </div>
 
-    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('js/admin.min.js') }}"></script>
+    <script src="{{ asset('resources/assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('resources/assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('resources/assets/js/admin.min.js') }}"></script>
 </body>
 
 </html>

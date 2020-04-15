@@ -7,19 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="{{ asset('img/logo.png') }}" rel="icon">
+  <link href="{{ asset('resources/assets/img/logo.png') }}" rel="icon">
   <title>HostMgr :: @yield('title')</title>
   {{-- Styles --}}
-  <link href="{{ asset('vendor/fontawesome/css/all.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('css/admin.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+  <link href="{{ asset('resources/assets/vendor/fontawesome/css/all.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('resources/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('resources/assets/css/admin.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('resources/assets/css/main.css') }}" rel="stylesheet">
   @if(Request::is('domain-resellers'))
-  <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('resources/assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
   @endif
   @if(Request::is('customers/create'))
-  <link href="{{ asset('vendor/select-option/css/select2.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('vendor/datetimepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('resources/assets/vendor/select-option/css/select2.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('resources/assets/vendor/datetimepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
   @endif
 </head>
 

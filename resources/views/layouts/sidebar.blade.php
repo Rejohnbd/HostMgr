@@ -1,7 +1,7 @@
 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('dashboard') }}">
     <div class="sidebar-brand-icon">
-      <img src="{{ asset('img/logo.png') }}">
+      <img src="{{ asset('resources/assets/img/logo.png') }}">
     </div>
     <div class="sidebar-brand-text mx-3">HostMgr</div>
   </a>

@@ -12,4 +12,19 @@ class Service extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function domainReseller()
+    {
+        return $this->belongsTo(DomainReseller::class);
+    }
+
+    public function hostingReseller()
+    {
+        return $this->belongsTo(HostingReseller::class);
+    }
+
+    public function hostingPackage()
+    {
+        return $this->belongsTo(HostingPackage::class);
+    }
 }

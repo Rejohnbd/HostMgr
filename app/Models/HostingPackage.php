@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class HostingPackage extends Model
 {
     protected $guarded = [];
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
 }

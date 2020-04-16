@@ -54,6 +54,10 @@
   </li>
   <hr class="sidebar-divider">
   <div class="sidebar-heading">
+    Services
+  </div>
+  <hr class="sidebar-divider">
+  <div class="sidebar-heading">
     Packages
   </div>
   <li class="nav-item @if(Request::is('hosting-packages*')) active @endif ">

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\HostingReseller;
+use App\Models\HostingReseller;
 use App\Http\Requests\HostingResellerRequest;
 use Illuminate\Http\Request;
 

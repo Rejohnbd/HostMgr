@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Customer;
-use App\CustomerContactPerson;
+use App\Models\Customer;
+use App\Models\CustomerContactPerson;
 use App\Http\Requests\CustomerRequest;
 use App\User;
 use Illuminate\Http\Request;

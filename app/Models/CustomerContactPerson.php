@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HostingPackage extends Model
+class CustomerContactPerson extends Model
 {
     protected $guarded = [];
 }

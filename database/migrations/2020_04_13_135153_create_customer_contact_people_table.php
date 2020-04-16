@@ -15,11 +15,11 @@ class CreateCustomerContactPeopleTable extends Migration
     {
         Schema::create('customer_contact_people', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('customer_id')->comment('FK from table: customers');
             $table->string('full_name', 100);
             $table->string('contact_email', 100)->nullable();
             $table->string('contact_mobile', 100);
-            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('created_by')->comment('FK from table: users');
             $table->timestamps();
 
             $table->foreign('customer_id')

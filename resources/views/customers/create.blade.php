@@ -121,7 +121,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6 required">
                             <label for="joinDate" class=" col-form-label text-right text-gray-900">Customer Create Date</label>
-                            <input id="custJoinDate" data-provide="datepicker" type="text" name="customer_join_date" class="form-control @error('customer_join_date') is-invalid @enderror" id="joinDate" placeholder="Customer Create Date" value="{{ old('customer_join_date')  }}" required>
+                            <input id="custJoinDate" data-provide="datepicker" type="text" name="customer_join_date" class="form-control @error('customer_join_date') is-invalid @enderror" id="joinDate" placeholder="Customer Create Date" value="{{ old('customer_join_date')  }}" required autocomplete="off">
                             @error('customer_join_date')
                             <small class="form-text text-danger">Customer Create Date is Required.</small>
                             @enderror
@@ -129,7 +129,7 @@
 
                         <div class="form-group col-md-6 required">
                             <label for="joinYear" class=" col-form-label text-right text-gray-900">Customer Create Year</label>
-                            <input data-provide="datepicker" type="text" name="customer_join_year" class="form-control @error('customer_join_year') is-invalid @enderror" id="joinYear" placeholder="Customer Create Year" value="{{ old('customer_join_year')  }}" required>
+                            <input data-provide="datepicker" type="text" name="customer_join_year" class="form-control @error('customer_join_year') is-invalid @enderror" id="joinYear" placeholder="Customer Create Year" value="{{ old('customer_join_year')  }}" required autocomplete="off">
                             @error('customer_join_year')
                             <small class="form-text text-danger">Customer Create Year is Required.</small>
                             @enderror

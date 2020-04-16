@@ -15,11 +15,11 @@ class CreateCustomersTable extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->comment('FK from table: users');
             $table->string('customer_first_name', 50)->nullable();
             $table->string('customer_last_name', 50)->nullable();
-            $table->string('customer_type', 20);
-            $table->string('customer_gender', 10);
+            $table->string('customer_type', 20)->comment('company/individual');
+            $table->string('customer_gender', 10)->comment('Male/Female');
             $table->string('company_name', 100)->nullable();
             $table->string('company_website', 100);
             $table->text('company_details');
@@ -27,7 +27,7 @@ class CreateCustomersTable extends Migration
             $table->date('customer_join_date');
             $table->integer('customer_join_year');
             $table->string('customer_reference', 100)->nullable();
-            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('created_by')->comment('FK from table: users');
             $table->unsignedBigInteger('updated_by')->default(0);
             $table->timestamps();
 

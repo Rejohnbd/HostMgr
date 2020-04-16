@@ -14,7 +14,7 @@ class CreateHostingResellersTable extends Migration
     public function up()
     {
         Schema::create('hosting_resellers', function (Blueprint $table) {
-            $table->integerIncrements('id');
+            $table->bigIncrements('id');
             $table->string('name', 100);
             $table->string('email', 100);
             $table->string('website', 100);

@@ -16,8 +16,8 @@ class CreateHostingPackagesTable extends Migration
         Schema::create('hosting_packages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 100);
-            $table->string('space', 50);
-            $table->string('bandwidth', 50);
+            $table->string('space', 50)->comment('in MB');
+            $table->string('bandwidth', 50)->comment('in MB');
             $table->string('db_qty', 50);
             $table->string('emails_qty', 50);
             $table->string('subdomain_qty', 50);

@@ -10,85 +10,97 @@
         <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
     </ol>
 </div>
+
 <div class="row mb-3">
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-uppercase mb-1">Earnings (Monthly)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                        <div class="mt-2 mb-0 text-muted text-xs">
-                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                            <span>Since last month</span>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-primary"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Earnings (Annual) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-uppercase mb-1">Sales</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">650</div>
-                        <div class="mt-2 mb-0 text-muted text-xs">
-                            <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                            <span>Since last years</span>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-shopping-cart fa-2x text-success"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- New User Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-uppercase mb-1">New User</div>
-                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</div>
-                        <div class="mt-2 mb-0 text-muted text-xs">
-                            <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
-                            <span>Since last month</span>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-users fa-2x text-info"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-uppercase mb-1">New User</div>
-                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</div>
-                        <div class="mt-2 mb-0 text-muted text-xs">
-                            <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
-                            <span>Since last month</span>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-users fa-2x text-info"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Admin Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Admin Users',
+    'value' => $admins,
+    'viewLink' => '',
+    'viewText' => 'View Users',
+    'icon' => 'fas fa-users-cog',
+    'iconColor' => 'text-success'
+    ])
+    @endcomponent
+
+    {{-- Executive Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Executive Users',
+    'value' => $executives,
+    'viewLink' => '',
+    'viewText' => 'View Executive',
+    'icon' => 'fas fa-user-cog',
+    'iconColor' => 'text-warning'
+    ])
+    @endcomponent
+
+    {{-- Registered Customers --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Registered Customers',
+    'value' => $customerRegistered,
+    'viewLink' => '',
+    'viewText' => 'View Customers',
+    'icon' => 'fas fa-user-plus',
+    'iconColor' => 'text-muted'
+    ])
+    @endcomponent
+
+    {{-- Customers Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Active Customers',
+    'value' => $customers,
+    'viewLink' => route('customers.index'),
+    'viewText' => 'View Customers',
+    'icon' => 'fas fa-users',
+    'iconColor' => 'text-info'
+    ])
+    @endcomponent
 </div>
+
+<div class="row mb-3">
+    {{-- Customers Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Total Services',
+    'value' => $services,
+    'viewLink' => route('services.index'),
+    'viewText' => 'View Services',
+    'icon' => 'fas fa-archive',
+    'iconColor' => 'text-success'
+    ])
+    @endcomponent
+
+    {{-- Hosting Packages Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Hosting Packages',
+    'value' => $hostingPackages,
+    'viewLink' => route('hosting-packages.index'),
+    'viewText' => 'View Packages',
+    'icon' => 'fas fa-box',
+    'iconColor' => 'text-success'
+    ])
+    @endcomponent
+
+    {{-- Domain Resellers Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Domain Reseller',
+    'value' => $domainResellers,
+    'viewLink' => route('domain-resellers.index'),
+    'viewText' => 'View Domain Reseller',
+    'icon' => 'fab fa-hornbill',
+    'iconColor' => 'text-success'
+    ])
+    @endcomponent
+
+    {{-- Hosting Resellers Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Hosting Reseller',
+    'value' => $hostingResellers,
+    'viewLink' => route('hosting-resellers.index'),
+    'viewText' => 'View Hosting Reseller',
+    'icon' => 'fas fa-hdd',
+    'iconColor' => 'text-success'
+    ])
+    @endcomponent
+</div>
+
 @endsection

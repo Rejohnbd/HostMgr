@@ -58,7 +58,7 @@
   </div>
   <li class="nav-item @if(Request::is('services*')) active @endif">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseServices" aria-expanded="true" aria-controls="collapseServices">
-      <i class="fas fa-fw fa-table"></i>
+      <i class="fas fa-archive"></i>
       <span>Services</span>
     </a>
     <div id="collapseServices" class="collapse @if(Request::is('services*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
@@ -74,7 +74,7 @@
   </div>
   <li class="nav-item @if(Request::is('hosting-packages*')) active @endif ">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHostingPackage" aria-expanded="true" aria-controls="collapseHostingPackage">
-      <i class="fas fa-fw fa-table"></i>
+      <i class="fas fa-box"></i>
       <span>Hosting Package</span>
     </a>
     <div id="collapseHostingPackage" class="collapse @if(Request::is('hosting-packages*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">

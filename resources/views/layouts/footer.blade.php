@@ -72,24 +72,33 @@
     $('.domain-reseller').hide();
     $('.hosting-reseller').hide();
     $('.hosting-type').hide();
+    $('.hosting-package').hide();
     $('#serviceFor').on('change', function() {
       var serviceName = $(this).children(':selected').val();
       if (serviceName === '1') {
         $('.domain-reseller').show();
         $('.hosting-reseller').show();
         $('.hosting-type').show();
+        $('.hosting-package').hide();
+        $('.custom-package').hide();
       } else if (serviceName === '2') {
         $('.domain-reseller').hide();
         $('.hosting-reseller').show();
         $('.hosting-type').show();
+        $('.hosting-package').hide();
+        $('.custom-package').hide();
       } else if (serviceName === '3') {
         $('.domain-reseller').show();
         $('.hosting-reseller').hide();
         $('.hosting-type').hide();
+        $('.hosting-package').hide();
+        $('.custom-package').hide();
       } else {
         $('.domain-reseller').hide();
         $('.hosting-reseller').hide();
         $('.hosting-type').hide();
+        $('.hosting-package').hide();
+        $('.custom-package').hide();
       }
     });
 

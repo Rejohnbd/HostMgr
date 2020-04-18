@@ -7,8 +7,12 @@
     <h1 class="h3 mb-0 text-gray-800">Hosting Packages</h1>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Hosting Packages</li>
+        <li class="breadcrumb-item active" aria-current="page">Packages</li>
     </ol>
+</div>
+
+<div class="d-flex justify-content-start">
+    <a href="{{ route('hosting-packages.create') }}" class="btn btn-info mb-2">Add Package</a>
 </div>
 
 <div class="row">

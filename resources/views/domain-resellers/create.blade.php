@@ -11,7 +11,8 @@
     <h1 class="h3 mb-0 text-gray-800">{{ isset($domainReseller) ? 'Domain Reseller Update' : 'Domain Reseller Create' }}</h1>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ isset($domainReseller) ? 'Domain Reseller Update' : 'Domain Reseller Create' }}</li>
+        <li class="breadcrumb-item"><a href="{{ route('domain-resellers.index') }}">Domain Resellers</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ isset($domainReseller) ? 'Update' : 'Create' }}</li>
     </ol>
 </div>
 @if(session('success'))
@@ -71,10 +72,10 @@
                         <div class="col-md-9 offset-md-3">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-block btn-primary">{{ isset($domainReseller) ? 'Update' : 'Submit' }}</button>
+                                    <button type="submit" class="btn btn-block btn-primary">{{ isset($domainReseller) ? 'Update' : 'Save' }}</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="reset" class="btn btn-block btn-outline-secondary">Reset</button>
+                                    <a href="{{ route('domain-resellers.index') }}" class="btn btn-block btn-outline-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>

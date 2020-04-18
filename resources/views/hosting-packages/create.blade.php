@@ -1,17 +1,18 @@
 @extends('layouts.master')
 
 @if(isset($hostingPackage))
-@section('title', 'Hosting Package Update')
+@section('title', 'Package Update')
 @else
-@section('title', 'Hosting Package Create')
+@section('title', 'Package Create')
 @endif
 
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">{{ isset($hostingPackage) ? 'Hosting Package Update' : 'Hosting Package Create' }}</h1>
+    <h1 class="h3 mb-0 text-gray-800">{{ isset($hostingPackage) ? 'Package Update' : 'Package Create' }}</h1>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ isset($hostingPackage) ? 'Hosting Package Update' : 'Hosting Package Create' }}</li>
+        <li class="breadcrumb-item"><a href="{{ route('hosting-packages.index') }}">Packages</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ isset($hostingPackage) ? 'Update' : 'Create' }}</li>
     </ol>
 </div>
 @if(session('success'))
@@ -122,10 +123,10 @@
                         <div class="col-md-9 offset-md-3">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-block btn-primary">{{ isset($hostingPackage) ? 'Update' : 'Submit' }}</button>
+                                    <button type="submit" class="btn btn-block btn-primary">{{ isset($hostingPackage) ? 'Update' : 'Save' }}</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="reset" class="btn btn-block btn-outline-secondary">Reset</button>
+                                    <a href="{{ route('hosting-packages.index') }}" class="btn btn-block btn-outline-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>

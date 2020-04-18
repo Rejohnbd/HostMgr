@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Create Services')
+@section('title', 'Service Create')
 
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -8,7 +8,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="{{ route('services.index') }}">Services</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Create Services</li>
+        <li class="breadcrumb-item active" aria-current="page">Create</li>
     </ol>
 </div>
 

@@ -1,13 +1,14 @@
 @extends('layouts.master')
 
-@section('title', 'Hosting Reseller List')
+@section('title', 'Hosting Reseller Details')
 
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Hosting Reseller View</h1>
+    <h1 class="h3 mb-0 text-gray-800">Hosting Reseller Details</h1>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Hosting Reseller View</li>
+        <li class="breadcrumb-item"><a href="{{ route('hosting-resellers.index') }}">Hosting Resellers</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Details</li>
     </ol>
 </div>
 <div class="row">

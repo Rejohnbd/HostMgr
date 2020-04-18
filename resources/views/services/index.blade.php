@@ -15,7 +15,7 @@
 @include('partials.success-alert')
 @endif
 
-<div class="d-flex justify-content-end">
+<div class="d-flex justify-content-start">
     <a href="{{ route('services.create') }}" class="btn btn-info mb-2">Add Service</a>
 </div>
 <div class="col-lg-12">
@@ -65,10 +65,10 @@
                         <td>{{ $service->service_start_date }}</td>
                         <td>{{ $service->service_expire_date }}</td>
                         <td>
-                            <a href="{{ route('services.show', $service->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Details">
+                            <a href="{{ route('services.show', $service->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Service Details">
                                 <i class="fas fa-search-plus"></i>
                             </a>
-                            <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Edit">
+                            <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Service Edit">
                                 <i class="far fa-edit"></i>
                             </a>
                         </td>

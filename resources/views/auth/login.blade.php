@@ -30,24 +30,23 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" {{ old('remember') ? 'checked' : '' }}>
-                                <label class="custom-control-label" for="customCheck">Remember Me</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </div>
                     </form>
-                    <hr>
-                    <div class="text-center">
-                        <a class="font-weight-bold small" href="{{ url('/register') }}">Create an Account!</a>
-                    </div>
-                    <div class="text-center">
-                    </div>
+                    {{-- Just Hide
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
+                                <input type="checkbox" class="custom-control-input" id="customCheck" {{ old('remember') ? 'checked' : '' }}>
+                    <label class="custom-control-label" for="customCheck">Remember Me</label>
                 </div>
             </div>
+            <hr>
+            <div class="text-center">
+                <a class="font-weight-bold small" href="{{ url('/register') }}">Create an Account!</a>
+            </div> --}}
         </div>
     </div>
+</div>
+</div>
 </div>
 @endsection

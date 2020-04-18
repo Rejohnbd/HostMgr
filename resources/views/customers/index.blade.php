@@ -1,14 +1,18 @@
 @extends('layouts.master')
 
-@section('title', 'Customer List')
+@section('title', 'Customers')
 
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Customer List</h1>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Customer List</li>
+        <li class="breadcrumb-item active" aria-current="page">Customers</li>
     </ol>
+</div>
+
+<div class="d-flex justify-content-start">
+    <a href="{{ route('customers.create') }}" class="btn btn-info mb-2">Add Customer</a>
 </div>
 
 <div class="col-lg-12">
@@ -44,10 +48,10 @@
                         <td>{{ $customer->company_website }}</td>
                         <td>{{ $customer->customer_type }}</td>
                         <td>
-                            <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Details">
+                            <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Customer Details">
                                 <i class="fas fa-search-plus"></i>
                             </a>
-                            <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Edit">
+                            <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Customer Edit">
                                 <i class="far fa-edit"></i>
                             </a>
                         </td>

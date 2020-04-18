@@ -3,7 +3,7 @@
     <i class="fa fa-bars"></i>
   </button>
   <ul class="navbar-nav ml-auto">
-    <li class="nav-item dropdown no-arrow">
+    {{-- <li class="nav-item dropdown no-arrow">
       <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-search fa-fw"></i>
       </a>
@@ -77,27 +77,27 @@
         <a class="dropdown-item d-flex align-items-center" href="#">
           <div class="dropdown-list-image mr-3">
             <img class="rounded-circle" src="{{ asset('resources/assets/img/avatars/man.png') }}" style="max-width: 60px" alt="">
-            <div class="status-indicator bg-success"></div>
-          </div>
-          <div class="font-weight-bold">
-            <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been
-              having.</div>
-            <div class="small text-gray-500">Udin Cilok · 58m</div>
-          </div>
-        </a>
-        <a class="dropdown-item d-flex align-items-center" href="#">
-          <div class="dropdown-list-image mr-3">
-            <img class="rounded-circle" src="{{ asset('resources/assets/img/avatars/girl.png') }}" style="max-width: 60px" alt="">
-            <div class="status-indicator bg-default"></div>
-          </div>
-          <div>
-            <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people
-              say this to all dogs, even if they aren't good...</div>
-            <div class="small text-gray-500">Jaenab · 2w</div>
-          </div>
-        </a>
-        <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+    <div class="status-indicator bg-success"></div>
+    </div>
+    <div class="font-weight-bold">
+      <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been
+        having.</div>
+      <div class="small text-gray-500">Udin Cilok · 58m</div>
+    </div>
+    </a>
+    <a class="dropdown-item d-flex align-items-center" href="#">
+      <div class="dropdown-list-image mr-3">
+        <img class="rounded-circle" src="{{ asset('resources/assets/img/avatars/girl.png') }}" style="max-width: 60px" alt="">
+        <div class="status-indicator bg-default"></div>
       </div>
+      <div>
+        <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people
+          say this to all dogs, even if they aren't good...</div>
+        <div class="small text-gray-500">Jaenab · 2w</div>
+      </div>
+    </a>
+    <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+    </div>
     </li>
     <li class="nav-item dropdown no-arrow mx-1">
       <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -140,7 +140,7 @@
         </a>
         <a class="dropdown-item text-center small text-gray-500" href="#">View All Taks</a>
       </div>
-    </li>
+    </li> --}}
     <div class="topbar-divider d-none d-sm-block"></div>
     <li class="nav-item dropdown no-arrow">
       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -152,14 +152,14 @@
           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
           Profile
         </a>
-        <a class="dropdown-item" href="#">
+        {{-- <a class="dropdown-item" href="#">
           <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
           Settings
         </a>
         <a class="dropdown-item" href="#">
           <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
           Activity Log
-        </a>
+        </a> --}}
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
           <i class=" fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

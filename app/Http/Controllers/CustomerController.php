@@ -8,9 +8,61 @@ use App\Http\Requests\CustomerRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
+    protected function createUser($request)
+    {
+        return User::create([
+            'email'     => $request->email,
+            'password'  => Hash::make($request->password)
+        ]);
+    }
+
+    protected function createIndividualCustomer($user, $request)
+    {
+        return Customer::create([
+            'user_id'               => $user->id,
+            'customer_first_name'   => $request->customer_first_name,
+            'customer_last_name'    => $request->customer_last_name,
+            'customer_type'         => $request->customer_type,
+            'customer_gender'       => $request->customer_gender,
+            'customer_address'      => $request->customer_address,
+            'customer_join_date'    => $request->customer_join_date,
+            'customer_join_year'    => $request->customer_join_year,
+            'customer_reference'    => $request->customer_reference,
+            'created_by'            => auth()->user()->id,
+        ]);
+    }
+
+    protected function validationForCompany($request)
+    {
+        $request->validate([
+            'company_website'   => 'required|url',
+            'full_name'         => 'required',
+            'contact_mobile'    => 'required',
+        ]);
+    }
+
+    protected function createCompanyCustomer($user, $request)
+    {
+        return Customer::create([
+            'user_id'               => $user->id,
+            'customer_first_name'   => $request->customer_first_name,
+            'customer_last_name'    => $request->customer_last_name,
+            'customer_type'         => $request->customer_type,
+            'customer_gender'       => $request->customer_gender,
+            'company_name'          => $request->company_name,
+            'company_website'       => $request->company_website,
+            'company_details'       => $request->company_details,
+            'customer_address'      => $request->customer_address,
+            'customer_join_date'    => $request->customer_join_date,
+            'customer_join_year'    => $request->customer_join_year,
+            'customer_reference'    => $request->customer_reference,
+            'created_by'            => auth()->user()->id,
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,8 +81,8 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $customers = User::where('type', 'customer')->get();
-        return view('customers.create', compact('customers'));
+        // $customers = User::where('type', 'customer')->get();
+        return view('customers.create');
     }
 
     /**
@@ -41,33 +93,41 @@ class CustomerController extends Controller
      */
     public function store(CustomerRequest $request)
     {
-        if (User::findOrFail($request->user_id)) :
-            $customer = Customer::create([
-                'user_id'               => $request->user_id,
-                'customer_first_name'   => $request->customer_first_name,
-                'customer_last_name'    => $request->customer_last_name,
-                'customer_type'         => $request->customer_type,
-                'customer_gender'       => $request->customer_gender,
-                'company_name'          => $request->company_name,
-                'company_website'       => $request->company_website,
-                'company_details'       => $request->company_details,
-                'customer_address'      => $request->customer_address,
-                'customer_join_date'    => $request->customer_join_date,
-                'customer_join_year'    => $request->customer_join_year,
-                'customer_reference'    => $request->customer_reference,
-                'created_by'            => auth()->user()->id,
-            ]);
+        // Check the Customer Existance
+        $userCheck = User::where('email', $request->email)->first();
+        if ($userCheck !==  null) :
+            session()->flash('warning', 'Customer Already Exist.');
+            return redirect()->back();
+        endif;
 
-            CustomerContactPerson::create([
-                'customer_id'       => $customer->id,
-                'full_name'         => $request->full_name,
-                'contact_email'     => $request->contact_email,
-                'contact_mobile'    => $request->contact_mobile,
-                'created_by'        => auth()->user()->id,
-            ]);
-
+        // Value Save Individual Customer
+        if ($request->customer_type === 'individual') :
+            $user = $this->createUser($request);
+            $this->createIndividualCustomer($user, $request);
             session()->flash('success', 'Customer Created.');
+            return redirect()->back();
 
+        // Value Save Company Customer
+        elseif ($request->customer_type === 'company') :
+            $this->validationForCompany($request);
+            $user = $this->createUser($request);
+            $customer = $this->createCompanyCustomer($user, $request);
+            // Loop for Contact Person value save
+            for ($i = 0; $i < count($request->contact_mobile); $i++) :
+                if (isset($request->full_name[$i]) && isset($request->contact_mobile[$i])) :
+                    CustomerContactPerson::create([
+                        'customer_id'       => $customer->id,
+                        'full_name'         => $request->full_name[$i],
+                        'contact_email'     => $request->contact_email[$i],
+                        'contact_mobile'    => $request->contact_mobile[$i],
+                        'created_by'        => auth()->user()->id,
+                    ]);
+                endif;
+            endfor;
+            session()->flash('success', 'Customer Created.');
+            return redirect()->back();
+        else :
+            session()->flash('warning', 'Something Happend Wrong.');
             return redirect()->back();
         endif;
     }

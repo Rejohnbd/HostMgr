@@ -20,7 +20,7 @@
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>
 </a>
-<script src="{{ asset('resources/assets/vendor/jquery/jquery.min.js') }}"></script>
+
 <script src="{{ asset('resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('resources/assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/admin.min.js') }}"></script>
@@ -34,11 +34,9 @@
 </script>
 @endif
 @if(Request::is('customers/create'))
-<script src="{{ asset('resources/assets/vendor/select-option/js/select2.min.js') }}"></script>
 <script src="{{ asset('resources/assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
   $(document).ready(function() {
-    $('#customerEmail').select2();
     $('#custJoinDate').datepicker({
       format: 'yyyy-mm-dd',
       todayHighlight: true
@@ -49,6 +47,23 @@
       minViewMode: "years",
     });
   });
+
+  (function($) {
+    $(function() {
+      var addForm = function() {
+        $('.contact-person-form').clone().appendTo('.add-contact-form').removeClass('contact-person-form').find('button').removeAttr('id').removeClass('btn-add btn-success').addClass('btn-remove btn-danger').html('-')
+      }
+
+      var deleteForm = function() {
+        // $('.contact-person-form').clone().appendTo('.add-contact-form').removeClass('contact-person-form').find('button').removeAttr('id').removeClass('btn-add btn-success').addClass('btn-remove btn-danger').html('-')
+        $(this).closest('.multiple-form-group').remove()
+      }
+
+      $(document).on('click', '.btn-add', addForm);
+      $(document).on('click', '.btn-remove', deleteForm);
+
+    });
+  })(jQuery)
 </script>
 @endif
 

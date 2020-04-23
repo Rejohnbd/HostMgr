@@ -21,11 +21,11 @@ class CreateCustomersTable extends Migration
             $table->string('customer_type', 20)->comment('company/individual');
             $table->string('customer_gender', 10)->comment('Male/Female');
             $table->string('company_name', 100)->nullable();
-            $table->string('company_website', 100);
-            $table->text('company_details');
-            $table->text('customer_address');
-            $table->date('customer_join_date');
-            $table->integer('customer_join_year');
+            $table->string('company_website', 100)->nullable();
+            $table->text('company_details')->nullable();
+            $table->text('customer_address')->nullable();
+            $table->date('customer_join_date')->nullable();
+            $table->integer('customer_join_year')->nullable();
             $table->string('customer_reference', 100)->nullable();
             $table->unsignedBigInteger('created_by')->comment('FK from table: users');
             $table->unsignedBigInteger('updated_by')->default(0);

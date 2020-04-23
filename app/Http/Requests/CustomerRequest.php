@@ -24,16 +24,13 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'               => 'required',
+            'email'                 => 'required|email',
             'customer_type'         => 'required|string',
             'customer_gender'       => 'required|string',
-            'company_website'       => 'required|url',
-            'company_details'       => 'required|string',
             'customer_address'      => 'required|string',
+            'password'              => 'required',
             'customer_join_date'    => 'required',
-            'customer_join_year'    => 'required|integer',
-            'full_name'             => 'required|string',
-            'contact_mobile'        => 'required|string',
+            'customer_join_year'    => 'required|integer'
         ];
     }
 }

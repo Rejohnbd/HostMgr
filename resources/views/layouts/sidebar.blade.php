@@ -32,7 +32,7 @@
     </a>
     <div id="collapseServices" class="collapse @if(Request::is('services*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item" href="{{ route('services.index') }}">All Services</a>
+        <a class="collapse-item  @if(Request::is('services*')) active @endif" href="{{ route('services.index') }}">All Services</a>
         <a class="collapse-item" href="#">Service Renew</a>
       </div>
     </div>

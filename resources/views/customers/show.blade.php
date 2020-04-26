@@ -29,7 +29,9 @@
                                 @include('partials.customer-information')
                             </div>
                             <div class="col">
+                                @if($customer->customerContactPersons->count() > 0)
                                 @include('partials.customer-contact-person')
+                                @endif
                             </div>
                         </div>
                     </div>

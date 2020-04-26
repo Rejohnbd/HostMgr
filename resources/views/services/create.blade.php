@@ -30,7 +30,7 @@
                             @endforeach
                         </select>
                         @error('customer_id')
-                        <small class="form-text text-danger">Customer Email is Required.</small>
+                        <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -44,7 +44,7 @@
                                 <option value="3">Only Domain</option>
                             </select>
                             @error('service_for')
-                            <small class="form-text text-danger">Service For is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
 
@@ -52,7 +52,7 @@
                             <label for="domainName" class="col-form-label text-right text-gray-900">Service Domain name</label>
                             <input type="text" name="domain_name" class="form-control @error('domain_name') is-invalid @enderror" id="domainName" placeholder="Service Domain name" value="{{ old('domain_name') }}" required>
                             @error('domain_name')
-                            <small class="form-text text-danger">Service Domain name is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -144,16 +144,16 @@
                     <div class="form-row">
                         <div class="form-group col-md-6 required">
                             <label for="serviceStartDaty" class="col-form-label text-right text-gray-900">Service Start Date</label>
-                            <input type="test" data-provide="datepicker" name="service_start_date" class="form-control" id="serviceStartDaty" placeholder="Service Start Date" value="{{ old('service_start_date') }}" required autocomplete="off">
+                            <input type="test" data-provide="datepicker" name="service_start_date" class="form-control @error('service_start_date') is-invalid @enderror" id="serviceStartDaty" placeholder="Service Start Date" value="{{ old('service_start_date') }}" required autocomplete="off">
                             @error('service_start_date')
-                            <small class="form-text text-danger">Service Start Date is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="form-group col-md-6 required">
                             <label for="serviceExpireDate" class="col-form-label text-right text-gray-900">Service Expire Date</label>
-                            <input type="text" data-provide="datepicker" name="service_expire_date" class="form-control" id="serviceExpireDate" placeholder="Service Expire Date" value="{{ old('service_expire_date') }}" required autocomplete="off">
+                            <input type="text" data-provide="datepicker" name="service_expire_date" class="form-control @error('service_expire_date') is-invalid @enderror" id="serviceExpireDate" placeholder="Service Expire Date" value="{{ old('service_expire_date') }}" required autocomplete="off">
                             @error('service_expire_date')
-                            <small class="form-text text-danger">Service Start Date is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>

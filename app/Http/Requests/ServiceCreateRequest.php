@@ -28,7 +28,7 @@ class ServiceCreateRequest extends FormRequest
             'service_for'           => 'required|integer',
             'domain_name'           => 'required|string',
             'service_start_date'    => 'required|date',
-            'service_expire_date'    => 'required|date',
+            'service_expire_date'   => 'required|date',
         ];
     }
 }

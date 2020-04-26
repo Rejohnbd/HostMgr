@@ -140,6 +140,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
+        // dd($customer->customerContactPersons->pluck(2));
         return view('customers.show', compact('customer'));
     }
 

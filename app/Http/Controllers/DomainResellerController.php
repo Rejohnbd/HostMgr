@@ -105,9 +105,7 @@ class DomainResellerController extends Controller
         $validator->validate();
 
         $domainReseller->update($request->all());
-
         session()->flash('success', 'Domain Reseller Updated Successfully');
-
         return redirect()->back();
     }
 

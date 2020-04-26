@@ -15,6 +15,10 @@
 @include('partials.success-alert')
 @endif
 
+@if(session('warning'))
+@include('partials.warning-alert')
+@endif
+
 <div class="d-flex justify-content-start">
     <a href="{{ route('services.create') }}" class="btn btn-info mb-2">Add Service</a>
 </div>

@@ -23,11 +23,11 @@
                 </tr>
                 <tr>
                     <th scope="row">Customer Type </th>
-                    <td>{{ $customer->customer_type }}</td>
+                    <td>{{ ucfirst($customer->customer_type) }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Customer Gender</th>
-                    <td>{{ $customer->customer_gender }}</td>
+                    <td>{{ ucfirst($customer->customer_gender) }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Company Name</th>
@@ -36,12 +36,14 @@
                 <tr>
                     <th scope="row">Company Website</th>
                     <td>
+                        @if($customer->company_website)
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item p-2">
                                 <a class="btn btn-sm btn-info mr-2" href="#" data-toggle="tooltip" title="Show Domain Details">{{ $customer->company_website }}</a>
                                 <a class="btn btn-sm btn-success mr-2" href="{{ $customer->company_website }}" target="tooltip" data-toggle="tooltip" title="Visit Online">Visit Site</a>
                             </li>
                         </ul>
+                        @endif
                     </td>
                 </tr>
                 <tr>

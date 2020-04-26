@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ServiceCreateRequest;
+use Validator;
 use App\Models\Customer;
 use App\Models\DomainReseller;
 use App\Models\HostingPackage;
@@ -47,10 +48,35 @@ class ServicesController extends Controller
      */
     public function store(ServiceCreateRequest $request)
     {
+
+        /*$attributeNames['customer_id']          = 'Customer Email';
+        $attributeNames['service_for']          = 'Service For';
+        $attributeNames['domain_name']          = 'Domain Name';
+        $attributeNames['service_start_date']   = 'Service Start Date';
+        $attributeNames['service_expire_date']  = 'Service Expire Date';
+
+        $rules['customer_id']           = 'required|integer';
+        $rules['service_for']           = 'required|integer';
+        $rules['domain_name']           = 'required|string';
+        $rules['service_start_date']    = 'required|date';
+        $rules['service_expire_date']   = 'required|date';
+
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();*/
+
+        // if ($request->service_for == 3) {
+        //     $data = $request->all();
+        //     $data['created_by'] = auth()->user()->id;
+        //     Service::create($data);
+        //     session()->flash('success', 'Customer Service Created Succeffully');
+        //     return redirect()->route('services.index');
+        // }
+        // dd($request->all(), 'Error');
         $data = $request->all();
         $data['created_by'] = auth()->user()->id;
         Service::create($data);
-        session()->flash('success', 'Customer Service Created Succeffully');
+        session()->flash('warning', 'Something Happend Wrong');
         return redirect()->route('services.index');
     }
 
@@ -62,7 +88,6 @@ class ServicesController extends Controller
      */
     public function show(Service $service)
     {
-        // dd($service);
         return view('services.show', compact('service'));
     }
 

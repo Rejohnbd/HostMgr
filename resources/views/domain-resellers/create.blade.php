@@ -36,7 +36,7 @@
                         <div class="col-md-9">
                             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="domainResellerName" placeholder="Reseller Name" value="{{ isset($domainReseller) ? $domainReseller->name : old('name')  }}" required>
                             @error('name')
-                            <small class="form-text text-danger">Domain Reseller Name is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                         <div class="col-md-9">
                             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="domainResellerEmail" placeholder="Reseller Email" value="{{ isset($domainReseller) ? $domainReseller->email : old('email') }}" required>
                             @error('email')
-                            <small class="form-text text-danger">Domain Reseller Email is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                         <div class="col-md-9">
                             <input type="url" name="website" class="form-control @error('website') is-invalid @enderror" id="domainResellerWeb" placeholder="Reseller Website" value="{{ isset($domainReseller) ? $domainReseller->website : old('website') }}" required>
                             @error('website')
-                            <small class="form-text text-danger">Domain Reseller Website is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                         <div class="col-md-9">
                             <textarea name="details" class="form-control @error('details') is-invalid @enderror" id="domainResellerDetails" rows="3" placeholder="Reseller Details" required>{{ isset($domainReseller) ? $domainReseller->details : old('details') }}</textarea>
                             @error('details')
-                            <small class="form-text text-danger">Domain Reseller Details is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>

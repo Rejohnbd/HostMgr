@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DomainReseller;
 use App\Http\Requests\DomainResellerRequest;
 use Illuminate\Http\Request;
+use Validator;
 
 class DomainResellerController extends Controller
 {
@@ -35,8 +36,22 @@ class DomainResellerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DomainResellerRequest $request)
+    public function store(Request $request)
     {
+        $attributeNames['name'] = 'Domain Reseller Name';
+        $attributeNames['email'] = 'Domain Reseller Email';
+        $attributeNames['website'] = 'Domain Reseller Website';
+        $attributeNames['details'] = 'Domain Reseller Details';
+
+        $rules['name'] = 'required';
+        $rules['email'] = 'required|email';
+        $rules['website'] = 'required';
+        $rules['details'] = 'required';
+
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();
+
         DomainReseller::create($request->all());
 
         session()->flash('success', 'Domain Reseller Created');
@@ -73,11 +88,25 @@ class DomainResellerController extends Controller
      * @param  \App\DomainReseller  $domainReseller
      * @return \Illuminate\Http\Response
      */
-    public function update(DomainResellerRequest $request, DomainReseller $domainReseller)
+    public function update(Request $request, DomainReseller $domainReseller)
     {
+        $attributeNames['name'] = 'Domain Reseller Name';
+        $attributeNames['email'] = 'Domain Reseller Email';
+        $attributeNames['website'] = 'Domain Reseller Website';
+        $attributeNames['details'] = 'Domain Reseller Details';
+
+        $rules['name'] = 'required';
+        $rules['email'] = 'required|email';
+        $rules['website'] = 'required';
+        $rules['details'] = 'required';
+
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();
+
         $domainReseller->update($request->all());
 
-        session()->flash('success', 'Domain Reseller Update');
+        session()->flash('success', 'Domain Reseller Updated Successfully');
 
         return redirect()->back();
     }

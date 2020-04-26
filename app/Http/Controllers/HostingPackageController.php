@@ -5,9 +5,47 @@ namespace App\Http\Controllers;
 use App\Models\HostingPackage;
 use App\Http\Requests\HostingPackageRequest;
 use Illuminate\Http\Request;
+use Validator;
 
 class HostingPackageController extends Controller
 {
+    /**
+     * Package Attributes Defined Here
+     * @return AttributesNames
+     */
+    private function packageAttributes()
+    {
+        $attributeNames['name']             = 'Package Name';
+        $attributeNames['space']            = 'Package Space';
+        $attributeNames['bandwidth']        = 'Package Bandwidth';
+        $attributeNames['db_qty']           = 'Package Database Quantity';
+        $attributeNames['emails_qty']       = 'Package Emails Quantity';
+        $attributeNames['subdomain_qty']    = 'Package Subdomain Quantity';
+        $attributeNames['ftp_qty']          = 'Package FTP Quantity';
+        $attributeNames['park_domain_qty']  = 'Package Park Domain Quantity';
+        $attributeNames['addon_domain_qty'] = 'Package Addon Domain Quantity';
+
+        return $attributeNames;
+    }
+
+    /**
+     * Package Validation Rules Defined Here
+     * @return Rules
+     */
+    private function packageValidationRules()
+    {
+        $rules['name']              = 'required|string';
+        $rules['space']             = 'required|string';
+        $rules['bandwidth']         = 'required|string';
+        $rules['db_qty']            = 'required|string';
+        $rules['emails_qty']        = 'required|string';
+        $rules['subdomain_qty']     = 'required|string';
+        $rules['ftp_qty']           = 'required|string';
+        $rules['park_domain_qty']   = 'required|string';
+        $rules['addon_domain_qty']  = 'required|string';
+
+        return $rules;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,12 +73,17 @@ class HostingPackageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(HostingPackageRequest $request)
+    public function store(Request $request)
     {
+        $attributeNames = $this->packageAttributes();
+        $rules = $this->packageValidationRules();
+
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();
+
         HostingPackage::create($request->all());
-
         session()->flash('success', 'Hosting Package Added.');
-
         return redirect()->back();
     }
 
@@ -73,12 +116,17 @@ class HostingPackageController extends Controller
      * @param  \App\HostingPackage  $hostingPackage
      * @return \Illuminate\Http\Response
      */
-    public function update(HostingPackageRequest $request, HostingPackage $hostingPackage)
+    public function update(Request $request, HostingPackage $hostingPackage)
     {
+        $attributeNames = $this->packageAttributes();
+        $rules = $this->packageValidationRules();
+
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();
+
         $hostingPackage->update($request->all());
-
         session()->flash('success', 'Hosting Package Updated');
-
         return redirect()->back();
     }
 

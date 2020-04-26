@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\HostingReseller;
 use App\Http\Requests\HostingResellerRequest;
 use Illuminate\Http\Request;
+use Validator;
 
 class HostingResellerController extends Controller
 {
@@ -35,8 +36,22 @@ class HostingResellerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(HostingResellerRequest $request)
+    public function store(Request $request)
     {
+        $attributeNames['name'] = 'Hosting Reseller Name';
+        $attributeNames['email'] = 'Hosting Reseller Email';
+        $attributeNames['website'] = 'Hosting Reseller Website';
+        $attributeNames['details'] = 'Hosting Reseller Details';
+
+        $rules['name'] = 'required';
+        $rules['email'] = 'required|email';
+        $rules['website'] = 'required';
+        $rules['details'] = 'required';
+
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();
+
         HostingReseller::create($request->all());
 
         session()->flash('success', 'Hosting Reseller Created');
@@ -73,8 +88,22 @@ class HostingResellerController extends Controller
      * @param  \App\HostingReseller  $hostingReseller
      * @return \Illuminate\Http\Response
      */
-    public function update(HostingResellerRequest $request, HostingReseller $hostingReseller)
+    public function update(Request $request, HostingReseller $hostingReseller)
     {
+        $attributeNames['name'] = 'Hosting Reseller Name';
+        $attributeNames['email'] = 'Hosting Reseller Email';
+        $attributeNames['website'] = 'Hosting Reseller Website';
+        $attributeNames['details'] = 'Hosting Reseller Details';
+
+        $rules['name'] = 'required';
+        $rules['email'] = 'required|email';
+        $rules['website'] = 'required';
+        $rules['details'] = 'required';
+
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();
+
         $hostingReseller->update($request->all());
 
         session()->flash('success', 'Hosting Reseller Update');

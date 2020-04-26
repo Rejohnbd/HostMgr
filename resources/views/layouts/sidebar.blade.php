@@ -70,7 +70,7 @@
     </a>
     <div id="collapseHosting" class="collapse @if(Request::is('hosting-resellers*')) show @endif" aria-labelledby="headingPage" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item" href="{{ route('hosting-resellers.index') }}">Hosting Resellers</a>
+        <a class="collapse-item @if(Request::is('hosting-resellers*')) active @endif" href="{{ route('hosting-resellers.index') }}">Hosting Resellers</a>
         <a class="collapse-item" href="#">Hosting Resellers Renew</a>
       </div>
     </div>

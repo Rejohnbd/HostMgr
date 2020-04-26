@@ -11,7 +11,7 @@
     <h1 class="h3 mb-0 text-gray-800">{{ isset($hostingReseller) ? 'Hosting Reseller Update' : 'Hosting Reseller Create' }}</h1>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('domain-resellers.index') }}">Hosting Resellers</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('hosting-resellers.index') }}">Hosting Resellers</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ isset($hostingReseller) ? 'Update' : 'Create' }}</li>
     </ol>
 </div>
@@ -36,7 +36,7 @@
                         <div class="col-md-9">
                             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="hostingResellerName" placeholder="Reseller Name" value="{{ isset($hostingReseller) ? $hostingReseller->name : old('name')  }}" required>
                             @error('name')
-                            <small class="form-text text-danger">Hosting Reseller Name is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                         <div class="col-md-9">
                             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="hostingResellerEmail" placeholder="Reseller Email" value="{{ isset($hostingReseller) ? $hostingReseller->email : old('email') }}" required>
                             @error('email')
-                            <small class="form-text text-danger">Hosting Reseller Email is Required.</small>
+                        <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                         <div class="col-md-9">
                             <input type="url" name="website" class="form-control @error('website') is-invalid @enderror" id="hostingResellerWeb" placeholder="Reseller Website" value="{{ isset($hostingReseller) ? $hostingReseller->website : old('website') }}" required>
                             @error('website')
-                            <small class="form-text text-danger">Hosting Reseller Website is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                         <div class="col-md-9">
                             <textarea name="details" class="form-control @error('details') is-invalid @enderror" id="hostingResellerDetails" rows="3" placeholder="Reseller Details" required>{{ isset($hostingReseller) ? $hostingReseller->details : old('details') }}</textarea>
                             @error('details')
-                            <small class="form-text text-danger">Hosting Reseller Details is Required.</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>

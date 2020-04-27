@@ -38,9 +38,9 @@
 
                     <div class="tab-pane fade" id="client-service" role="tabpanel" aria-labelledby="client-servoce-tab">
                         <div class="row">
-                            @foreach($customer->services as $service)
+                            {{-- @foreach($customer->services as $service)
                             @include('partials.customer-service-item')
-                            @endforeach
+                            @endforeach --}}
                         </div>
                     </div>
 

@@ -20,8 +20,8 @@ class Customer extends Model
         return $this->hasMany(CustomerContactPerson::class);
     }
 
-    public function services()
-    {
-        return $this->hasMany(Service::class);
-    }
+    // public function customerServices()
+    // {
+    //     return $this->hasMany(Service::class, 'customer_id');
+    // }
 }

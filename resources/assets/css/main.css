@@ -6,3 +6,7 @@
 .form-group.required label:nth-child(2):after {
     content: "";
 }
+
+.add-contact-form > .multiple-form-group {
+    padding: 10px;
+}

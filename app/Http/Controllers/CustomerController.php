@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Validator;
 
 class CustomerController extends Controller
 {
@@ -20,6 +21,43 @@ class CustomerController extends Controller
         ]);
     }
 
+    /**
+     * Attributes Name for Customer Types Individual
+     * @return attributesNames 
+     */
+    protected function attributesForIndividualCustomer()
+    {
+        $attributeNames['customer_type']        = 'Customer Type';
+        $attributeNames['customer_gender']      = 'Customer Gender';
+        $attributeNames['customer_address']     = 'Customer Address';
+        $attributeNames['email']                = 'Customer Email';
+        $attributeNames['password']             = 'Customer Password';
+        $attributeNames['customer_join_date']   = 'Customer Join Date';
+        $attributeNames['customer_join_year']   = 'Customer Join Year';
+
+        return $attributeNames;
+    }
+
+    /**
+     * Validation Rules for Customer Types Individual
+     * @return rules 
+     */
+    protected function rulesForIndividualCustomer()
+    {
+        $rules['customer_type']         = 'required|string';
+        $rules['customer_gender']       = 'required|string';
+        $rules['customer_address']      = 'required|string';
+        $rules['email']                 = 'required|email|unique:users';
+        $rules['password']              = 'required';
+        $rules['customer_join_date']    = 'required|date';
+        $rules['customer_join_year']    = 'required|integer';
+
+        return $rules;
+    }
+
+    /**
+     * Store Individual Customer
+     */
     protected function createIndividualCustomer($user, $request)
     {
         return Customer::create([
@@ -36,15 +74,39 @@ class CustomerController extends Controller
         ]);
     }
 
-    protected function validationForCompany($request)
+    /**
+     * Attributes Name for Customer Types Individual
+     * @return attributesNames 
+     */
+    protected function attributesForCompanyCustomer()
     {
-        $request->validate([
-            'company_website'   => 'required|url',
-            'full_name'         => 'required',
-            'contact_mobile'    => 'required',
-        ]);
+        $attributeNames['company_website']  = 'Company Website';
+        $attributeNames['full_name']        = 'Contact Person Name';
+        $attributeNames['contact_mobile']   = 'Contact Person Mobile';
+
+        return $attributeNames;
     }
 
+    /**
+     * Validation Rules for Customer Types Company
+     * @return rules 
+     */
+    protected function rulesForCompanyCustomer()
+    {
+        $rules['company_website']   = 'required|url';
+        $rules['full_name']   = 'required';
+        $rules['contact_mobile']   = 'required';
+        /*foreach ($request->get('full_name') as $key) {
+            $rules['full_name[' . $key . ']']         = 'required';
+            $rules['contact_mobile[' . $key . ']']    = 'required';
+        }*/
+        // dd($rules);
+        return $rules;
+    }
+
+    /**
+     * Store Company Customer
+     */
     protected function createCompanyCustomer($user, $request)
     {
         return Customer::create([
@@ -63,6 +125,7 @@ class CustomerController extends Controller
             'created_by'            => auth()->user()->id,
         ]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -91,25 +154,32 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CustomerRequest $request)
+    public function store(Request $request)
     {
-        // Check the Customer Existance
-        $userCheck = User::where('email', $request->email)->first();
-        if ($userCheck !==  null) :
-            session()->flash('warning', 'Customer Already Exist.');
-            return redirect()->back();
-        endif;
+        $attributeNames = $this->attributesForIndividualCustomer();
+        $rules = $this->rulesForIndividualCustomer();
+
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();
 
         // Value Save Individual Customer
         if ($request->customer_type === 'individual') :
             $user = $this->createUser($request);
             $this->createIndividualCustomer($user, $request);
-            session()->flash('success', 'Customer Created.');
+            session()->flash('success', 'Customer Created Successfully.');
             return redirect()->back();
 
         // Value Save Company Customer
         elseif ($request->customer_type === 'company') :
-            $this->validationForCompany($request);
+            // $this->validationForCompany($request);
+            $attributeNames = $this->attributesForCompanyCustomer();
+            $rules = $this->rulesForCompanyCustomer();
+
+            $validator = Validator::make($request->all(), $rules);
+            $validator->setAttributeNames($attributeNames);
+            $validator->validate();
+
             $user = $this->createUser($request);
             $customer = $this->createCompanyCustomer($user, $request);
             // Loop for Contact Person value save
@@ -124,7 +194,7 @@ class CustomerController extends Controller
                     ]);
                 endif;
             endfor;
-            session()->flash('success', 'Customer Created.');
+            session()->flash('success', 'Customer Created Successfully.');
             return redirect()->back();
         else :
             session()->flash('warning', 'Something Happend Wrong.');

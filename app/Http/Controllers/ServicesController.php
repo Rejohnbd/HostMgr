@@ -21,6 +21,8 @@ class ServicesController extends Controller
     public function index()
     {
         // dd(Service::all());
+        $services = Service::all();
+        dd($services->customer());
         return view('services.index')->with('services', Service::all());
     }
 
@@ -73,8 +75,11 @@ class ServicesController extends Controller
         //     return redirect()->route('services.index');
         // }
         // dd($request->all(), 'Error');
+
         $data = $request->all();
+        // $data['customer_id'] = $request->customer_id;
         $data['created_by'] = auth()->user()->id;
+        // dd($request->all());
         Service::create($data);
         session()->flash('warning', 'Something Happend Wrong');
         return redirect()->route('services.index');

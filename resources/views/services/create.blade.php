@@ -175,7 +175,7 @@
                             <button type="submit" class="btn btn-block btn-primary">Create Service</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="reset" class="btn btn-block btn-outline-secondary">Reset</button>
+                            <a href="{{ route('services.index') }}" class="btn btn-block btn-outline-secondary">Cancel</a>
                         </div>
                     </div>
                 </form>

@@ -72,7 +72,7 @@
                             <a href="{{ route('services.show', $service->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Service Details">
                                 <i class="fas fa-search-plus"></i>
                             </a>
-                            <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Service Edit">
+                            <a href="#" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Service Edit">
                                 <i class="far fa-edit"></i>
                             </a>
                         </td>

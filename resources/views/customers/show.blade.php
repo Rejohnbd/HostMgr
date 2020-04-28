@@ -39,9 +39,15 @@
 
                     <div class="tab-pane fade" id="client-service" role="tabpanel" aria-labelledby="client-servoce-tab">
                         <div class="row">
-                            {{-- @foreach($customer->services as $service)
+                            @forelse($customer->customerServices as $service)
                             @include('partials.customer-service-item')
-                            @endforeach --}}
+                            @empty
+                            <div class="card card-default">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">No Service Yet Now.</h6>
+                                </div>
+                            </div>
+                            @endforelse
                         </div>
                     </div>
 

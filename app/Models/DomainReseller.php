@@ -8,8 +8,8 @@ class DomainReseller extends Model
 {
     protected $fillable = ['name', 'email', 'website', 'details'];
 
-    public function services()
-    {
-        return $this->hasMany(Service::class);
-    }
+    // public function services()
+    // {
+    //     return $this->hasMany(Service::class);
+    // }
 }

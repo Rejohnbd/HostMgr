@@ -80,9 +80,15 @@ class CustomerController extends Controller
      */
     protected function attributesForCompanyCustomer()
     {
-        $attributeNames['company_website']  = 'Company Website';
-        $attributeNames['full_name']        = 'Contact Person Name';
-        $attributeNames['contact_mobile']   = 'Contact Person Mobile';
+        $attributeNames['customer_type']        = 'Customer Type';
+        $attributeNames['customer_address']     = 'Customer Address';
+        $attributeNames['email']                = 'Customer Email';
+        $attributeNames['password']             = 'Customer Password';
+        $attributeNames['company_website']      = 'Company Website';
+        $attributeNames['full_name']            = 'Contact Person Name';
+        $attributeNames['contact_mobile']       = 'Contact Person Mobile';
+        $attributeNames['customer_join_date']   = 'Customer Join Date';
+        $attributeNames['customer_join_year']   = 'Customer Join Year';
 
         return $attributeNames;
     }
@@ -93,9 +99,15 @@ class CustomerController extends Controller
      */
     protected function rulesForCompanyCustomer()
     {
-        $rules['company_website']   = 'required|url';
-        $rules['full_name']   = 'required';
-        $rules['contact_mobile']   = 'required';
+        $rules['customer_type']         = 'required|string';
+        $rules['customer_address']      = 'required|string';
+        $rules['email']                 = 'required|email|unique:users';
+        $rules['password']              = 'required';
+        $rules['customer_join_date']    = 'required|date';
+        $rules['customer_join_year']    = 'required|integer';
+        $rules['company_website']       = 'required|url';
+        $rules['full_name']             = 'required';
+        $rules['contact_mobile']        = 'required';
         /*foreach ($request->get('full_name') as $key) {
             $rules['full_name[' . $key . ']']         = 'required';
             $rules['contact_mobile[' . $key . ']']    = 'required';
@@ -156,15 +168,15 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $attributeNames = $this->attributesForIndividualCustomer();
-        $rules = $this->rulesForIndividualCustomer();
-
-        $validator = Validator::make($request->all(), $rules);
-        $validator->setAttributeNames($attributeNames);
-        $validator->validate();
-
         // Value Save Individual Customer
         if ($request->customer_type === 'individual') :
+            $attributeNames = $this->attributesForIndividualCustomer();
+            $rules = $this->rulesForIndividualCustomer();
+
+            $validator = Validator::make($request->all(), $rules);
+            $validator->setAttributeNames($attributeNames);
+            $validator->validate();
+
             $user = $this->createUser($request);
             $this->createIndividualCustomer($user, $request);
             session()->flash('success', 'Customer Created Successfully.');

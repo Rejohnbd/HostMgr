@@ -39,7 +39,7 @@
                         @if($customer->company_website)
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item p-2">
-                                <a class="btn btn-sm btn-info mr-2" href="#" data-toggle="tooltip" title="Show Domain Details">{{ $customer->company_website }}</a>
+                                <a class="btn btn-sm btn-info mr-2" href="#">{{ $customer->company_website }}</a>
                                 <a class="btn btn-sm btn-success mr-2" href="{{ $customer->company_website }}" target="tooltip" data-toggle="tooltip" title="Visit Online">Visit Site</a>
                             </li>
                         </ul>

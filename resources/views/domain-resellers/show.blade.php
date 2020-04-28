@@ -3,14 +3,16 @@
 @section('title', 'Domain Reseller Details')
 
 @section('content')
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Domain Reseller Details</h1>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('domain-resellers.index') }}">Domain Resellers</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Details</li>
-    </ol>
-</div>
+
+{{-- Breadcrumb Show --}}
+@component('partials.breadcrumb',[
+'title' => 'Domain Reseller Details',
+'itemOne' => 'Domain Resellers',
+'itemOneUrl' => 'domain-resellers.index',
+'activePage' => 'Details'
+])
+@endcomponent
+
 <div class="row">
     <div class="col-lg-6">
         <div class="card mb-4">

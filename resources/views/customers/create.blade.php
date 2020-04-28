@@ -3,19 +3,22 @@
 @section('title', 'Customer Create')
 
 @section('content')
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Customer Create</h1>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('customers.index') }}">Customers</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Create</li>
-    </ol>
-</div>
 
+{{-- Breadcrumb Show --}}
+@component('partials.breadcrumb',[
+'title' => 'Customer Create',
+'itemOne' => 'Customers',
+'itemOneUrl' => 'customers.index',
+'activePage' => 'Create'
+])
+@endcomponent
+
+{{-- Show Success Alert --}}
 @if(session('success'))
 @include('partials.success-alert')
 @endif
 
+{{-- Show Warning Alert --}}
 @if(session('warning'))
 @include('partials.warning-alert')
 @endif
@@ -47,11 +50,11 @@
                             @enderror
                         </div>
 
-                        <div class="form-group col-md-6 required">
-                            <label for="customerGender" class="col-form-label text-right text-gray-900">Customer Gender</label>
+                        <div class="form-group col-md-6 required checked-company-form">
+                            <label for=" customerGender" class="col-form-label text-right text-gray-900">Customer Gender</label>
                             <div class="d-flex">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="maleRadio" name="customer_gender" value="male" class="custom-control-input" @if(old('customer_gender')==='male' ) checked @endif required>
+                                    <input type="radio" id="maleRadio" name="customer_gender" value="male" class="custom-control-input" @if(old('customer_gender')==='male' ) checked @endif>
                                     <label class="custom-control-label" for="maleRadio">Male</label>
                                 </div>
                                 <div class="custom-control custom-radio ml-2">
@@ -65,7 +68,7 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
+                    <div class="form-row checked-company-form">
                         <div class="form-group col-md-6 ">
                             <label for="customerFirstName" class="col-form-label text-right text-gray-900">Customer First Name</label>
                             <input type="text" name="customer_first_name" class="form-control" id="customerFirstName" placeholder="Customer First Name" value="{{ old('customer_first_name')  }}">
@@ -192,8 +195,9 @@
         </div>
     </div>
 </div>
+@endsection
 
-
+@section('scripts')
 <script>
     $(document).ready(function() {
         $('.company-form').hide();
@@ -201,16 +205,17 @@
             var customerType = $('input[name=customer_type]:checked').val();
             if (customerType === 'company') {
                 $('.company-form').show();
+                $('.checked-company-form').hide();
             } else {
                 $('.company-form').hide();
+                $('.checked-company-form').show();
             }
         });
 
         @if(old('customer_type') === 'company')
         $('.company-form').show();
+        $('.checked-company-form').hide();
         @endif
-
-    })
+    });
 </script>
-
 @endsection

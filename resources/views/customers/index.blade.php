@@ -3,16 +3,17 @@
 @section('title', 'Customers')
 
 @section('content')
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Customer List</h1>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Customers</li>
-    </ol>
-</div>
 
-<div class="d-flex justify-content-start">
-    <a href="{{ route('customers.create') }}" class="btn btn-info mb-2">Add Customer</a>
+@component('partials.breadcrumb',[
+'title' => 'Customer List',
+'activePage' => 'Customers'
+])
+@endcomponent
+
+<div class="col-lg-12">
+    <div class="d-flex justify-content-start">
+        <a href="{{ route('customers.create') }}" class="btn btn-info mb-2">Add Customer</a>
+    </div>
 </div>
 
 <div class="col-lg-12">

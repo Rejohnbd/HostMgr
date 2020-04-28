@@ -3,14 +3,16 @@
 @section('title', 'Service Create')
 
 @section('content')
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Create Services</h1>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('services.index') }}">Services</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Create</li>
-    </ol>
-</div>
+
+{{-- Breadcrumb Show --}}
+@component('partials.breadcrumb',[
+'title' => 'Create Services',
+'itemOne' => 'Services',
+'itemOneUrl' => 'services.index',
+'activePage' => 'Create'
+])
+@endcomponent
+
 
 <div class="row">
     <div class="col-xl-12 mb-4">

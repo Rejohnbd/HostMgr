@@ -19,7 +19,7 @@ class CreateCustomersTable extends Migration
             $table->string('customer_first_name', 50)->nullable();
             $table->string('customer_last_name', 50)->nullable();
             $table->string('customer_type', 20)->comment('company/individual');
-            $table->string('customer_gender', 10)->comment('Male/Female');
+            $table->string('customer_gender', 10)->nullable()->comment('Male/Female');
             $table->string('company_name', 100)->nullable();
             $table->string('company_website', 100)->nullable();
             $table->text('company_details')->nullable();

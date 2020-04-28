@@ -7,14 +7,16 @@
 @endif
 
 @section('content')
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">{{ isset($domainReseller) ? 'Domain Reseller Update' : 'Domain Reseller Create' }}</h1>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('domain-resellers.index') }}">Domain Resellers</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ isset($domainReseller) ? 'Update' : 'Create' }}</li>
-    </ol>
-</div>
+
+{{-- Breadcrumb Show --}}
+@component('partials.breadcrumb',[
+'title' => isset($domainReseller) ? 'Domain Reseller Update' : 'Domain Reseller Create' ,
+'itemOne' => 'Domain Resellers',
+'itemOneUrl' => 'domain-resellers.index',
+'activePage' => isset($domainReseller) ? 'Update' : 'Create'
+])
+@endcomponent
+
 @if(session('success'))
 @include('partials.success-alert')
 @endif
@@ -31,53 +33,43 @@
                     @isset($domainReseller)
                     @method('PUT')
                     @endisset
-                    <div class="form-group row required">
-                        <label for="domainResellerName" class="col-md-3 col-form-label text-right text-gray-900">Reseller Name</label>
-                        <div class="col-md-9">
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="domainResellerName" placeholder="Reseller Name" value="{{ isset($domainReseller) ? $domainReseller->name : old('name')  }}" required>
-                            @error('name')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="form-group required">
+                        <label for="domainResellerName" class="col-form-label text-right text-gray-900">Reseller Name</label>
+                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="domainResellerName" placeholder="Reseller Name" value="{{ isset($domainReseller) ? $domainReseller->name : old('name')  }}" required>
+                        @error('name')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                    <div class="form-group row required">
-                        <label for="domainResellerEmail" class="col-md-3 col-form-label text-right text-gray-900">Reseller Email</label>
-                        <div class="col-md-9">
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="domainResellerEmail" placeholder="Reseller Email" value="{{ isset($domainReseller) ? $domainReseller->email : old('email') }}" required>
-                            @error('email')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+
+                    <div class="form-group required">
+                        <label for="domainResellerEmail" class="col-form-label text-right text-gray-900">Reseller Email</label>
+                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="domainResellerEmail" placeholder="Reseller Email" value="{{ isset($domainReseller) ? $domainReseller->email : old('email') }}" required>
+                        @error('email')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                    <div class="form-group row required">
-                        <label for="domainResellerWeb" class="col-md-3 col-form-label text-right text-gray-900">Reseller Website</label>
-                        <div class="col-md-9">
-                            <input type="url" name="website" class="form-control @error('website') is-invalid @enderror" id="domainResellerWeb" placeholder="Reseller Website" value="{{ isset($domainReseller) ? $domainReseller->website : old('website') }}" required>
-                            @error('website')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="form-group required">
+                        <label for="domainResellerWeb" class="col-form-label text-right text-gray-900">Reseller Website</label>
+                        <input type="url" name="website" class="form-control @error('website') is-invalid @enderror" id="domainResellerWeb" placeholder="Reseller Website" value="{{ isset($domainReseller) ? $domainReseller->website : old('website') }}" required>
+                        @error('website')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                    <div class="form-group row required">
-                        <label for="domainResellerDetails" class="col-md-3 col-form-label text-right text-gray-900">Reseller Details</label>
-                        <div class="col-md-9">
-                            <textarea name="details" class="form-control @error('details') is-invalid @enderror" id="domainResellerDetails" rows="3" placeholder="Reseller Details" required>{{ isset($domainReseller) ? $domainReseller->details : old('details') }}</textarea>
-                            @error('details')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+
+                    <div class="form-group required">
+                        <label for="domainResellerDetails" class="col-form-label text-right text-gray-900">Reseller Details</label>
+                        <textarea name="details" class="form-control @error('details') is-invalid @enderror" id="domainResellerDetails" rows="3" placeholder="Reseller Details" required>{{ isset($domainReseller) ? $domainReseller->details : old('details') }}</textarea>
+                        @error('details')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-9 offset-md-3">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="submit" class="btn btn-block btn-primary">{{ isset($domainReseller) ? 'Update' : 'Save' }}</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="{{ route('domain-resellers.index') }}" class="btn btn-block btn-outline-secondary">Cancel</a>
-                                </div>
-                            </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-block btn-primary">{{ isset($domainReseller) ? 'Update' : 'Save' }}</button>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ route('domain-resellers.index') }}" class="btn btn-block btn-outline-secondary">Cancel</a>
                         </div>
                     </div>
                 </form>

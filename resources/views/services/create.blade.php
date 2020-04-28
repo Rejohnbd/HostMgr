@@ -26,7 +26,7 @@
                         <select name="customer_id" class="form-control col-12  @error('customer_id') is-invalid @enderror" id="customerEmail" required>
                             <option value="">Select Customer Email</option>
                             @foreach($customers as $customer)
-                            <option value="{{ $customer->user->id }}">{{ $customer->user->email }}</option>
+                            <option value="{{ $customer->id }}">{{ $customer->user->email }}</option>
                             @endforeach
                         </select>
                         @error('customer_id')
@@ -66,6 +66,9 @@
                             <option value="{{ $domainReseller->id }}">{{ $domainReseller->name }}</option>
                             @endforeach
                         </select>
+                        @error('domain_reseller_id')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="form-group hosting-reseller">
@@ -76,15 +79,21 @@
                             <option value="{{ $hostingRessler->id}}">{{ $hostingRessler->name }}</option>
                             @endforeach
                         </select>
+                        @error('hosting_reseller_id')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class=" form-group hosting-type">
                         <label for="hostingType" class="col-form-label text-right text-gray-900">Hosting Type</label>
-                        <select name="hosting_type" class="form-control" id="hostingType">
+                        <select name="hosting_type" class="form-control @error('hosting_type') is-invalid @enderror" id="hostingType">
                             <option value="">Select Hosting Type</option>
                             <option value="package">Package</option>
                             <option value="custom">Custom</option>
                         </select>
+                        @error('hosting_type')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="form-group hosting-package">
@@ -95,6 +104,9 @@
                             <option value="{{ $hostingPackage->id}}">{{ $hostingPackage->name }}</option>
                             @endforeach
                         </select>
+                        @error('hosting_package_id')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class=" form-row custom-package">
@@ -171,5 +183,36 @@
         </div>
     </div>
 </div>
+@endsection
 
+@section('scripts')
+@if(old('service_for'))
+<script>
+    $('document').ready(function() {
+        if ("{{old('service_for')}}" == 3) {
+            $('#serviceFor').val("{{old('service_for')}}");
+            $(".domain-reseller").show();
+        }
+
+        if ("{{old('service_for')}}" == 2) {
+            $('#serviceFor').val("{{old('service_for')}}");
+            $(".hosting-reseller").show();
+            $(".hosting-type").show();
+        }
+
+        if ("{{old('service_for')}}" == 1) {
+            $('#serviceFor').val("{{old('service_for')}}");
+            $(".domain-reseller").show();
+            $(".hosting-reseller").show();
+            $(".hosting-type").show();
+        }
+
+        if ("{{old('hosting_type')}}" == 'package') {
+            $('#hostingType').val("{{old('hosting_type')}}");
+            $(".hosting-package").show();
+        }
+
+    });
+</script>
+@endif
 @endsection

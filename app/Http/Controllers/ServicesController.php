@@ -14,6 +14,133 @@ use Illuminate\Http\Request;
 class ServicesController extends Controller
 {
     /**
+     * Attributes for For Only Domain Service
+     * @return AttributeNames
+     */
+    protected function attributesForOnlyDomain()
+    {
+        $attributeNames['customer_id']          = 'Customer Email';
+        $attributeNames['service_for']          = 'Service For';
+        $attributeNames['domain_name']          = 'Domain Name';
+        $attributeNames['domain_reseller_id']   = 'Domain Reseller Name';
+        $attributeNames['service_start_date']   = 'Service Start Date';
+        $attributeNames['service_expire_date']  = 'Service Expire Date';
+        return $attributeNames;
+    }
+
+    /**
+     * Validation Rules For Only Domain Service
+     * @return Rules
+     */
+    protected function rulesForOnlyDomain()
+    {
+        $rules['customer_id']           = 'required|integer';
+        $rules['service_for']           = 'required|integer';
+        $rules['domain_name']           = 'required|string';
+        $rules['domain_reseller_id']    = 'required';
+        $rules['service_start_date']    = 'required|date';
+        $rules['service_expire_date']   = 'required|date';
+        return $rules;
+    }
+
+    /**
+     * Attributes for For Only Hosting Service
+     * @return AttributeNames
+     */
+    protected function attributesForOnlyHosting()
+    {
+        $attributeNames['customer_id']          = 'Customer Email';
+        $attributeNames['service_for']          = 'Service For';
+        $attributeNames['domain_name']          = 'Domain Name';
+        $attributeNames['hosting_reseller_id']  = 'Hosting Reseller Name';
+        $attributeNames['hosting_type']         = 'Hosting Type';
+        $attributeNames['service_start_date']   = 'Service Start Date';
+        $attributeNames['service_expire_date']  = 'Service Expire Date';
+        return $attributeNames;
+    }
+
+    /**
+     * Validation Rules For Only Hosting Service
+     * @return Rules
+     */
+    protected function rulesForOnlyHosting()
+    {
+        $rules['customer_id']           = 'required|integer';
+        $rules['service_for']           = 'required|integer';
+        $rules['domain_name']           = 'required|string';
+        $rules['hosting_reseller_id']   = 'required';
+        $rules['hosting_type']          = 'required';
+        $rules['service_start_date']    = 'required|date';
+        $rules['service_expire_date']   = 'required|date';
+        return $rules;
+    }
+
+    /**
+     * Attributes for For Package Hosting
+     * @return AttributeNames
+     */
+    protected function attributesForPackageHosting()
+    {
+        $attributeNames['hosting_package_id']   = 'Hosting Package';
+        return $attributeNames;
+    }
+
+    /**
+     * Validation Rules For Package Hosting
+     * @return Rules
+     */
+    protected function rulesForPackageHosting()
+    {
+        $rules['hosting_package_id'] = 'required';
+        return $rules;
+    }
+
+    /**
+     * Attributes for For Both Domain and Hosting
+     * @return AttributeNames
+     */
+    protected function attributesForDomainHosting()
+    {
+        $attributeNames['customer_id']          = 'Customer Email';
+        $attributeNames['service_for']          = 'Service For';
+        $attributeNames['domain_name']          = 'Domain Name';
+        $attributeNames['domain_reseller_id']   = 'Domain Reseller Name';
+        $attributeNames['hosting_reseller_id']  = 'Hosting Reseller Name';
+        $attributeNames['hosting_type']         = 'Hosting Type';
+        $attributeNames['service_start_date']   = 'Service Start Date';
+        $attributeNames['service_expire_date']  = 'Service Expire Date';
+        return $attributeNames;
+    }
+
+    /**
+     * Validation Rules For Both Domain Hosting Service
+     * @return Rules
+     */
+    protected function rulesForDomainHosting()
+    {
+        $rules['customer_id']           = 'required|integer';
+        $rules['service_for']           = 'required|integer';
+        $rules['domain_name']           = 'required|string';
+        $rules['domain_reseller_id']    = 'required';
+        $rules['hosting_reseller_id']   = 'required';
+        $rules['hosting_type']          = 'required';
+        $rules['service_start_date']    = 'required|date';
+        $rules['service_expire_date']   = 'required|date';
+        return $rules;
+    }
+
+    /**
+     * Validity Check 
+     * @return void
+     */
+    protected function checkValidity($request, $rules, $attributeNames)
+    {
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -21,8 +148,7 @@ class ServicesController extends Controller
     public function index()
     {
         // dd(Service::all());
-        $services = Service::all();
-        dd($services->customer());
+
         return view('services.index')->with('services', Service::all());
     }
 
@@ -48,39 +174,73 @@ class ServicesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ServiceCreateRequest $request)
+    public function store(Request $request)
     {
 
-        /*$attributeNames['customer_id']          = 'Customer Email';
-        $attributeNames['service_for']          = 'Service For';
-        $attributeNames['domain_name']          = 'Domain Name';
-        $attributeNames['service_start_date']   = 'Service Start Date';
-        $attributeNames['service_expire_date']  = 'Service Expire Date';
+        if ($request->service_for == 3) :
+            $attributeNames = $this->attributesForOnlyDomain();
+            $rules = $this->rulesForOnlyDomain();
+            $this->checkValidity($request, $rules, $attributeNames);
 
-        $rules['customer_id']           = 'required|integer';
-        $rules['service_for']           = 'required|integer';
-        $rules['domain_name']           = 'required|string';
-        $rules['service_start_date']    = 'required|date';
-        $rules['service_expire_date']   = 'required|date';
+            $data = $request->all();
+            $data['created_by'] = auth()->user()->id;
+            Service::create($data);
+            session()->flash('success', 'Customer Service Created Succeffully');
+            return redirect()->route('services.index');
+        endif;
 
-        $validator = Validator::make($request->all(), $rules);
-        $validator->setAttributeNames($attributeNames);
-        $validator->validate();*/
+        if ($request->service_for == 2) :
+            $attributeNames = $this->attributesForOnlyHosting();
+            $rules = $this->rulesForOnlyHosting();
+            $this->checkValidity($request, $rules, $attributeNames);
 
-        // if ($request->service_for == 3) {
-        //     $data = $request->all();
-        //     $data['created_by'] = auth()->user()->id;
-        //     Service::create($data);
-        //     session()->flash('success', 'Customer Service Created Succeffully');
-        //     return redirect()->route('services.index');
-        // }
-        // dd($request->all(), 'Error');
+            if ($request->hosting_type == 'package') :
+                $attributeNames = $this->attributesForPackageHosting();
+                $rules = $this->rulesForPackageHosting();
+                $this->checkValidity($request, $rules, $attributeNames);
 
-        $data = $request->all();
-        // $data['customer_id'] = $request->customer_id;
-        $data['created_by'] = auth()->user()->id;
-        // dd($request->all());
-        Service::create($data);
+                $data = $request->all();
+                $data['created_by'] = auth()->user()->id;
+                Service::create($data);
+                session()->flash('success', 'Customer Service Created Succeffully');
+                return redirect()->route('services.index');
+            endif;
+
+            if ($request->hosting_type == 'custom') :
+                $data = $request->all();
+                $data['created_by'] = auth()->user()->id;
+                Service::create($data);
+                session()->flash('success', 'Customer Service Created Succeffully');
+                return redirect()->route('services.index');
+            endif;
+        endif;
+
+        if ($request->service_for == 1) :
+            $attributeNames = $this->attributesForDomainHosting();
+            $rules = $this->rulesForDomainHosting();
+            $this->checkValidity($request, $rules, $attributeNames);
+
+            if ($request->hosting_type == 'package') :
+                $attributeNames = $this->attributesForPackageHosting();
+                $rules = $this->rulesForPackageHosting();
+                $this->checkValidity($request, $rules, $attributeNames);
+
+                $data = $request->all();
+                $data['created_by'] = auth()->user()->id;
+                Service::create($data);
+                session()->flash('success', 'Customer Service Created Succeffully');
+                return redirect()->route('services.index');
+            endif;
+
+            if ($request->hosting_type == 'custom') :
+                $data = $request->all();
+                $data['created_by'] = auth()->user()->id;
+                Service::create($data);
+                session()->flash('success', 'Customer Service Created Succeffully');
+                return redirect()->route('services.index');
+            endif;
+        endif;
+
         session()->flash('warning', 'Something Happend Wrong');
         return redirect()->route('services.index');
     }

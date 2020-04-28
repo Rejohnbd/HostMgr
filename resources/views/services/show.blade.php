@@ -153,14 +153,12 @@
                                         <th scope="row">Addon Domain Qty</th>
                                         <td>{{ $service->hosting_addon_domain_qty }}</td>
                                     </tr>
-
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
                 @endif
-
             </div>
         </div>
     </div>

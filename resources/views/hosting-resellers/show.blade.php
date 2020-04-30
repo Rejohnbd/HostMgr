@@ -66,7 +66,7 @@
                     <tbody>
                         <tr>
                             <th scope="row">Last Renew date</th>
-                            <td>{{ $hostingReseller->hostingRenewLogs->last()->hosting_reseller_renew_date }}</td>
+                            <td>{{ date('d-m-Y', strtotime($hostingReseller->hostingRenewLogs->last()->hosting_reseller_renew_date)) }}</td>
                         </tr>
                         <tr>
                             <th scope="row">Last Renew Month</th>

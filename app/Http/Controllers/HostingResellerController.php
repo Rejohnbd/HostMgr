@@ -53,9 +53,7 @@ class HostingResellerController extends Controller
         $validator->validate();
 
         HostingReseller::create($request->all());
-
         session()->flash('success', 'Hosting Reseller Created');
-
         return redirect()->back();
     }
 

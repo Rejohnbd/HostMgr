@@ -24,12 +24,23 @@
 <script src="{{ asset('resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('resources/assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/admin.min.js') }}"></script>
-@if(Request::is('domain-resellers') || Request::is('hosting-resellers') || Request::is('customers') || Request::is('services'))
+@if(Request::is('domain-resellers*') || Request::is('hosting-resellers*') || Request::is('customers') || Request::is('services'))
 <script src="{{ asset('resources/assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('resources/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script>
   $(document).ready(function() {
     $('#dataTable').DataTable();
+  });
+</script>
+@endif
+@if(Request::is('domain-resellers/*/renew') || Request::is('hosting-resellers/*/renew') )
+<script src="{{ asset('resources/assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js') }}"></script>
+<script>
+  $(document).ready(function() {
+    $("#resellerRenewDate").datepicker({
+      format: "yyyy-mm-dd",
+      todayHighlight: true,
+    });
   });
 </script>
 @endif

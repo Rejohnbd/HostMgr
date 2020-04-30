@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DomainReseller;
 use App\Http\Requests\DomainResellerRequest;
+use App\Models\DomainResellerRenewLog;
 use Illuminate\Http\Request;
 use Validator;
 

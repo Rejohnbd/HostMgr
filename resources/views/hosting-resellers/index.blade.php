@@ -11,6 +11,14 @@
 ])
 @endcomponent
 
+@if(session('success'))
+@include('partials.success-alert')
+@endif
+
+@if(session('warning'))
+@include('partials.warning-alert')
+@endif
+
 <div class="col-lg-12">
     <div class="d-flex justify-content-start">
         <a href="{{ route('hosting-resellers.create') }}" class="btn btn-info mb-2">Add Reseller</a>
@@ -29,7 +37,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Website</th>
-                        <th>Renew Date</th>
+                        <th>Expire Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -38,7 +46,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Website</th>
-                        <th>Renew Date</th>
+                        <th>Expire Date</th>
                         <th>Actions</th>
                     </tr>
                 </tfoot>
@@ -48,7 +56,13 @@
                         <td>{{ $reseller->name }}</td>
                         <td>{{ $reseller->email }}</td>
                         <td>{{ $reseller->website }}</td>
-                        <td></td>
+                        <td>
+                            @if($reseller->hostingRenewLogs->count() > 0)
+                            {{ date('d-m-Y', $reseller->calculateExpireDate($reseller->hostingRenewLogs->last()->hosting_reseller_renew_date, $reseller->hostingRenewLogs->last()->hosting_reseller_renew_for))}}
+                            @else
+                            No Data Found
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('hosting-resellers.show', $reseller->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Details">
                                 <i class="fas fa-search-plus"></i>

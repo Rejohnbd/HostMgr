@@ -14,10 +14,10 @@
   <link href="{{ asset('resources/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('resources/assets/css/admin.min.css') }}" rel="stylesheet">
   <link href="{{ asset('resources/assets/css/main.css') }}" rel="stylesheet">
-  @if(Request::is('domain-resellers') || Request::is('hosting-resellers') || Request::is('customers') || Request::is('services'))
+  @if(Request::is('domain-resellers*') || Request::is('hosting-resellers*') || Request::is('customers') || Request::is('services'))
   <link href="{{ asset('resources/assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
   @endif
-  @if(Request::is('customers/create') || Request::is('services/create'))
+  @if(Request::is('customers/create') || Request::is('services/create') || Request::is('domain-resellers/*/renew') || Request::is('hosting-resellers/*/renew'))
   <link href="{{ asset('resources/assets/vendor/select-option/css/select2.min.css') }}" rel="stylesheet">
   <link href="{{ asset('resources/assets/vendor/datetimepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
   @endif

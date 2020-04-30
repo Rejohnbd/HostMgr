@@ -17,6 +17,14 @@
     </div>
 </div>
 
+@if(session('success'))
+@include('partials.success-alert')
+@endif
+
+@if(session('warning'))
+@include('partials.warning-alert')
+@endif
+
 <div class="col-lg-12">
     <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -29,7 +37,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Website</th>
-                        <th>Renew Date</th>
+                        <th>Expire Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -38,7 +46,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Website</th>
-                        <th>Renew Date</th>
+                        <th>Expire Date</th>
                         <th>Actions</th>
                     </tr>
                 </tfoot>
@@ -48,7 +56,13 @@
                         <td>{{ $reseller->name }}</td>
                         <td>{{ $reseller->email }}</td>
                         <td>{{ $reseller->website }}</td>
-                        <td></td>
+                        <td>
+                            @if($reseller->domainRenewLogs->count() > 0)
+                            {{ date('d-m-Y', $reseller->calculateExpireDate($reseller->domainRenewLogs->last()->domain_reseller_renew_date, $reseller->domainRenewLogs->last()->domain_reseller_renew_for))}}
+                            @else
+                            No Data Found
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('domain-resellers.show', $reseller->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Details">
                                 <i class="fas fa-search-plus"></i>

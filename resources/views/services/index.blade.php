@@ -46,7 +46,14 @@
                 <tbody>
                     @forelse($services as $service)
                     <tr>
-                        <td>{{ $service->customer->customer_first_name }} {{ $service->customer->customer_last_name }}</td>
+                        <td>
+                            @if($service->customer->customer_type === 'individual')
+                            {{ $service->customer->customer_first_name }} {{ $service->customer->customer_last_name }}
+                            @endif
+                            @if($service->customer->customer_type === 'company')
+                            {{ $service->customer->company_name }}
+                            @endif
+                        </td>
                         <td>{{ $service->customer->user->email }}</td>
                         <td>
                             @if($service->service_for === 1)

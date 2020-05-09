@@ -24,14 +24,43 @@
                 <form action="{{ route('services.store') }}" method="POST">
                     @csrf
                     <div class="form-group required">
-                        <label for="customerEmail" class="col-form-label text-right text-gray-900">Customer Email</label>
-                        <select name="customer_id" class="form-control col-12  @error('customer_id') is-invalid @enderror" id="customerEmail" required>
+                        <label for="customerType" class="col-form-label text-right text-gray-900">Customer Type</label>
+                        <select name="customer_type" class="form-control  @error('customer_type') is-invalid @enderror" id="customerType" required>
+                            <option value="">Select Customer Type</option>
+                            <option value="1">Individual Customer</option>
+                            <option value="2">Company Customer</option>
+                        </select>
+                        @error('customer_type')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group required individual-customer">
+                        <label for="individualEmail" class="col-form-label text-right text-gray-900">Individual Customers</label>
+                        <select name="individual_customer" class="form-control col-12  @error('individual_customer') is-invalid @enderror" id="individualEmail">
                             <option value="">Select Customer Email</option>
                             @foreach($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->user->email }}</option>
+                            @if($customer->customer_type === 'individual')
+                            <option value="{{ $customer->id }}">{{ $customer->customer_first_name }} {{ $customer->customer_last_name }} ({{ $customer->user->email }})</option>
+                            @endif
                             @endforeach
                         </select>
-                        @error('customer_id')
+                        @error('individual_customer')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group required company-customer">
+                        <label for="companyEmail" class="col-form-label text-right text-gray-900">Company Customers</label>
+                        <select name="company_customer" class="form-control col-12  @error('company_customer') is-invalid @enderror" id="companyEmail">
+                            <option value="">Select Customer Email</option>
+                            @foreach($customers as $customer)
+                            @if($customer->customer_type === 'company')
+                            <option value="{{ $customer->id }}">{{ $customer->company_name }} ({{ $customer->user->email }})</option>
+                            @endif
+                            @endforeach
+                        </select>
+                        @error('company_customer')
                         <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -191,6 +220,16 @@
 @if(old('service_for'))
 <script>
     $('document').ready(function() {
+        if ("{{old('customer_type')}}" == 1) {
+            $('#customerType').val("{{old('customer_type')}}");
+            $(".individual-customer").show();
+        }
+
+        if ("{{old('customer_type')}}" == 2) {
+            $('#customerType').val("{{old('customer_type')}}");
+            $(".company-customer").show();
+        }
+
         if ("{{old('service_for')}}" == 3) {
             $('#serviceFor').val("{{old('service_for')}}");
             $(".domain-reseller").show();

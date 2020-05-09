@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $("#customerEmail").select2();
+    $("#individualEmail").select2();
+    $("#companyEmail").select2();
     $("#domainReseller").select2();
     $("#hostingReseller").select2();
     $("#serviceStartDaty").datepicker({
@@ -10,6 +11,23 @@ $(document).ready(function () {
         format: "yyyy-mm-dd",
         todayHighlight: true,
     });
+    // Company Types
+    $(".individual-customer").hide();
+    $(".company-customer").hide();
+    $("#customerType").on("change", function () {
+        var customerType = $(this).children(":selected").val();
+        if (customerType === "1") {
+            $(".individual-customer").show();
+            $(".company-customer").hide();
+        } else if (customerType === "2") {
+            $(".individual-customer").hide();
+            $(".company-customer").show();
+        } else {
+            $(".individual-customer").hide();
+            $(".company-customer").hide();
+        }
+    });
+
     // Domain Hosting show hide
     $(".domain-reseller").hide();
     $(".hosting-reseller").hide();

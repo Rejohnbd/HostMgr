@@ -19,7 +19,6 @@ class ServicesController extends Controller
      */
     protected function attributesForOnlyDomain()
     {
-        $attributeNames['customer_id']          = 'Customer Email';
         $attributeNames['service_for']          = 'Service For';
         $attributeNames['domain_name']          = 'Domain Name';
         $attributeNames['domain_reseller_id']   = 'Domain Reseller Name';
@@ -34,7 +33,6 @@ class ServicesController extends Controller
      */
     protected function rulesForOnlyDomain()
     {
-        $rules['customer_id']           = 'required|integer';
         $rules['service_for']           = 'required|integer';
         $rules['domain_name']           = 'required|string';
         $rules['domain_reseller_id']    = 'required';
@@ -49,7 +47,6 @@ class ServicesController extends Controller
      */
     protected function attributesForOnlyHosting()
     {
-        $attributeNames['customer_id']          = 'Customer Email';
         $attributeNames['service_for']          = 'Service For';
         $attributeNames['domain_name']          = 'Domain Name';
         $attributeNames['hosting_reseller_id']  = 'Hosting Reseller Name';
@@ -65,7 +62,6 @@ class ServicesController extends Controller
      */
     protected function rulesForOnlyHosting()
     {
-        $rules['customer_id']           = 'required|integer';
         $rules['service_for']           = 'required|integer';
         $rules['domain_name']           = 'required|string';
         $rules['hosting_reseller_id']   = 'required';
@@ -101,7 +97,7 @@ class ServicesController extends Controller
      */
     protected function attributesForDomainHosting()
     {
-        $attributeNames['customer_id']          = 'Customer Email';
+
         $attributeNames['service_for']          = 'Service For';
         $attributeNames['domain_name']          = 'Domain Name';
         $attributeNames['domain_reseller_id']   = 'Domain Reseller Name';
@@ -118,7 +114,7 @@ class ServicesController extends Controller
      */
     protected function rulesForDomainHosting()
     {
-        $rules['customer_id']           = 'required|integer';
+
         $rules['service_for']           = 'required|integer';
         $rules['domain_name']           = 'required|string';
         $rules['domain_reseller_id']    = 'required';
@@ -176,14 +172,36 @@ class ServicesController extends Controller
      */
     public function store(Request $request)
     {
+        $attributeNames['customer_type']  = 'Customer Types';
+        $rules['customer_type'] = 'required|integer|min:1|max:2';
+        $this->checkValidity($request, $rules, $attributeNames);
+        // Check Customer Type Validity
+        if ($request->customer_type == 1) :
+            $attributeNames['individual_customer']  = 'Individual Customer';
+            $rules['individual_customer'] = 'required|integer';
+            $this->checkValidity($request, $rules, $attributeNames);
+            $data['customer_id'] = $request->individual_customer;
+        endif;
+        // Check Customer Type Validity
+        if ($request->customer_type == 2) :
+            $attributeNames['company_customer']  = 'Individual Customer';
+            $rules['company_customer'] = 'required|integer';
+            $this->checkValidity($request, $rules, $attributeNames);
+            $data['customer_id'] = $request->company_customer;
+        endif;
 
         if ($request->service_for == 3) :
             $attributeNames = $this->attributesForOnlyDomain();
             $rules = $this->rulesForOnlyDomain();
             $this->checkValidity($request, $rules, $attributeNames);
 
-            $data = $request->all();
+            $data['service_for'] = $request->service_for;
+            $data['domain_name'] = $request->domain_name;
+            $data['domain_reseller_id'] = $request->domain_reseller_id;
+            $data['service_start_date'] = $request->service_start_date;
+            $data['service_expire_date'] = $request->service_expire_date;
             $data['created_by'] = auth()->user()->id;
+
             Service::create($data);
             session()->flash('success', 'Customer Service Created Succeffully');
             return redirect()->route('services.index');
@@ -194,21 +212,39 @@ class ServicesController extends Controller
             $rules = $this->rulesForOnlyHosting();
             $this->checkValidity($request, $rules, $attributeNames);
 
+            $data['service_for']            = $request->service_for;
+            $data['domain_name']            = $request->domain_name;
+            $data['domain_reseller_id']     = $request->domain_reseller_id;
+            $data['hosting_reseller_id']    = $request->hosting_reseller_id;
+            $data['hosting_type']           = $request->hosting_type;
+            $data['service_start_date']     = $request->service_start_date;
+            $data['service_expire_date']    = $request->service_expire_date;
+
             if ($request->hosting_type == 'package') :
                 $attributeNames = $this->attributesForPackageHosting();
                 $rules = $this->rulesForPackageHosting();
                 $this->checkValidity($request, $rules, $attributeNames);
 
-                $data = $request->all();
+                $data['hosting_package_id']   = $request->hosting_package_id;
                 $data['created_by'] = auth()->user()->id;
+
                 Service::create($data);
                 session()->flash('success', 'Customer Service Created Succeffully');
                 return redirect()->route('services.index');
             endif;
 
             if ($request->hosting_type == 'custom') :
-                $data = $request->all();
+
+                $data['hosting_space']              = $request->hosting_space;
+                $data['hosting_bandwidth']          = $request->hosting_bandwidth;
+                $data['hosting_db_qty']             = $request->hosting_db_qty;
+                $data['hosting_emails_qty']         = $request->hosting_emails_qty;
+                $data['hosting_subdomain_qty']      = $request->hosting_subdomain_qty;
+                $data['hosting_ftp_qty']            = $request->hosting_ftp_qty;
+                $data['hosting_park_domain_qty']    = $request->hosting_park_domain_qty;
+                $data['hosting_addon_domain_qty']   = $request->hosting_addon_domain_qty;
                 $data['created_by'] = auth()->user()->id;
+
                 Service::create($data);
                 session()->flash('success', 'Customer Service Created Succeffully');
                 return redirect()->route('services.index');
@@ -220,21 +256,38 @@ class ServicesController extends Controller
             $rules = $this->rulesForDomainHosting();
             $this->checkValidity($request, $rules, $attributeNames);
 
+            $data['service_for']            = $request->service_for;
+            $data['domain_name']            = $request->domain_name;
+            $data['domain_reseller_id']     = $request->domain_reseller_id;
+            $data['hosting_reseller_id']    = $request->hosting_reseller_id;
+            $data['hosting_type']           = $request->hosting_type;
+            $data['service_start_date']     = $request->service_start_date;
+            $data['service_expire_date']    = $request->service_expire_date;
+
             if ($request->hosting_type == 'package') :
                 $attributeNames = $this->attributesForPackageHosting();
                 $rules = $this->rulesForPackageHosting();
                 $this->checkValidity($request, $rules, $attributeNames);
 
-                $data = $request->all();
+                $data['hosting_package_id']   = $request->hosting_package_id;
                 $data['created_by'] = auth()->user()->id;
+
                 Service::create($data);
                 session()->flash('success', 'Customer Service Created Succeffully');
                 return redirect()->route('services.index');
             endif;
 
             if ($request->hosting_type == 'custom') :
-                $data = $request->all();
-                $data['created_by'] = auth()->user()->id;
+                $data['hosting_space']              = $request->hosting_space;
+                $data['hosting_bandwidth']          = $request->hosting_bandwidth;
+                $data['hosting_db_qty']             = $request->hosting_db_qty;
+                $data['hosting_emails_qty']         = $request->hosting_emails_qty;
+                $data['hosting_subdomain_qty']      = $request->hosting_subdomain_qty;
+                $data['hosting_ftp_qty']            = $request->hosting_ftp_qty;
+                $data['hosting_park_domain_qty']    = $request->hosting_park_domain_qty;
+                $data['hosting_addon_domain_qty']   = $request->hosting_addon_domain_qty;
+                $data['created_by']                 = auth()->user()->id;
+
                 Service::create($data);
                 session()->flash('success', 'Customer Service Created Succeffully');
                 return redirect()->route('services.index');

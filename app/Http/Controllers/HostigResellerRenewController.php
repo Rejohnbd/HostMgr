@@ -32,11 +32,11 @@ class HostigResellerRenewController extends Controller
         if ($reseller) :
             HostingResellerRenewLog::create($request->all());
             session()->flash('success', 'Hosting Reseller Renew Successfully');
-            return redirect()->route('hosting-resellers.index');
+            return redirect()->route('hosting-resellers.show', $request->hosting_reseller_id);
         endif;
 
         session()->flash('warning', 'Something Happend Wrong');
-        return redirect()->route('hosting-resellers.index');
+        return redirect()->route('hosting-resellers.show', $request->hosting_reseller_id);
     }
 
     public function destroy(Request $request)
@@ -44,6 +44,6 @@ class HostigResellerRenewController extends Controller
         $log_id = $request->input('log_id');
         HostingResellerRenewLog::where('id', $log_id)->delete();
         session()->flash('success', 'Hosting Reseller Delete Successfully');
-        return redirect()->route('hosting-resellers.index');
+        return redirect()->back();
     }
 }

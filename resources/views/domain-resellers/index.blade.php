@@ -17,14 +17,6 @@
     </div>
 </div>
 
-@if(session('success'))
-@include('partials.success-alert')
-@endif
-
-@if(session('warning'))
-@include('partials.warning-alert')
-@endif
-
 <div class="col-lg-12">
     <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">

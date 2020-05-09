@@ -13,6 +13,14 @@
 ])
 @endcomponent
 
+@if(session('success'))
+@include('partials.success-alert')
+@endif
+
+@if(session('warning'))
+@include('partials.warning-alert')
+@endif
+
 <div class="row">
     <div class="col-lg-6">
         <div class="card mb-4">

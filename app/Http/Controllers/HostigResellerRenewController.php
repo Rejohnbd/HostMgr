@@ -38,4 +38,12 @@ class HostigResellerRenewController extends Controller
         session()->flash('warning', 'Something Happend Wrong');
         return redirect()->route('hosting-resellers.index');
     }
+
+    public function destroy(Request $request)
+    {
+        $log_id = $request->input('log_id');
+        HostingResellerRenewLog::where('id', $log_id)->delete();
+        session()->flash('success', 'Hosting Reseller Delete Successfully');
+        return redirect()->route('hosting-resellers.index');
+    }
 }

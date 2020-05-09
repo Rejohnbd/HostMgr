@@ -18,7 +18,7 @@
         <div class="card mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Domain Reseller Info</h6>
-                <a href="{{ route('domain-resellers.renew', $domainReseller->id) }}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Renew">
+                <a href="{{ route('domain-reseller.renew', $domainReseller->id) }}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Renew">
                     Renew
                 </a>
             </div>
@@ -101,17 +101,9 @@
                             <th>Renew For</th>
                             <th>Expire Date</th>
                             <th>Amount</th>
+                            <th></th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Reseller Name</th>
-                            <th>Renew Date</th>
-                            <th>Renew For</th>
-                            <th>Expire Date</th>
-                            <th>Amount</th>
-                        </tr>
-                    </tfoot>
                     <tbody>
                         @forelse($domainReseller->domainRenewLogs as $renewLog)
                         <tr>
@@ -124,6 +116,13 @@
                                 {{ date('d-m-Y', $domainReseller->calculateExpireDate($renewLog->domain_reseller_renew_date, $renewLog->domain_reseller_renew_for))}}
                             </td>
                             <td>{{ $renewLog->domain_reseller_renew_amount }}</td>
+                            <td>
+                                @if($domainReseller->domainRenewLogs->last()->id === $renewLog->id)
+                                <button class="btn btn-danger btn-sm" onclick="handleDelete( {{ $renewLog->id }} )" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reseller Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                @endif
+                            </td>
                         </tr>
                         @empty
                         <tr>
@@ -139,4 +138,40 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="{{ route('domain-reseller.destroy') }}" method="POST" id="deleteResellerLogForm">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Delete Reseller</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center text-bold">Are you sure you want to delete?</p>
+                        <input type="hidden" name="log_id" id="del_id">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Go Back</button>
+                        <button type="submit" class="btn btn-danger">Yes Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endsection
+
+    @section('scripts')
+    <script>
+        function handleDelete(id) {
+            var form = document.getElementById('deleteResellerLogForm')
+            $('#del_id').val(id);
+            $('#deleteModal').modal('show');
+        }
+    </script>
     @endsection

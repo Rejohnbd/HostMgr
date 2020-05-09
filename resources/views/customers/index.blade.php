@@ -32,15 +32,6 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Website</th>
-                        <th>Type</th>
-                        <th>Actions</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @forelse($customers as $customer)
                     <tr>

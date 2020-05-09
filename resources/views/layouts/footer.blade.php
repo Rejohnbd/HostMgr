@@ -33,7 +33,7 @@
   });
 </script>
 @endif
-@if(Request::is('domain-resellers/*/renew') || Request::is('hosting-resellers/*/renew') )
+@if(Request::is('domain-reseller/*/renew') || Request::is('hosting-reseller/*/renew') )
 <script src="{{ asset('resources/assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
   $(document).ready(function() {

@@ -41,15 +41,6 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Website</th>
-                        <th>Expire Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @forelse($resellers as $reseller)
                     <tr>

@@ -43,17 +43,6 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Service</th>
-                        <th>Domain</th>
-                        <th>Start Date</th>
-                        <th>Expire Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @forelse($services as $service)
                     <tr>

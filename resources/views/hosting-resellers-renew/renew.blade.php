@@ -20,7 +20,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Hosting Reseller Renew</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('hosting-resellers.renew-store', ['hosting_reseller_id' => $id])}}" method="POST">
+                <form action="{{ route('hosting-reseller.renew-store', ['hosting_reseller_id' => $id])}}" method="POST">
                     @csrf
                     <div class="form-group required">
                         <label for="resellerRenewDate" class="col-form-label text-right text-gray-900">Reseller Renew Date</label>

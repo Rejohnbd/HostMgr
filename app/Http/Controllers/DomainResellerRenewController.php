@@ -31,11 +31,19 @@ class DomainResellerRenewController extends Controller
         $reseller = DomainReseller::where('id', '=', $request->domain_reseller_id)->first();
         if ($reseller) :
             DomainResellerRenewLog::create($request->all());
-            session()->flash('success', 'Hosting Reseller Renew Successfully');
+            session()->flash('success', 'Domain Reseller Renew Successfully');
             return redirect()->route('domain-resellers.index');
         endif;
 
         session()->flash('warning', 'Something Happend Wrong');
+        return redirect()->route('domain-resellers.index');
+    }
+
+    public function destroy(Request $request)
+    {
+        $log_id = $request->input('log_id');
+        DomainResellerRenewLog::where('id', $log_id)->delete();
+        session()->flash('success', 'Domain Reseller Delete Successfully');
         return redirect()->route('domain-resellers.index');
     }
 }

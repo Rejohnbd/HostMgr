@@ -29,6 +29,8 @@ class CustomerController extends Controller
     {
         $attributeNames['customer_type']        = 'Customer Type';
         $attributeNames['customer_gender']      = 'Customer Gender';
+        $attributeNames['customer_first_name']  = 'Customer First Name';
+        $attributeNames['customer_last_name']   = 'Customer Last Name';
         $attributeNames['customer_address']     = 'Customer Address';
         $attributeNames['email']                = 'Customer Email';
         $attributeNames['password']             = 'Customer Password';
@@ -46,6 +48,8 @@ class CustomerController extends Controller
     {
         $rules['customer_type']         = 'required|string';
         $rules['customer_gender']       = 'required|string';
+        $rules['customer_first_name']   = 'required|string';
+        $rules['customer_last_name']    = 'required|string';
         $rules['customer_address']      = 'required|string';
         $rules['email']                 = 'required|email|unique:users';
         $rules['password']              = 'required';
@@ -82,6 +86,7 @@ class CustomerController extends Controller
     {
         $attributeNames['customer_type']        = 'Customer Type';
         $attributeNames['customer_address']     = 'Customer Address';
+        $attributeNames['company_name']         = 'Company Name';
         $attributeNames['email']                = 'Customer Email';
         $attributeNames['password']             = 'Customer Password';
         $attributeNames['company_website']      = 'Company Website';
@@ -101,6 +106,7 @@ class CustomerController extends Controller
     {
         $rules['customer_type']         = 'required|string';
         $rules['customer_address']      = 'required|string';
+        $rules['company_name']          = 'required|string';
         $rules['email']                 = 'required|email|unique:users';
         $rules['password']              = 'required';
         $rules['customer_join_date']    = 'required|date';

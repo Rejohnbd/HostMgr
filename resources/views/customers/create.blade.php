@@ -69,22 +69,31 @@
                     </div>
 
                     <div class="form-row checked-company-form">
-                        <div class="form-group col-md-6 ">
+                        <div class="form-group col-md-6 required">
                             <label for="customerFirstName" class="col-form-label text-right text-gray-900">Customer First Name</label>
-                            <input type="text" name="customer_first_name" class="form-control" id="customerFirstName" placeholder="Customer First Name" value="{{ old('customer_first_name')  }}">
+                            <input type="text" name="customer_first_name" class="form-control @error('customer_first_name') is-invalid @enderror" id="customerFirstName" placeholder="Customer First Name" value="{{ old('customer_first_name')  }}">
+                            @error('customer_first_name')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 required">
                             <label for="customerLastName" class="col-form-label text-right text-gray-900">Customer Last Name</label>
-                            <input type="text" name="customer_last_name" class="form-control" id="customerLastName" placeholder="Customer Last Name" value="{{ old('customer_last_name') }}">
+                            <input type="text" name="customer_last_name" class="form-control @error('customer_last_name') is-invalid @enderror" id="customerLastName" placeholder="Customer Last Name" value="{{ old('customer_last_name') }}">
+                            @error('customer_last_name')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="company-form">
                         <div class="form-row">
-                            <div class="form-group col-md-6 ">
+                            <div class="form-group col-md-6 required">
                                 <label for="companyName" class="col-form-label text-right text-gray-900">Company Name</label>
-                                <input type="text" name="company_name" class="form-control" id="companyName" placeholder="Company Name" value="{{ old('company_name') }}">
+                                <input type="text" name="company_name" class="form-control @error('company_name') is-invalid @enderror" id="companyName" placeholder="Company Name" value="{{ old('company_name') }}">
+                                @error('company_name')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
 
                             <div class="form-group col-md-6 required">

@@ -18,8 +18,8 @@ class HostingReseller extends Model
         return strtotime('+ ' . $month . ' month', strtotime($renewDate));
     }
 
-    // public function services()
-    // {
-    //     return $this->hasMany(Service::class);
-    // }
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
 }

@@ -13,7 +13,7 @@ class Service extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    /*public function domainReseller()
+    public function domainReseller()
     {
         return $this->belongsTo(DomainReseller::class);
     }
@@ -26,5 +26,5 @@ class Service extends Model
     public function hostingPackage()
     {
         return $this->belongsTo(HostingPackage::class);
-    }*/
+    }
 }

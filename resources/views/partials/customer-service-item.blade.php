@@ -27,9 +27,9 @@
                         <strong>Hosting Tye </strong>
                         <span class="text-info">
                             @if($service->hosting_type)
-                            {{ $service->hosting_type }}
+                            {{ ucfirst($service->hosting_type) }}
                             @else
-                            {{ 'Service Not Used' }}
+                            {{ 'Not Used' }}
                             @endif
                         </span>
                     </li>
@@ -46,6 +46,9 @@
             </div>
         </div>
         <div class="card-footer d-flex justify-content-between align-items-center">
+            <a href="{{ route('services.show', $service->id) }}" class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Service Details">
+                <i class="fas fa-eye"></i>
+            </a>
             <a href="#" class="btn btn-info btn-circle">
                 <i class="fas fa-edit"></i>
             </a>

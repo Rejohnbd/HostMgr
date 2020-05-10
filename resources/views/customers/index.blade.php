@@ -28,6 +28,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Website</th>
+                        <th>Services</th>
                         <th>Type</th>
                         <th>Actions</th>
                     </tr>
@@ -35,10 +36,20 @@
                 <tbody>
                     @forelse($customers as $customer)
                     <tr>
-                        <td>{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}</td>
+                        @if($customer->customer_type === 'individual')
+                        <td>
+                            {{ $customer->customer_first_name }} {{ $customer->customer_last_name }}
+                        </td>
+                        @endif
+                        @if($customer->customer_type === 'company')
+                        <td>
+                            {{ $customer->company_name }}
+                        </td>
+                        @endif
                         <td>{{ $customer->user->email }}</td>
                         <td>{{ $customer->company_website }}</td>
-                        <td>{{ $customer->customer_type }}</td>
+                        <td>{{ $customer->customerServices->count() }}</td>
+                        <td>{{ ucfirst($customer->customer_type) }}</td>
                         <td>
                             <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Customer Details">
                                 <i class="fas fa-search-plus"></i>

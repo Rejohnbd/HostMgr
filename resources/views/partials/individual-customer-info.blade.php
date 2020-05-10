@@ -6,19 +6,19 @@
         <table class="table table-striped text-gray-900 mb-0">
             <tbody>
                 <tr>
-                    <th scope="row">Customer First Name</th>
+                    <th scope="row">First Name</th>
                     <td>{{ $customer->customer_first_name }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Customer Last Name </th>
+                    <th scope="row">Last Name </th>
                     <td>{{ $customer->customer_last_name }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Customer Email</th>
+                    <th scope="row">Email</th>
                     <td>{{ $customer->user->email }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Customer Register Phone</th>
+                    <th scope="row">Phone Number</th>
                     <td>{{ $customer->user->mobile }}</td>
                 </tr>
                 <tr>
@@ -26,45 +26,20 @@
                     <td>{{ ucfirst($customer->customer_type) }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Customer Gender</th>
+                    <th scope="row">Gender</th>
                     <td>{{ ucfirst($customer->customer_gender) }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Company Name</th>
-                    <td>{{ $customer->company_name }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Company Website</th>
-                    <td>
-                        @if($customer->company_website)
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item p-2">
-                                <a class="btn btn-sm btn-info mr-2" href="#">{{ $customer->company_website }}</a>
-                                <a class="btn btn-sm btn-success mr-2" href="{{ $customer->company_website }}" target="tooltip" data-toggle="tooltip" title="Visit Online">Visit Site</a>
-                            </li>
-                        </ul>
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Company Details</th>
-                    <td>{{ $customer->company_details }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Company Address</th>
+                    <th scope="row">Address</th>
                     <td>{{ $customer->customer_address }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Customer Join Date</th>
+                    <th scope="row">Join Date</th>
                     <td>{{ $customer->customer_join_date }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Customer Join Year</th>
+                    <th scope="row">Join Year</th>
                     <td>{{ $customer->customer_join_year }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Customer Reference</th>
-                    <td>{{ $customer->customer_reference }}</td>
                 </tr>
             </tbody>
         </table>

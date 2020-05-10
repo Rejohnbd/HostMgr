@@ -28,6 +28,7 @@
 
                         <table class="table table-striped text-gray-900 mb-0">
                             <tbody>
+                                @if($service->customer->customer_type === 'individual')
                                 <tr>
                                     <th scope="row">First Name</th>
                                     <td>{{ $service->customer->customer_first_name }}</td>
@@ -36,6 +37,13 @@
                                     <th scope="row">Last Name </th>
                                     <td>{{ $service->customer->customer_last_name }}</td>
                                 </tr>
+                                @endif
+                                @if($service->customer->customer_type === 'company')
+                                <tr>
+                                    <th scope="row">Company Name</th>
+                                    <td>{{ $service->customer->company_name }}</td>
+                                </tr>
+                                @endif
                                 <tr>
                                     <th scope="row">Email</th>
                                     <td>{{ $service->customer->user->email }}</td>
@@ -76,7 +84,7 @@
                                 @endif
                                 <tr>
                                     <th scope="row">Hosting Type</th>
-                                    <td>{{ isset($service->hosting_type) ? $service->hosting_type : 'Hosting Service Not Used.' }}</td>
+                                    <td>{{ isset($service->hosting_type) ? ucfirst($service->hosting_type) : 'Hosting Service Not Used.' }}</td>
                                 </tr>
                                 @if($service->hostingPackage)
                                 <tr>
@@ -88,7 +96,6 @@
                                     </td>
                                 </tr>
                                 @endif
-
                                 <tr>
                                     <th scope="row">Service Start Date</th>
                                     <td>{{ $service->service_start_date }}</td>
@@ -100,6 +107,9 @@
                             </tbody>
                         </table>
                         <div class="card-footer d-flex justify-content-between align-items-center">
+                            <a href="{{ route('customers.show', $service->customer->id) }}" class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Customer Details">
+                                <i class="fas fa-eye"></i>
+                            </a>
                             <a href="#" class="btn btn-info btn-circle">
                                 <i class="fas fa-edit"></i>
                             </a>

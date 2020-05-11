@@ -25,15 +25,15 @@
   <div class="sidebar-heading">
     Services
   </div>
-  <li class="nav-item @if(Request::is('services*')) active @endif">
+  <li class="nav-item @if(Request::is('services*') || Request::is('service-types*')) active @endif">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseServices" aria-expanded="true" aria-controls="collapseServices">
       <i class="fas fa-archive"></i>
       <span>Services</span>
     </a>
-    <div id="collapseServices" class="collapse @if(Request::is('services*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+    <div id="collapseServices" class="collapse @if(Request::is('services*') || Request::is('service-types*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <a class="collapse-item  @if(Request::is('services*')) active @endif" href="{{ route('services.index') }}">All Services</a>
-        <a class="collapse-item" href="#">Service Renew</a>
+        <a class="collapse-item @if(Request::is('service-types*')) active @endif" href="{{ route('service-types.index') }}">Service Type</a>
       </div>
     </div>
   </li>

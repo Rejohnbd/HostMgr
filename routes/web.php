@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', 'DashboardController@index');
     Route::resource('customers', 'CustomerController');
     Route::resource('services', 'ServicesController');
+    Route::Resource('service-types', 'ServiceTypeControler');
     Route::resource('domain-resellers', 'DomainResellerController');
     Route::get('domain-reseller/{id}/renew', 'DomainResellerRenewController@renew')->name('domain-reseller.renew');
     Route::post('domain-reseller/renew-store', 'DomainResellerRenewController@store')->name('domain-reseller.renew-store');

@@ -140,6 +140,7 @@
                             <td></td>
                             <td></td>
                             <td>No Renew Log</td>
+                            <td></td>
                         </tr>
                         @endforelse
                     </tbody>

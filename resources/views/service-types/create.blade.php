@@ -17,6 +17,11 @@
 @include('partials.success-alert')
 @endif
 
+{{-- Show Warning Alert --}}
+@if(session('warning'))
+@include('partials.warning-alert')
+@endif
+
 <div class="row">
     <div class="col-xl-12 mb-4">
         <div class="card shadow mb-4">

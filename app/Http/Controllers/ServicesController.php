@@ -9,10 +9,17 @@ use App\Models\DomainReseller;
 use App\Models\HostingPackage;
 use App\Models\HostingReseller;
 use App\Models\Service;
+use App\Models\ServiceLog;
+use App\Models\ServiceType;
 use Illuminate\Http\Request;
 
 class ServicesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['CheckCustomersCount', 'CheckServiceType'])->only(['create', 'store']);
+    }
+
     /**
      * Attributes for For Only Domain Service
      * @return AttributeNames
@@ -159,6 +166,7 @@ class ServicesController extends Controller
         // echo $customer->user->email;
         return view('services.create')
             ->with('customers', Customer::all())
+            ->with('serviceTypes', ServiceType::all())
             ->with('domainResellers', DomainReseller::all())
             ->with('hostingResslers', HostingReseller::all())
             ->with('hostingPackages', HostingPackage::all());
@@ -201,10 +209,16 @@ class ServicesController extends Controller
             $data['service_start_date'] = $request->service_start_date;
             $data['service_expire_date'] = $request->service_expire_date;
             $data['created_by'] = auth()->user()->id;
+            $service = Service::create($data);
 
-            Service::create($data);
+            $logData['service_id']          = $service->id;
+            $logData['service_type']        = 'new';
+            $logData['service_start_date']  = $data['service_start_date'];
+            $logData['service_expire_date'] = $data['service_expire_date'];
+            ServiceLog::create($logData);
+
             session()->flash('success', 'Customer Service Created Succeffully');
-            return redirect()->route('services.index');
+            return redirect()->back();
         endif;
 
         if ($request->service_for == 2) :
@@ -227,10 +241,16 @@ class ServicesController extends Controller
 
                 $data['hosting_package_id']   = $request->hosting_package_id;
                 $data['created_by'] = auth()->user()->id;
+                $service = Service::create($data);
 
-                Service::create($data);
+                $logData['service_id']          = $service->id;
+                $logData['service_type']        = 'new';
+                $logData['service_start_date']  = $data['service_start_date'];
+                $logData['service_expire_date'] = $data['service_expire_date'];
+                ServiceLog::create($logData);
+
                 session()->flash('success', 'Customer Service Created Succeffully');
-                return redirect()->route('services.index');
+                return redirect()->back();
             endif;
 
             if ($request->hosting_type == 'custom') :
@@ -244,10 +264,16 @@ class ServicesController extends Controller
                 $data['hosting_park_domain_qty']    = $request->hosting_park_domain_qty;
                 $data['hosting_addon_domain_qty']   = $request->hosting_addon_domain_qty;
                 $data['created_by'] = auth()->user()->id;
+                $service = Service::create($data);
 
-                Service::create($data);
+                $logData['service_id']          = $service->id;
+                $logData['service_type']        = 'new';
+                $logData['service_start_date']  = $data['service_start_date'];
+                $logData['service_expire_date'] = $data['service_expire_date'];
+                ServiceLog::create($logData);
+
                 session()->flash('success', 'Customer Service Created Succeffully');
-                return redirect()->route('services.index');
+                return redirect()->back();
             endif;
         endif;
 
@@ -271,10 +297,16 @@ class ServicesController extends Controller
 
                 $data['hosting_package_id']   = $request->hosting_package_id;
                 $data['created_by'] = auth()->user()->id;
+                $service = Service::create($data);
 
-                Service::create($data);
+                $logData['service_id']          = $service->id;
+                $logData['service_type']        = 'new';
+                $logData['service_start_date']  = $data['service_start_date'];
+                $logData['service_expire_date'] = $data['service_expire_date'];
+                ServiceLog::create($logData);
+
                 session()->flash('success', 'Customer Service Created Succeffully');
-                return redirect()->route('services.index');
+                return redirect()->back();
             endif;
 
             if ($request->hosting_type == 'custom') :
@@ -287,10 +319,16 @@ class ServicesController extends Controller
                 $data['hosting_park_domain_qty']    = $request->hosting_park_domain_qty;
                 $data['hosting_addon_domain_qty']   = $request->hosting_addon_domain_qty;
                 $data['created_by']                 = auth()->user()->id;
+                $service = Service::create($data);
 
-                Service::create($data);
+                $logData['service_id']          = $service->id;
+                $logData['service_type']        = 'new';
+                $logData['service_start_date']  = $data['service_start_date'];
+                $logData['service_expire_date'] = $data['service_expire_date'];
+                ServiceLog::create($logData);
+
                 session()->flash('success', 'Customer Service Created Succeffully');
-                return redirect()->route('services.index');
+                return redirect()->back();
             endif;
         endif;
 

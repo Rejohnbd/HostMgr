@@ -19,8 +19,8 @@ class CreateServiceLogsTable extends Migration
             $table->string('service_type', 20)->comment('new/renewal');
             $table->date('service_start_date');
             $table->date('service_expire_date');
-            $table->text('comment');
-            $table->tinyInteger('invoide_status')->default(0);
+            $table->text('comment')->nullable();
+            $table->tinyInteger('invoice_status')->default(0);
             $table->timestamps();
 
             $table->foreign('service_id')

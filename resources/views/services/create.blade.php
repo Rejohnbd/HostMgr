@@ -13,6 +13,13 @@
 ])
 @endcomponent
 
+@if(session('success'))
+@include('partials.success-alert')
+@endif
+
+@if(session('warning'))
+@include('partials.warning-alert')
+@endif
 
 <div class="row">
     <div class="col-xl-12 mb-4">
@@ -70,9 +77,9 @@
                             <label for="serviceFor" class="col-form-label text-right text-gray-900">Service For</label>
                             <select name="service_for" class="form-control  @error('service_for') is-invalid @enderror" id="serviceFor" required>
                                 <option value="">Select Service For</option>
-                                <option value="1">Domain Hosting Both</option>
-                                <option value="2">Only Hosting</option>
-                                <option value="3">Only Domain</option>
+                                @foreach($serviceTypes as $serviceType)
+                                <option value="{{ $serviceType->id }}">{{ $serviceType->name }}</option>
+                                @endforeach
                             </select>
                             @error('service_for')
                             <small class="form-text text-danger">{{ $message }}</small>

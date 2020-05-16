@@ -32,4 +32,9 @@ class Service extends Model
     {
         return $this->hasMany(ServiceLog::class);
     }
+
+    public function serviceItems()
+    {
+        return $this->hasMany(ServiceItem::class, 'service_id');
+    }
 }

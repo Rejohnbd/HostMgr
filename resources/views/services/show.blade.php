@@ -48,20 +48,6 @@
                                     <th scope="row">Email</th>
                                     <td>{{ $service->customer->user->email }}</td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">Service Type</th>
-                                    <td>
-                                        <button class="btn btn-info btn-sm">
-                                            @if($service->service_for === 1)
-                                            {{ 'Domain Hosting Both' }}
-                                            @elseif($service->service_for === 2)
-                                            {{ 'Only Hosting' }}
-                                            @else
-                                            {{ 'Only Domain' }}
-                                            @endif
-                                        </button>
-                                    </td>
-                                </tr>
                                 @if($service->domainReseller)
                                 <tr>
                                     <th scope="row">Domain Reseller</th>
@@ -123,46 +109,38 @@
                     </div>
                 </div>
 
-                @if($service->hosting_space)
+                @if($service->serviceItems )
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Customer Package Info</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Service Types Info</h6>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-striped text-gray-900 mb-0">
                                 <tbody>
                                     <tr>
-                                        <th scope="row">Space</th>
-                                        <td>{{ $service->hosting_space }}</td>
+                                        <th scope="row">Service Type</th>
+                                        <td>
+                                            @foreach($service->serviceItems as $serviceItem)
+                                            <button class="btn btn-info btn-sm">
+                                                @if($serviceItem->service_type_id === 1)
+                                                {{ 'Domain' }}
+                                                @endif
+                                                @if($serviceItem->service_type_id === 2)
+                                                {{ 'Hosting' }}
+                                                @endif
+                                                @if($serviceItem->service_type_id === 3)
+                                                {{ 'Others' }}
+                                                @endif
+                                            </button>
+                                            @endforeach
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Bandwidth</th>
-                                        <td>{{ $service->hosting_bandwidth }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Database Qty</th>
-                                        <td>{{ $service->hosting_db_qty }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Email Qty</th>
-                                        <td>{{ $service->hosting_emails_qty }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Subdomain Qty</th>
-                                        <td>{{ $service->hosting_subdomain_qty }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">FTP Qty</th>
-                                        <td>{{ $service->hosting_ftp_qty }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Park Domain Qty</th>
-                                        <td>{{ $service->hosting_park_domain_qty }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Addon Domain Qty</th>
-                                        <td>{{ $service->hosting_addon_domain_qty }}</td>
+                                        <th scope="row">Service Items</th>
+                                        <td>
+                                            {{ $service->serviceItems->first()->item_details }}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -173,7 +151,64 @@
             </div>
         </div>
     </div>
+    @if($service->hosting_type === 'custom')
+    <div class="card mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Customer Hosting Package Info</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="row">
+                <div class="col-lg-6 col-sm-12">
+                    <table class="table table-striped text-gray-900 mb-0">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Space</th>
+                                <td>{{ $service->hosting_space }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Bandwidth</th>
+                                <td>{{ $service->hosting_bandwidth }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Database Qty</th>
+                                <td>{{ $service->hosting_db_qty }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Email Qty</th>
+                                <td>{{ $service->hosting_emails_qty }}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-6 col-sm-12">
+                    <table class="table table-striped text-gray-900 mb-0">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Subdomain Qty</th>
+                                <td>{{ $service->hosting_subdomain_qty }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">FTP Qty</th>
+                                <td>{{ $service->hosting_ftp_qty }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Park Domain Qty</th>
+                                <td>{{ $service->hosting_park_domain_qty }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Addon Domain Qty</th>
+                                <td>{{ $service->hosting_addon_domain_qty }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 </div>
+
 
 <div class="row">
     <div class="col-lg-12">
@@ -186,6 +221,7 @@
                 <table class="table align-items-center table-flush" id="dataTable">
                     <thead class="thead-light">
                         <tr>
+                            <th>Service For</th>
                             <th>Service Type</th>
                             <th>Start Date</th>
                             <th>Expire Date</th>
@@ -196,7 +232,18 @@
                     <tbody>
                         @foreach($service->serviceLogs as $serviceLog)
                         <tr>
-                            <td>{{ ucfirst($serviceLog->service_type) }}</td>
+                            <td>{{ ucfirst($serviceLog->service_log_for) }}</td>
+                            <td>
+                                @if($serviceLog->service_type_id === 1)
+                                {{ 'Domain' }}
+                                @endif
+                                @if($serviceLog->service_type_id === 2)
+                                {{ 'Hosting' }}
+                                @endif
+                                @if($serviceLog->service_type_id === 3)
+                                {{ 'Others' }}
+                                @endif
+                            </td>
                             <td>{{ $serviceLog->service_start_date }}</td>
                             <td>{{ $serviceLog->service_expire_date }}</td>
                             <td>

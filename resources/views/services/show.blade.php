@@ -189,30 +189,31 @@
                             <th>Service Type</th>
                             <th>Start Date</th>
                             <th>Expire Date</th>
-                            <th>Comment</th>
+                            <th>Invoice</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($service->serviceLogs as $serviceLog)
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ ucfirst($serviceLog->service_type) }}</td>
+                            <td>{{ $serviceLog->service_start_date }}</td>
+                            <td>{{ $serviceLog->service_expire_date }}</td>
+                            <td>
+                                @if($serviceLog->invoice_status === 0)
+                                Invoice Not Ready
+                                @endif
+                                @if($serviceLog->invoice_status === 1)
+                                Invoice Ready
+                                @endif
+                            </td>
                             <td>
                                 <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reseller Delete">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>No Renew Log</td>
-                            <td></td>
-                        </tr>
-
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -9,9 +9,11 @@ use App\Models\DomainReseller;
 use App\Models\HostingPackage;
 use App\Models\HostingReseller;
 use App\Models\Service;
+use App\Models\ServiceItem;
 use App\Models\ServiceLog;
 use App\Models\ServiceType;
 use Illuminate\Http\Request;
+use DB;
 
 class ServicesController extends Controller
 {
@@ -20,10 +22,65 @@ class ServicesController extends Controller
         $this->middleware(['CheckCustomersCount', 'CheckServiceType'])->only(['create', 'store']);
     }
 
-    /**
-     * Attributes for For Only Domain Service
-     * @return AttributeNames
-     */
+    public function attributesForAll()
+    {
+        $attributeNames['service_for']  = 'Service For';
+        $attributeNames['domain_name']  = 'Domain Name';
+        $attributeNames['service_start_date']   = 'Service Start Date';
+        $attributeNames['service_expire_date']  = 'Service Expire Date';
+        return $attributeNames;
+    }
+
+    public function rulesForAll()
+    {
+        $rules['service_for']           = 'required';
+        $rules['domain_name']           = 'required|string';
+        $rules['service_start_date']    = 'required|date';
+        $rules['service_expire_date']   = 'required|date';
+        return $rules;
+    }
+
+    public function attributesForCustomPackage()
+    {
+        $attributeNames['hosting_space']            = 'Hosting Space';
+        $attributeNames['hosting_bandwidth']        = 'Hosting Bandwidth';
+        $attributeNames['hosting_db_qty']           = 'Hosting DB Quantity';
+        $attributeNames['hosting_emails_qty']       = 'Hosting Emails Quantity';
+        $attributeNames['hosting_subdomain_qty']    = 'Hosting Subdomain Quantity';
+        $attributeNames['hosting_ftp_qty']          = 'Hosting FTP Quantity';
+        $attributeNames['hosting_park_domain_qty']  = 'Hosting Park Domain Quantity';
+        $attributeNames['hosting_addon_domain_qty'] = 'Hosting Addon Domain Quantity';
+        return $attributeNames;
+    }
+
+    public function rulesForCustomPackage()
+    {
+        $rules['hosting_space']                     = 'required';
+        $rules['hosting_bandwidth']                 = 'required';
+        $rules['hosting_db_qty']                    = 'required';
+        $rules['hosting_emails_qty']                = 'required';
+        $rules['hosting_subdomain_qty']             = 'required';
+        $rules['hosting_ftp_qty']                   = 'required';
+        $rules['hosting_park_domain_qty']           = 'required';
+        $rules['hosting_addon_domain_qty']          = 'required';
+        return $rules;
+    }
+
+    protected function checkValidity($request, $rules, $attributeNames)
+    {
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();
+    }
+
+    protected function getUserId($customerId)
+    {
+        $userId = DB::table('customers')->where('id', '=', $customerId)->pluck('user_id')->first();
+        return $userId;
+    }
+
+    /*
+     
     protected function attributesForOnlyDomain()
     {
         $attributeNames['service_for']          = 'Service For';
@@ -34,10 +91,6 @@ class ServicesController extends Controller
         return $attributeNames;
     }
 
-    /**
-     * Validation Rules For Only Domain Service
-     * @return Rules
-     */
     protected function rulesForOnlyDomain()
     {
         $rules['service_for']           = 'required|integer';
@@ -48,10 +101,6 @@ class ServicesController extends Controller
         return $rules;
     }
 
-    /**
-     * Attributes for For Only Hosting Service
-     * @return AttributeNames
-     */
     protected function attributesForOnlyHosting()
     {
         $attributeNames['service_for']          = 'Service For';
@@ -63,10 +112,6 @@ class ServicesController extends Controller
         return $attributeNames;
     }
 
-    /**
-     * Validation Rules For Only Hosting Service
-     * @return Rules
-     */
     protected function rulesForOnlyHosting()
     {
         $rules['service_for']           = 'required|integer';
@@ -78,33 +123,20 @@ class ServicesController extends Controller
         return $rules;
     }
 
-    /**
-     * Attributes for For Package Hosting
-     * @return AttributeNames
-     */
     protected function attributesForPackageHosting()
     {
         $attributeNames['hosting_package_id']   = 'Hosting Package';
         return $attributeNames;
     }
 
-    /**
-     * Validation Rules For Package Hosting
-     * @return Rules
-     */
     protected function rulesForPackageHosting()
     {
         $rules['hosting_package_id'] = 'required';
         return $rules;
     }
 
-    /**
-     * Attributes for For Both Domain and Hosting
-     * @return AttributeNames
-     */
     protected function attributesForDomainHosting()
     {
-
         $attributeNames['service_for']          = 'Service For';
         $attributeNames['domain_name']          = 'Domain Name';
         $attributeNames['domain_reseller_id']   = 'Domain Reseller Name';
@@ -115,13 +147,8 @@ class ServicesController extends Controller
         return $attributeNames;
     }
 
-    /**
-     * Validation Rules For Both Domain Hosting Service
-     * @return Rules
-     */
     protected function rulesForDomainHosting()
     {
-
         $rules['service_for']           = 'required|integer';
         $rules['domain_name']           = 'required|string';
         $rules['domain_reseller_id']    = 'required';
@@ -131,17 +158,7 @@ class ServicesController extends Controller
         $rules['service_expire_date']   = 'required|date';
         return $rules;
     }
-
-    /**
-     * Validity Check 
-     * @return void
-     */
-    protected function checkValidity($request, $rules, $attributeNames)
-    {
-        $validator = Validator::make($request->all(), $rules);
-        $validator->setAttributeNames($attributeNames);
-        $validator->validate();
-    }
+    */
 
     /**
      * Display a listing of the resource.
@@ -150,8 +167,6 @@ class ServicesController extends Controller
      */
     public function index()
     {
-        // dd(Service::all());
-
         return view('services.index')->with('services', Service::all());
     }
 
@@ -180,6 +195,7 @@ class ServicesController extends Controller
      */
     public function store(Request $request)
     {
+
         $attributeNames['customer_type']  = 'Customer Types';
         $rules['customer_type'] = 'required|integer|min:1|max:2';
         $this->checkValidity($request, $rules, $attributeNames);
@@ -192,12 +208,103 @@ class ServicesController extends Controller
         endif;
         // Check Customer Type Validity
         if ($request->customer_type == 2) :
-            $attributeNames['company_customer']  = 'Individual Customer';
+            $attributeNames['company_customer']  = 'Company Customer';
             $rules['company_customer'] = 'required|integer';
             $this->checkValidity($request, $rules, $attributeNames);
             $data['customer_id'] = $request->company_customer;
         endif;
 
+        $user_id = $this->getUserId($data['customer_id']);
+        $data['user_id'] = $user_id;
+
+        // Check Initial Validity For all intial show form fields
+        $attributeNames = $this->attributesForAll();
+        $rules = $this->rulesForAll();
+        $this->checkValidity($request, $rules, $attributeNames);
+
+        $data['domain_name'] = $request->domain_name;
+        $data['service_start_date'] = $request->service_start_date;
+        $data['service_expire_date'] = $request->service_expire_date;
+
+        $dataItem = array();
+        for ($i = 1; $i <= count($request->service_types); $i++) :
+
+            if ($request->service_types[$i] == 1) :
+                $attributeNames['domain_reseller_id'] = 'Domain Reseller Name';
+                $rules['domain_reseller_id']          = 'required';
+                $this->checkValidity($request, $rules, $attributeNames);
+
+                $data['domain_reseller_id'] = $request->domain_reseller_id;
+            endif;
+            if ($request->service_types[$i] == 2) :
+                $attributeNames['hosting_reseller_id']  = 'Hosting Reseller Name';
+                $attributeNames['hosting_type']         = 'Hosting Type';
+                $rules['hosting_reseller_id']           = 'required';
+                $rules['hosting_type']                  = 'required';
+                $this->checkValidity($request, $rules, $attributeNames);
+
+                $data['hosting_reseller_id']    = $request->hosting_reseller_id;
+                $data['hosting_type']           = $request->hosting_type;
+
+                if ($request->hosting_type == 'package') :
+                    $attributeNames['hosting_package_id']     = 'Hosting Package';
+                    $rules['hosting_package_id']              = 'required';
+                    $this->checkValidity($request, $rules, $attributeNames);
+
+                    $data['hosting_package_id']   = $request->hosting_package_id;
+                endif;
+
+                if ($request->hosting_type == 'custom') :
+                    $attributeNames = $this->attributesForCustomPackage();
+                    $rules = $this->rulesForCustomPackage();
+                    $this->checkValidity($request, $rules, $attributeNames);
+
+                    $data['hosting_space']              = $request->hosting_space;
+                    $data['hosting_bandwidth']          = $request->hosting_bandwidth;
+                    $data['hosting_db_qty']             = $request->hosting_db_qty;
+                    $data['hosting_emails_qty']         = $request->hosting_emails_qty;
+                    $data['hosting_subdomain_qty']      = $request->hosting_subdomain_qty;
+                    $data['hosting_ftp_qty']            = $request->hosting_ftp_qty;
+                    $data['hosting_park_domain_qty']    = $request->hosting_park_domain_qty;
+                    $data['hosting_addon_domain_qty']   = $request->hosting_addon_domain_qty;
+                endif;
+
+            endif;
+            if ($request->service_types[$i] == 3) :
+                $attributeNames['item_details'] = 'Item Details';
+                $rules['item_details']          = 'required';
+                $this->checkValidity($request, $rules, $attributeNames);
+                $dataItem['item_details'] = $request->item_details;
+            endif;
+
+        endfor;
+        $data['service_status'] = 'active';
+        $data['created_by'] = auth()->user()->id;
+
+        $service = Service::create($data);
+        $logData['customer_id']         = $data['customer_id'];
+        $logData['service_id']          = $service->id;
+        $logData['service_log_for']     = 'new';
+        $logData['service_start_date']  = $data['service_start_date'];
+        $logData['service_expire_date'] = $data['service_expire_date'];
+
+
+        $dataItem['service_id'] = $service->id;
+        for ($i = 1; $i <= count($request->service_types); $i++) :
+            if ($request->service_types[$i] == 0) {
+                continue;
+            } else {
+                $dataItem['service_type_id'] = $request->service_types[$i];
+                ServiceItem::create($dataItem);
+                $logData['service_type_id'] = $request->service_types[$i];
+                ServiceLog::create($logData);
+            }
+
+        endfor;
+
+        session()->flash('warning', 'Something Happend Wrong');
+        return redirect()->route('services.index');
+        /*
         if ($request->service_for == 3) :
             $attributeNames = $this->attributesForOnlyDomain();
             $rules = $this->rulesForOnlyDomain();
@@ -211,6 +318,7 @@ class ServicesController extends Controller
             $data['created_by'] = auth()->user()->id;
             $service = Service::create($data);
 
+            $logData['customer_id']         = $data['customer_id'];
             $logData['service_id']          = $service->id;
             $logData['service_type']        = 'new';
             $logData['service_start_date']  = $data['service_start_date'];
@@ -243,6 +351,7 @@ class ServicesController extends Controller
                 $data['created_by'] = auth()->user()->id;
                 $service = Service::create($data);
 
+                $logData['customer_id']         = $data['customer_id'];
                 $logData['service_id']          = $service->id;
                 $logData['service_type']        = 'new';
                 $logData['service_start_date']  = $data['service_start_date'];
@@ -266,6 +375,7 @@ class ServicesController extends Controller
                 $data['created_by'] = auth()->user()->id;
                 $service = Service::create($data);
 
+                $logData['customer_id']         = $data['customer_id'];
                 $logData['service_id']          = $service->id;
                 $logData['service_type']        = 'new';
                 $logData['service_start_date']  = $data['service_start_date'];
@@ -299,6 +409,7 @@ class ServicesController extends Controller
                 $data['created_by'] = auth()->user()->id;
                 $service = Service::create($data);
 
+                $logData['customer_id']         = $data['customer_id'];
                 $logData['service_id']          = $service->id;
                 $logData['service_type']        = 'new';
                 $logData['service_start_date']  = $data['service_start_date'];
@@ -321,6 +432,7 @@ class ServicesController extends Controller
                 $data['created_by']                 = auth()->user()->id;
                 $service = Service::create($data);
 
+                $logData['customer_id']         = $data['customer_id'];
                 $logData['service_id']          = $service->id;
                 $logData['service_type']        = 'new';
                 $logData['service_start_date']  = $data['service_start_date'];
@@ -334,6 +446,7 @@ class ServicesController extends Controller
 
         session()->flash('warning', 'Something Happend Wrong');
         return redirect()->route('services.index');
+        */
     }
 
     /**

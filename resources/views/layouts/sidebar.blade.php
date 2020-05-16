@@ -63,6 +63,17 @@
       <span>Hosting Resellers</span>
     </a>
   </li>
-
   <hr class="sidebar-divider">
+  <li class="nav-item @if(Request::is('invoices*')) active @endif">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInvoice" aria-expanded="true" aria-controls="collapseInvoice">
+      <i class="fas fa-archive"></i>
+      <span>Invoices</span>
+    </a>
+    <div id="collapseInvoice" class="collapse @if(Request::is('invoices*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item  @if(Request::is('invoices')) active @endif" href="{{ route('invoices') }}">Create Invoice</a>
+        <a class="collapse-item " href="#">Service Type</a>
+      </div>
+    </div>
+  </li>
 </ul>

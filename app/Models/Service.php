@@ -27,4 +27,9 @@ class Service extends Model
     {
         return $this->belongsTo(HostingPackage::class);
     }
+
+    public function serviceLogs()
+    {
+        return $this->hasMany(ServiceLog::class);
+    }
 }

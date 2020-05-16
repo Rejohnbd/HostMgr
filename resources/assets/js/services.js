@@ -11,6 +11,15 @@ $(document).ready(function () {
         format: "yyyy-mm-dd",
         todayHighlight: true,
     });
+
+    $(".serviceCheckbox").on("click", function () {
+        var id = $(this).val();
+        if ($(this).is(":checked")) {
+            $("#hidden_st_" + id).val(id);
+        } else {
+            $("#hidden_st_" + id).val(0);
+        }
+    });
     // Company Types
     $(".individual-customer").hide();
     $(".company-customer").hide();
@@ -33,7 +42,44 @@ $(document).ready(function () {
     $(".hosting-reseller").hide();
     $(".hosting-type").hide();
     $(".hosting-package").hide();
-    $("#serviceFor").on("change", function () {
+    $(".other-details").hide();
+
+    $("input:checkbox").change(function () {
+        $(":checkbox:checked").each(function (i) {
+            checked = $(this).val();
+            if (checked === "1") {
+                $(".domain-reseller").show();
+            }
+
+            if (checked === "2") {
+                $(".hosting-reseller").show();
+                $(".hosting-type").show();
+            }
+
+            if (checked === "3") {
+                $(".other-details").show();
+            }
+        });
+        $(":checkbox:not(:checked)").each(function (i) {
+            unchecked = $(this).val();
+            if (unchecked === "1") {
+                $(".domain-reseller").hide();
+            }
+
+            if (unchecked === "2") {
+                $(".hosting-reseller").hide();
+                $(".hosting-type").hide();
+                $(".hosting-package").hide();
+                $(".custom-package").hide();
+            }
+
+            if (unchecked === "3") {
+                $(".other-details").hide();
+            }
+        });
+    });
+
+    /*$("#serviceFor").on("change", function () {
         var serviceName = $(this).children(":selected").val();
         if (serviceName === "1") {
             $(".domain-reseller").show();
@@ -60,7 +106,7 @@ $(document).ready(function () {
             $(".hosting-package").hide();
             $(".custom-package").hide();
         }
-    });
+    });*/
 
     // Package show hide
     $(".custom-package").hide();

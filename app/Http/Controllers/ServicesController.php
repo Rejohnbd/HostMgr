@@ -19,7 +19,7 @@ class ServicesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['CheckCustomersCount', 'CheckServiceType'])->only(['create', 'store']);
+        $this->middleware(['CheckCustomersCount', 'CheckServiceType', 'CheckHostingPackageCount'])->only(['create', 'store']);
     }
 
     public function attributesForAll()

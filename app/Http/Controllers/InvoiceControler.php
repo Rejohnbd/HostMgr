@@ -12,8 +12,6 @@ use Validator;
 
 class InvoiceControler extends Controller
 {
-
-
     public function invoiceSerial()
     {
         $val = Invoice::select('invoice_serial')->latest()->first();

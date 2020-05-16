@@ -17,8 +17,14 @@
 ])
 @endcomponent
 
+{{-- Show Success Alert --}}
 @if(session('success'))
 @include('partials.success-alert')
+@endif
+
+{{-- Show Warning Alert --}}
+@if(session('warning'))
+@include('partials.warning-alert')
 @endif
 
 <div class="row">

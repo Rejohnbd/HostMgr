@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CheckCustomersCount;
+use App\Http\Middleware\CheckHostingPackageCount;
 use App\Http\Middleware\CheckServiceType;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -65,6 +66,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'CheckCustomersCount' => CheckCustomersCount::class,
         'CheckServiceType' => CheckServiceType::class,
+        'CheckHostingPackageCount' => CheckHostingPackageCount::class,
     ];
 
     /**

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Customer;
+use App\Models\Service;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -42,5 +43,10 @@ class User extends Authenticatable
     public function customers()
     {
         return $this->hasMany(Customer::class);
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
     }
 }

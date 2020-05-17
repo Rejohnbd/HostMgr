@@ -20,6 +20,9 @@ class CreateInvoiceItemsTable extends Migration
             $table->unsignedBigInteger('service_type_id')->comment('FR from table: service_types');
             $table->tinyInteger('invoice_item_for')->comment('new service/renew service/others');
             $table->text('invoice_item_details');
+            $table->integer('domain_fee')->unsigned()->default(0);
+            $table->integer('hosting_fee')->unsigned()->default(0);
+            $table->integer('others_fee')->unsigned()->default(0);
             $table->decimal('invoice_item_subtotal', 10, 2);
             $table->decimal('invoice_item_discount', 10, 2);
             $table->decimal('invoice_item_total', 10, 2);

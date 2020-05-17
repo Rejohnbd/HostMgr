@@ -38,38 +38,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($uncomplteInvoices as $uncomplteInvoice)
+                    {{-- @forelse($uncomplteInvoices as $uncomplteInvoice)
                     <tr>
                         <td>
                             @if($uncomplteInvoice->customer->customer_type === 'individual')
                             {{ $uncomplteInvoice->customer->customer_first_name }} {{ $uncomplteInvoice->customer->customer_last_name }}
-                            @endif
-                        </td>
-                        <td>{{ $uncomplteInvoice->service->domain_name }}</td>
-                        <td>
-                            @if($uncomplteInvoice->service->service_for == 1)
-                            <button class="btn btn-info btn-sm">{{ 'Domain and Hosting Both' }}</button>
-                            @endif
-                            @if($uncomplteInvoice->service->service_for == 2)
-                            <button class="btn btn-success btn-sm">{{ 'Only Hosting' }}</button>
-                            @endif
-                            @if($uncomplteInvoice->service->service_for == 3)
-                            <button class="btn btn-warning btn-sm">{{ 'Only Domain' }}</button>
-                            @endif
-                        </td>
-                        <td>{{ ucfirst($uncomplteInvoice->service_type) }}</td>
-                        <td>{{ $uncomplteInvoice->service_start_date }}</td>
-                        <td>
-                            <a href="{{ route('invoices.create', $uncomplteInvoice->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Crate Invoice">
-                                <i class="fas fa-file-alt"></i>
-                            </a>
-                        </td>
+                    @endif
+                    </td>
+                    <td>{{ $uncomplteInvoice->service->domain_name }}</td>
+                    <td>
+                        @if($uncomplteInvoice->service->service_for == 1)
+                        <button class="btn btn-info btn-sm">{{ 'Domain and Hosting Both' }}</button>
+                        @endif
+                        @if($uncomplteInvoice->service->service_for == 2)
+                        <button class="btn btn-success btn-sm">{{ 'Only Hosting' }}</button>
+                        @endif
+                        @if($uncomplteInvoice->service->service_for == 3)
+                        <button class="btn btn-warning btn-sm">{{ 'Only Domain' }}</button>
+                        @endif
+                    </td>
+                    <td>{{ ucfirst($uncomplteInvoice->service_type) }}</td>
+                    <td>{{ $uncomplteInvoice->service_start_date }}</td>
+                    <td>
+                        <a href="{{ route('invoices.create', $uncomplteInvoice->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Crate Invoice">
+                            <i class="fas fa-file-alt"></i>
+                        </a>
+                    </td>
                     </tr>
                     @empty
                     <tr>
                         <td colspan="6" class="text-center">No Uncomplate Invoice</td>
                     </tr>
-                    @endforelse
+                    @endforelse --}}
                 </tbody>
             </table>
         </div>

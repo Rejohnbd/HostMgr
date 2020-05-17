@@ -302,7 +302,7 @@ class ServicesController extends Controller
 
         endfor;
 
-        session()->flash('warning', 'Something Happend Wrong');
+        session()->flash('success', 'Service Create Successfully.');
         return redirect()->route('services.index');
         /*
         if ($request->service_for == 3) :

@@ -11,6 +11,7 @@
 'activePage' => 'Crate Invoice'
 ])
 @endcomponent
+
 <div class="row">
     <div class="col-xl-12 mb-4">
         <div class="card shadow mb-4">
@@ -20,38 +21,97 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
+                        @if($service->customer->customer_type === 'individual')
                         <ul class="list-group ">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @if($service->customer->customer_type === 'individual')
-                                Cutomer Name
+                                <strong class="text-primary">Cutomer Name</strong>
                                 <span>
                                     {{ $service->customer->customer_first_name }} {{ $service->customer->customer_last_name }}
                                 </span>
-                                @endif
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @if($service->customer->customer_type === 'individual')
-                                Cutomer Type
+                                <strong class="text-primary">Customer Email</strong>
                                 <span>
-                                    {{ $service->customer->customer_type }}
+                                    {{ $service->user->email }}
                                 </span>
-                                @endif
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @if($service->customer->customer_type === 'individual')
-                                Cutomer Type
+                                <strong class="text-primary">Address</strong>
                                 <span>
-                                    {{ $service->customer->customer_type }}
+                                    {{ $service->customer->customer_address }}
                                 </span>
-                                @endif
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong class="text-primary">Join Date</strong>
+                                <span>
+                                    {{ $service->customer->customer_join_date }}
+                                </span>
                             </li>
                         </ul>
+                        @endif
+                        @if($service->customer->customer_type === 'company')
+                        <ul class="list-group ">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong class="text-primary">Company Name</strong>
+                                <span>
+                                    {{ $service->customer->company_name }}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong class="text-primary">Company Email</strong>
+                                <span>
+                                    {{ $service->user->email }}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong class="text-primary">Company Details</strong>
+                                <span>
+                                    {{ $service->customer->company_details }}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong class="text-primary">Address</strong>
+                                <span>
+                                    {{ $service->customer->customer_address }}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong class="text-primary">Join Date</strong>
+                                <span>
+                                    {{ $service->customer->customer_join_date }}
+                                </span>
+                            </li>
+                        </ul>
+                        @endif
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <ul class="list-group ">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Name <span>Value</span>
+                                <strong class="text-primary">Service For </strong>
+                                <span>{{ ucfirst($service->serviceLogs->first()->service_log_for)}} Service</span>
                             </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong class="text-primary">Service Types </strong>
+                                <div class="d-flex justify-content-end">
+                                    @foreach($service->serviceItems as $serviceItem)
+                                    @if($serviceItem->service_type_id === 1)
+                                    <span class="badge badge-success m-1">{{ 'Domain' }}</span>
+                                    @endif
+                                    @if($serviceItem->service_type_id === 2)
+                                    <span class="badge badge-primary m-1">{{ 'Hosting' }}</span>
+                                    @endif
+                                    @if($serviceItem->service_type_id === 3)
+                                    <span class="badge badge-warning m-1">{{ 'Others' }}</span>
+                                    @endif
+                                    @endforeach
+                                </div>
+                            </li>
+                            @if($service->serviceItems->first()->item_details)
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong class="text-primary">Service Item Details </strong>
+                                <span>{{ ucfirst($service->serviceItems->first()->item_details)}} </span>
+                            </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -67,7 +127,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Crate Invoice </h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('invoices.store', ['custId' => $service->customer->id, 'serId' => $service->service->id, 'logId' => $service->id]) }}" method="POST">
+                <form action="{{ route('invoices.store', ['userId' => $service->user->id, 'serId' => $service->id]) }}" method="POST">
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-6 required">
@@ -91,6 +151,39 @@
                             @enderror
                         </div>
                     </div>
+
+                    @foreach($service->serviceItems as $serviceItem)
+                    @if($serviceItem->service_type_id === 1)
+                    <div class="form-group  required">
+                        <label for="domainFee" class="col-form-label text-right text-gray-900">Domain Fee</label>
+                        <input type="number" name="domain_fee" class="form-control @error('domain_fee') is-invalid @enderror" id="domainFee" placeholder="Domain Fee" value="{{ old('domain_fee') }}" required>
+                        <input type="hidden" name="service_type_id[]" value="{{$serviceItem->service_type_id}}" />
+                        @error('domain_fee')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    @endif
+                    @if($serviceItem->service_type_id === 2)
+                    <div class="form-group  required">
+                        <label for="hostingFee" class="col-form-label text-right text-gray-900">Hosting Fee</label>
+                        <input type="number" name="hosting_fee" class="form-control @error('hosting_fee') is-invalid @enderror" id="hostingFee" placeholder="Hosting Fee" value="{{ old('hosting_fee') }}" required>
+                        <input type="hidden" name="service_type_id[]" value="{{$serviceItem->service_type_id}}" />
+                        @error('hosting_fee')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    @endif
+                    @if($serviceItem->service_type_id === 3)
+                    <div class="form-group  required">
+                        <label for="otherFee" class="col-form-label text-right text-gray-900">Others Fee</label>
+                        <input type="number" name="others_fee" class="form-control @error('others_fee') is-invalid @enderror" id="otherFee" placeholder="Others Fee" value="{{ old('others_fee') }}" required>
+                        <input type="hidden" name="service_type_id[]" value="{{$serviceItem->service_type_id}}" />
+                        @error('others_fee')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    @endif
+                    @endforeach
 
                     <div class="form-row">
                         <div class="form-group col-md-6 required">
@@ -200,6 +293,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('scripts')
@@ -233,4 +327,22 @@
         });
     });
 </script>
+
+@if($errors->has('bkash_mobile_number') || $errors->has('bkash_transaction_no'))
+<script>
+    $(document).ready(function() {
+        $('#paymentType').val("bkash");
+        $('.bkash-info').show();
+    });
+</script>
+@endif
+
+@if($errors->has('bank_name') || $errors->has('bank_account_number'))
+<script>
+    $(document).ready(function() {
+        $('#paymentType').val("bank");
+        $('.bank-info').show();
+    });
+</script>
+@endif
 @endsection

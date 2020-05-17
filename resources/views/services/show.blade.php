@@ -96,8 +96,8 @@
                             <a href="{{ route('customers.show', $service->customer->id) }}" class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Customer Details">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="#" class="btn btn-info btn-circle">
-                                <i class="fas fa-edit"></i>
+                            <a href="{{ route('invoices.create', $service->id) }}" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Create Invoice">
+                                <i class="fas fa-file-signature"></i>
                             </a>
                             <a href="#" class="btn btn-success btn-circle ">
                                 <i class="fas fa-thumbs-up"></i>
@@ -137,7 +137,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Service Items</th>
+                                        <th scope="row">Service Item Details</th>
                                         <td>
                                             {{ $service->serviceItems->first()->item_details }}
                                         </td>
@@ -266,4 +266,5 @@
             </div>
         </div>
     </div>
-    @endsection
+</div>
+@endsection

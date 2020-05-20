@@ -8,15 +8,19 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <strong>Service For </strong>
+                        @foreach($service->serviceLogs as $serviceLog)
                         <span class="text-info">
-                            @if($service->service_for === 1)
-                            {{ 'Domain Hosting Both' }}
-                            @elseif($service->service_for === 2)
-                            {{ 'Only Hosting' }}
-                            @else
-                            {{ 'Only Domain' }}
+                            @if($serviceLog->service_type_id === 1)
+                            {{ 'Domain' }}
+                            @endif
+                            @if($serviceLog->service_type_id === 2)
+                            {{ 'Hosting' }}
+                            @endif
+                            @if($serviceLog->service_type_id === 3)
+                            {{ 'Others' }}
                             @endif
                         </span>
+                        @endforeach
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <strong>Domin Name </strong>
@@ -36,11 +40,11 @@
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <strong>Start Date</strong>
-                        <span class="text-info">{{ $service->service_start_date }}</span>
+                        <span class="text-info">{{ date('d/m/Y', strtotime($service->service_start_date)) }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <strong>Expire Date</strong>
-                        <span class="text-info">{{ $service->service_expire_date }}</span>
+                        <span class="text-info">{{ date('d/m/Y', strtotime($service->service_expire_date)) }}</span>
                     </li>
                 </ul>
             </div>

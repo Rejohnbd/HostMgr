@@ -54,9 +54,6 @@
                             <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Customer Details">
                                 <i class="fas fa-search-plus"></i>
                             </a>
-                            <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Customer Edit">
-                                <i class="far fa-edit"></i>
-                            </a>
                         </td>
                     </tr>
                     @empty

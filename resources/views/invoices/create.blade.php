@@ -6,8 +6,7 @@
 
 @component('partials.breadcrumb',[
 'title' => 'Create Invoice',
-'itemOne' => 'Unread Invoices',
-'itemOneUrl' => 'invoices',
+
 'activePage' => 'Crate Invoice'
 ])
 @endcomponent
@@ -154,76 +153,102 @@
 
                     @foreach($service->serviceItems as $serviceItem)
                     @if($serviceItem->service_type_id === 1)
-                    <div class="form-group  required">
-                        <label for="domainFee" class="col-form-label text-right text-gray-900">Domain Fee</label>
-                        <input type="number" name="domain_fee" class="form-control @error('domain_fee') is-invalid @enderror" id="domainFee" placeholder="Domain Fee" value="{{ old('domain_fee') }}" required>
-                        <input type="hidden" name="service_type_id[]" value="{{$serviceItem->service_type_id}}" />
-                        @error('domain_fee')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
+                    <div class="form-row">
+                        <div class="form-group col-md-4 required">
+                            <label for="domainSubTotal" class="col-form-label text-right text-gray-900">Domain Fee</label>
+                            <input type="number" name="domain_invoice_item_subtotal" class="form-control @error('domain_invoice_item_subtotal') is-invalid @enderror" id="domainSubTotal" placeholder="Domain Fee" value="{{ old('domain_invoice_item_subtotal') }}" required>
+                            @error('domain_invoice_item_subtotal')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-md-4 required">
+                            <label for="domainDiscount" class="col-form-label text-right text-gray-900">Domain Discount</label>
+                            <input type="number" name="domain_invoice_item_discount" class="form-control @error('domain_invoice_item_discount') is-invalid @enderror" id="domainDiscount" placeholder="Domain Discount" value="{{ old('domain_invoice_item_discount') }}" required>
+                            @error('domain_invoice_item_discount')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-md-4 required">
+                            <label for="domainNetAmount" class="col-form-label text-right text-gray-900">Net Amount</label>
+                            <input type="number" name="domain_invoice_item_total" class="form-control @error('domain_invoice_item_total') is-invalid @enderror" id="domainNetAmount" placeholder="Net Amount" value="{{ old('domain_invoice_item_total') }}" required>
+                            @error('domain_invoice_item_total')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <input type="hidden" name="service_type_id[]" value="{{$serviceItem->service_type_id}}">
                     </div>
                     @endif
                     @if($serviceItem->service_type_id === 2)
-                    <div class="form-group  required">
-                        <label for="hostingFee" class="col-form-label text-right text-gray-900">Hosting Fee</label>
-                        <input type="number" name="hosting_fee" class="form-control @error('hosting_fee') is-invalid @enderror" id="hostingFee" placeholder="Hosting Fee" value="{{ old('hosting_fee') }}" required>
-                        <input type="hidden" name="service_type_id[]" value="{{$serviceItem->service_type_id}}" />
-                        @error('hosting_fee')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
+                    <div class="form-row">
+                        <div class="form-group col-md-4 required">
+                            <label for="hostingSubTotal" class="col-form-label text-right text-gray-900">Hosting Fee</label>
+                            <input type="number" name="hosting_invoice_item_subtotal" class="form-control @error('hosting_invoice_item_subtotal') is-invalid @enderror" id="hostingSubTotal" placeholder="Hosting Fee" value="{{ old('hosting_invoice_item_subtotal') }}" required>
+                            @error('hosting_invoice_item_subtotal')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-md-4 required">
+                            <label for="hostingDiscount" class="col-form-label text-right text-gray-900">Hosting Discount</label>
+                            <input type="number" name="hosting_invoice_item_discount" class="form-control @error('hosting_invoice_item_discount') is-invalid @enderror" id="hostingDiscount" placeholder="Hosting Discount" value="{{ old('hosting_invoice_item_discount') }}" required>
+                            @error('hosting_invoice_item_discount')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-md-4 required">
+                            <label for="hostingNetAmount" class="col-form-label text-right text-gray-900">Net Amount</label>
+                            <input type="number" name="hosting_invoice_item_total" class="form-control @error('hosting_invoice_item_total') is-invalid @enderror" id="hostingNetAmount" placeholder="Net Amount" value="{{ old('hosting_invoice_item_total') }}" required>
+                            @error('hosting_invoice_item_total')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <input type="hidden" name="service_type_id[]" value="{{$serviceItem->service_type_id}}">
                     </div>
                     @endif
                     @if($serviceItem->service_type_id === 3)
-                    <div class="form-group  required">
-                        <label for="otherFee" class="col-form-label text-right text-gray-900">Others Fee</label>
-                        <input type="number" name="others_fee" class="form-control @error('others_fee') is-invalid @enderror" id="otherFee" placeholder="Others Fee" value="{{ old('others_fee') }}" required>
-                        <input type="hidden" name="service_type_id[]" value="{{$serviceItem->service_type_id}}" />
-                        @error('others_fee')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
+                    <div class="form-row">
+                        <div class="form-group col-md-4 required">
+                            <label for="othersSubTotal" class="col-form-label text-right text-gray-900">Others Fee</label>
+                            <input type="number" name="other_invoice_item_subtotal" class="form-control @error('other_invoice_item_subtotal') is-invalid @enderror" id="othersSubTotal" placeholder="Others Fee" value="{{ old('other_invoice_item_subtotal') }}" required>
+                            @error('other_invoice_item_subtotal')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-md-4 required">
+                            <label for="othersDiscount" class="col-form-label text-right text-gray-900">Others Discount</label>
+                            <input type="number" name="other_invoice_item_discount" class="form-control @error('other_invoice_item_discount') is-invalid @enderror" id="othersDiscount" placeholder="Others Discount" value="{{ old('other_invoice_item_discount') }}" required>
+                            @error('other_invoice_item_discount')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-md-4 required">
+                            <label for="othersNetAmount" class="col-form-label text-right text-gray-900">Net Amount</label>
+                            <input type="number" name="other_invoice_item_total" class="form-control @error('other_invoice_item_total') is-invalid @enderror" id="othersNetAmount" placeholder="Net Amount" value="{{ old('other_invoice_item_total') }}" required>
+                            @error('other_invoice_item_total')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <input type="hidden" name="service_type_id[]" value="{{$serviceItem->service_type_id}}">
                     </div>
                     @endif
                     @endforeach
 
-                    <div class="form-row">
-                        <div class="form-group col-md-6 required">
-                            <label for="subTotal" class="col-form-label text-right text-gray-900">Service Price</label>
-                            <input type="number" name="invoice_item_subtotal" class="form-control @error('invoice_item_subtotal') is-invalid @enderror" id="subTotal" placeholder="Service Price" value="{{ old('invoice_item_subtotal') }}" required>
-                            @error('invoice_item_subtotal')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <div class="form-group col-md-6 required">
-                            <label for="discount" class="col-form-label text-right text-gray-900">Service Discount</label>
-                            <input type="number" name="invoice_item_discount" class="form-control @error('invoice_item_discount') is-invalid @enderror" id="discount" placeholder="Service Discount" value="{{ old('invoice_item_discount') }}" required>
-                            @error('invoice_item_discount')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6 required">
-                            <label for="netAmount" class="col-form-label text-right text-gray-900">Service Amount</label>
-                            <input type="number" name="invoice_item_total" class="form-control @error('invoice_item_total') is-invalid @enderror" id="netAmount" placeholder="Service Amount" value="{{ old('invoice_item_total') }}" required>
-                            @error('invoice_item_total')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <div class="form-group col-md-6 required">
-                            <label for="paymentType" class="col-form-label text-right text-gray-900">Payment Type</label>
-                            <select name="payment_method" class="form-control  @error('payment_method') is-invalid @enderror" id="paymentType" required>
-                                <option value="">Select Payment Type</option>
-                                <option value="cash">Cash Payment</option>
-                                <option value="bkash">bKash Payment</option>
-                                <option value="bank">Bank Payment</option>
-                            </select>
-                            @error('payment_method')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="form-group required">
+                        <label for="paymentType" class="col-form-label text-right text-gray-900">Payment Type</label>
+                        <select name="payment_method" class="form-control  @error('payment_method') is-invalid @enderror" id="paymentType" required>
+                            <option value="">Select Payment Type</option>
+                            <option value="cash">Cash Payment</option>
+                            <option value="bkash">bKash Payment</option>
+                            <option value="bank">Bank Payment</option>
+                        </select>
+                        @error('payment_method')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="form-row bkash-info">

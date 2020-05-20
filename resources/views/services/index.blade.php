@@ -38,8 +38,7 @@
                         <th>Email</th>
                         <th>Service</th>
                         <th>Domain</th>
-                        <th>Start Date</th>
-                        <th>Expire Date</th>
+                        <th>Start to Expire Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -56,23 +55,24 @@
                         </td>
                         <td>{{ $service->customer->user->email }}</td>
                         <td>
-                            @if($service->service_for === 1)
-                            {{ 'Domain Hosting Both' }}
-                            @elseif($service->service_for === 2)
-                            {{ 'Only Hosting' }}
-                            @else
-                            {{ 'Only Domain' }}
+                            @foreach($service->serviceItems as $serviceItem)
+                            @if($serviceItem->service_type_id === 1)
+                            {{ ' Domain ' }}
                             @endif
+                            @if($serviceItem->service_type_id === 2)
+                            {{ ' Hosting ' }}
+                            @endif
+                            @if($serviceItem->service_type_id === 3)
+                            {{ ' Others ' }}
+                            @endif
+                            @endforeach
                         </td>
                         <td>{{ $service->domain_name }}</td>
-                        <td>{{ $service->service_start_date }}</td>
-                        <td>{{ $service->service_expire_date }}</td>
+                        <td>{{ date('d/m/Y', strtotime($service->service_start_date)) }} to {{ date('d/m/Y', strtotime($service->service_expire_date)) }}</td>
+
                         <td>
                             <a href="{{ route('services.show', $service->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Service Details">
                                 <i class="fas fa-search-plus"></i>
-                            </a>
-                            <a href="#" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Service Edit">
-                                <i class="far fa-edit"></i>
                             </a>
                         </td>
                     </tr>

@@ -25,14 +25,14 @@
   <div class="sidebar-heading">
     Services
   </div>
-  <li class="nav-item @if(Request::is('services*') || Request::is('service-types*')) active @endif">
+  <li class="nav-item @if(Request::is('services*') || Request::is('service-types*') || Request::is('invoices*')) active @endif">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseServices" aria-expanded="true" aria-controls="collapseServices">
       <i class="fas fa-archive"></i>
       <span>Services</span>
     </a>
-    <div id="collapseServices" class="collapse @if(Request::is('services*') || Request::is('service-types*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+    <div id="collapseServices" class="collapse @if(Request::is('services*') || Request::is('service-types*') || Request::is('invoices*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item  @if(Request::is('services*')) active @endif" href="{{ route('services.index') }}">All Services</a>
+        <a class="collapse-item  @if(Request::is('services*') || Request::is('invoices*')) active @endif" href="{{ route('services.index') }}">All Services</a>
         <a class="collapse-item @if(Request::is('service-types*')) active @endif" href="{{ route('service-types.index') }}">Service Type</a>
       </div>
     </div>
@@ -64,16 +64,4 @@
     </a>
   </li>
   <hr class="sidebar-divider">
-  <li class="nav-item @if(Request::is('invoices*')) active @endif">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInvoice" aria-expanded="true" aria-controls="collapseInvoice">
-      <i class="fas fa-archive"></i>
-      <span>Invoices</span>
-    </a>
-    <div id="collapseInvoice" class="collapse @if(Request::is('invoices*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item  @if(Request::is('invoices')) active @endif" href="{{ route('invoices') }}">Create Invoice</a>
-        <a class="collapse-item " href="#">Service Type</a>
-      </div>
-    </div>
-  </li>
 </ul>

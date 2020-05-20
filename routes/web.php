@@ -37,5 +37,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('hosting-packages', 'HostingPackageController');
     Route::get('invoices', 'InvoiceControler@index')->name('invoices');
     Route::get('invoices/{id}/create', 'InvoiceControler@create')->name('invoices.create');
-    Route::Post('invoices', 'InvoiceControler@store')->name('invoices.store');
+    Route::post('invoices', 'InvoiceControler@store')->name('invoices.store');
+    Route::get('invoices/{id}/download', 'InvoiceControler@generateInvoicePdf')->name('invoices.download');
 });

@@ -13,6 +13,17 @@
 ])
 @endcomponent
 
+
+@if(session('success'))
+@include('partials.success-alert')
+@endif
+
+{{-- Show Warning Alert --}}
+@if(session('warning'))
+@include('partials.warning-alert')
+@endif
+
+
 <div class="col-lg-12">
     <div class="card mb-4 ">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -76,7 +87,7 @@
                                 <tr>
                                     <th scope="row">Hosting Package</th>
                                     <td>
-                                        <a href="{{ route('hosting-packages.show', $service->hostingPackage->id) }}" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('hosting-packages.index') }}" class="btn btn-primary btn-sm">
                                             <span class="text">{{ $service->hostingPackage->name }}</span>
                                         </a>
                                     </td>
@@ -84,11 +95,11 @@
                                 @endif
                                 <tr>
                                     <th scope="row">Service Start Date</th>
-                                    <td>{{ $service->service_start_date }}</td>
+                                    <td>{{ date('d/m/Y', strtotime($service->service_start_date)) }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Service Expire Date</th>
-                                    <td>{{ $service->service_expire_date }}</td>
+                                    <td>{{ date('d/m/Y', strtotime($service->service_expire_date)) }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -96,9 +107,16 @@
                             <a href="{{ route('customers.show', $service->customer->id) }}" class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Customer Details">
                                 <i class="fas fa-eye"></i>
                             </a>
+                            @if($service->invoice_status === 0)
                             <a href="{{ route('invoices.create', $service->id) }}" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Create Invoice">
                                 <i class="fas fa-file-signature"></i>
                             </a>
+                            @endif
+                            @if($service->invoice_status === 1)
+                            <a href="{{ route('invoices.download', $service->id) }}" target="_blank" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Downlad Invoice">
+                                <i class="fas fa-file-download"></i>
+                            </a>
+                            @endif
                             <a href="#" class="btn btn-success btn-circle ">
                                 <i class="fas fa-thumbs-up"></i>
                             </a>
@@ -122,17 +140,15 @@
                                         <th scope="row">Service Type</th>
                                         <td>
                                             @foreach($service->serviceItems as $serviceItem)
-                                            <button class="btn btn-info btn-sm">
-                                                @if($serviceItem->service_type_id === 1)
-                                                {{ 'Domain' }}
-                                                @endif
-                                                @if($serviceItem->service_type_id === 2)
-                                                {{ 'Hosting' }}
-                                                @endif
-                                                @if($serviceItem->service_type_id === 3)
-                                                {{ 'Others' }}
-                                                @endif
-                                            </button>
+                                            @if($serviceItem->service_type_id === 1)
+                                            <button class="btn btn-info btn-sm">{{ 'Domain' }}</button>
+                                            @endif
+                                            @if($serviceItem->service_type_id === 2)
+                                            <button class="btn btn-primary btn-sm">{{ 'Hosting' }}</button>
+                                            @endif
+                                            @if($serviceItem->service_type_id === 3)
+                                            <button class="btn btn-warning btn-sm">{{ 'Others' }}</button>
+                                            @endif
                                             @endforeach
                                         </td>
                                     </tr>
@@ -177,7 +193,6 @@
                                 <th scope="row">Email Qty</th>
                                 <td>{{ $service->hosting_emails_qty }}</td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -226,7 +241,6 @@
                             <th>Start Date</th>
                             <th>Expire Date</th>
                             <th>Invoice</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -244,20 +258,15 @@
                                 {{ 'Others' }}
                                 @endif
                             </td>
-                            <td>{{ $serviceLog->service_start_date }}</td>
-                            <td>{{ $serviceLog->service_expire_date }}</td>
+                            <td>{{ date('d/m/Y', strtotime($serviceLog->service_start_date)) }}</td>
+                            <td>{{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }}</td>
                             <td>
-                                @if($serviceLog->invoice_status === 0)
+                                @if($service->invoice_status === 0)
                                 Invoice Not Ready
                                 @endif
-                                @if($serviceLog->invoice_status === 1)
+                                @if($service->invoice_status === 1)
                                 Invoice Ready
                                 @endif
-                            </td>
-                            <td>
-                                <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reseller Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
                             </td>
                         </tr>
                         @endforeach

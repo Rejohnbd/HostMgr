@@ -48,7 +48,7 @@
                 </tr>
                 <tr>
                     <th scope="row">Join Date</th>
-                    <td>{{ $customer->customer_join_date }}</td>
+                    <td>{{ date('d/m/Y', strtotime($customer->customer_join_date)) }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Join Year</th>

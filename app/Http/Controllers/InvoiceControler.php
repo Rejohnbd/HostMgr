@@ -11,6 +11,7 @@ use App\Models\ServiceLog;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
+use PDF;
 
 class InvoiceControler extends Controller
 {
@@ -46,9 +47,6 @@ class InvoiceControler extends Controller
     {
         $attributeNames['invoice_year']             = 'Invoice Year';
         $attributeNames['invoice_item_for']         = 'Invoice For';
-        $attributeNames['invoice_item_subtotal']    = 'Service Price';
-        $attributeNames['invoice_item_discount']    = 'Service Discount';
-        $attributeNames['invoice_item_total']       = 'Service Amount';
         $attributeNames['payment_method']           = 'Payment Type';
         $attributeNames['invoice_item_details']     = 'Payment Details';
         $attributeNames['payment_date']             = 'Payment Date';
@@ -59,9 +57,6 @@ class InvoiceControler extends Controller
     {
         $rules['invoice_year']              = 'required|string';
         $rules['invoice_item_for']          = 'required';
-        $rules['invoice_item_subtotal']     = 'required|integer|gt:0';
-        $rules['invoice_item_total']        = 'required|integer|gt:0';
-        $rules['invoice_item_discount']     = 'required|integer|gt:-1';
         $rules['payment_method']            = 'required';
         $rules['invoice_item_details']      = 'required|string';
         $rules['payment_date']              = 'required|date';
@@ -77,7 +72,8 @@ class InvoiceControler extends Controller
 
     public function index()
     {
-        $invoice = Service::all();
+        // $invoices = Service::where('invoice_status', '=', 0)->get();
+        // dd($invoices);
         return view('invoices.index');
     }
 
@@ -96,42 +92,79 @@ class InvoiceControler extends Controller
         User::findOrFail($userId);
         Service::findOrFail($serviceId);
 
-        /*
-        SIR PLEASE CHECK THE VALIDATION
-        if ($request->domain_fee || $request->domain_fee == null) :
-            $attributeNames['domain_fee']   = 'Domain Fee';
-            $rules['domain_fee']            = 'required|integer|gt:0';
-            $this->checkValidity($request, $rules, $attributeNames);
-        endif;
-
-        if ($request->hosting_fee || $request->hosting_fee == null) :
-            $attributeNames['hosting_fee']  = 'Hosting Fee';
-            $rules['hosting_fee']           = 'required|integer|gt:0';
-            $this->checkValidity($request, $rules, $attributeNames);
-        endif;
-
-        if ($request->other_fee || $request->others_fee == null) :
-            $attributeNames['others_fee']   = 'Others Fee';
-            $rules['others_fee']            = 'required|integer|gt:0';
-            $this->checkValidity($request, $rules, $attributeNames);
-        endif;*/
-
         $attributeNames = $this->attributesForAll();
         $rules = $this->rulesForAll();
         $this->checkValidity($request, $rules, $attributeNames);
 
-        // dd($request->all());
+        $invGrossTotal = 0;
+        $invDiscount = 0;
+        $invTotal = 0;
+        for ($i = 0; $i < count($request->service_type_id); $i++) :
+            if ($request->service_type_id[$i] === '1') :
+                $attributeNames['domain_invoice_item_subtotal']    = 'Domain Fee';
+                $attributeNames['domain_invoice_item_discount']    = 'Domain Discount';
+                $attributeNames['domain_invoice_item_total']       = 'Net Amount';
+
+                $rules['domain_invoice_item_subtotal']     = 'required|integer|gt:0';
+                $rules['domain_invoice_item_discount']     = 'required|integer|gt:-1';
+                $rules['domain_invoice_item_total']        = 'required|integer|gt:0';
+
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->validate();
+
+                $invGrossTotal  = $invGrossTotal + $request->domain_invoice_item_subtotal;
+                $invDiscount    = $invDiscount + $request->domain_invoice_item_discount;
+                $invTotal       = $invTotal + $request->domain_invoice_item_total;
+            endif;
+            if ($request->service_type_id[$i] === '2') :
+                $attributeNames['hosting_invoice_item_subtotal']    = 'Hosting Fee';
+                $attributeNames['hosting_invoice_item_discount']    = 'Hosting Discount';
+                $attributeNames['hosting_invoice_item_total']       = 'Net Amount';
+
+                $rules['hosting_invoice_item_subtotal']     = 'required|integer|gt:0';
+                $rules['hosting_invoice_item_discount']     = 'required|integer|gt:-1';
+                $rules['hosting_invoice_item_total']        = 'required|integer|gt:0';
+
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->validate();
+
+                $invGrossTotal  = $invGrossTotal + $request->hosting_invoice_item_subtotal;
+                $invDiscount    = $invDiscount + $request->hosting_invoice_item_discount;
+                $invTotal       = $invTotal + $request->hosting_invoice_item_total;
+            endif;
+            if ($request->service_type_id[$i] === '3') :
+                $attributeNames['other_invoice_item_subtotal']      = 'Others Fee';
+                $attributeNames['other_invoice_item_discount']      = 'Others Discount';
+                $attributeNames['other_invoice_item_total']         = 'Net Amount';
+
+                $rules['other_invoice_item_subtotal']       = 'required|integer|gt:0';
+                $rules['other_invoice_item_discount']       = 'required|integer|gt:-1';
+                $rules['other_invoice_item_total']          = 'required|integer|gt:0';
+
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->validate();
+
+                $invGrossTotal  = $invGrossTotal + $request->other_invoice_item_subtotal;
+                $invDiscount    = $invDiscount + $request->other_invoice_item_discount;
+                $invTotal       = $invTotal + $request->other_invoice_item_total;
+            endif;
+        endfor;
+
+
         $invoiceSerial = $this->invoiceSerial();
         $invoiceNumber = $this->invoiceNumber();
-        // dd($request->all());
+
         $invoiceData['user_id']             = $userId;
         $invoiceData['service_id']          = $serviceId;
         $invoiceData['invoice_year']        = $request->invoice_year;
         $invoiceData['invoice_serial']      = $invoiceSerial;
         $invoiceData['invoice_number']      = $invoiceNumber;
-        $invoiceData['invoice_gross_total'] = $request->invoice_item_subtotal;
-        $invoiceData['invoice_discount']    = $request->invoice_item_discount;
-        $invoiceData['invoice_total']       = $request->invoice_item_total;
+        $invoiceData['invoice_gross_total'] = $invGrossTotal;
+        $invoiceData['invoice_discount']    = $invDiscount;
+        $invoiceData['invoice_total']       = $invTotal;
         $invoiceData['payment_method']      = $request->payment_method;
         $invoiceData['payment_date']        = $request->payment_date;
         $invoiceData['created_by']          = auth()->user()->id;
@@ -139,10 +172,6 @@ class InvoiceControler extends Controller
         $invoiceItemData['invoice_number']          = $invoiceNumber;
         $invoiceItemData['invoice_item_for']        = $request->invoice_item_for;
         $invoiceItemData['invoice_item_details']    = $request->invoice_item_details;
-        $invoiceItemData['invoice_item_subtotal']   = $request->invoice_item_subtotal;
-        $invoiceItemData['invoice_item_discount']   = $request->invoice_item_discount;
-        $invoiceItemData['invoice_item_total']      = $request->invoice_item_total;
-
 
         if ($request->payment_method === 'cash') :
             $newInvoice = Invoice::create($invoiceData);
@@ -150,31 +179,32 @@ class InvoiceControler extends Controller
 
             for ($i = 0; $i < count($request->service_type_id); $i++) :
                 if ($request->service_type_id[$i] === '1') :
-                    $invoiceItemData['domain_fee']  = $request->domain_fee;
-                    $invoiceItemData['hosting_fee'] = 0;
-                    $invoiceItemData['others_fee']  = 0;
                     $invoiceItemData['service_type_id']  = 1;
+                    $invoiceItemData['invoice_item_subtotal']   = $request->domain_invoice_item_subtotal;
+                    $invoiceItemData['invoice_item_discount']   = $request->domain_invoice_item_discount;
+                    $invoiceItemData['invoice_item_total']      = $request->domain_invoice_item_total;
                     InvoiceItem::create($invoiceItemData);
                 endif;
                 if ($request->service_type_id[$i] === '2') :
-                    $invoiceItemData['domain_fee']  = 0;
-                    $invoiceItemData['hosting_fee'] = $request->hosting_fee;
-                    $invoiceItemData['others_fee']  = 0;
                     $invoiceItemData['service_type_id']  = 2;
+                    $invoiceItemData['invoice_item_subtotal']   = $request->hosting_invoice_item_subtotal;
+                    $invoiceItemData['invoice_item_discount']   = $request->hosting_invoice_item_discount;
+                    $invoiceItemData['invoice_item_total']      = $request->hosting_invoice_item_total;
                     InvoiceItem::create($invoiceItemData);
                 endif;
                 if ($request->service_type_id[$i] === '3') :
-                    $invoiceItemData['domain_fee']  = 0;
-                    $invoiceItemData['hosting_fee'] = 0;
-                    $invoiceItemData['others_fee']  = $request->others_fee;
                     $invoiceItemData['service_type_id']  = 3;
+                    $invoiceItemData['invoice_item_subtotal']   = $request->other_invoice_item_subtotal;
+                    $invoiceItemData['invoice_item_discount']   = $request->other_invoice_item_discount;
+                    $invoiceItemData['invoice_item_total']      = $request->other_invoice_item_total;
                     InvoiceItem::create($invoiceItemData);
                 endif;
             endfor;
 
             Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
+
             session()->flash('success', 'Invoice Create Successfully');
-            return redirect()->route('invoices');
+            return redirect()->route('services.show', $serviceId);
         endif;
 
         if ($request->payment_method === 'bkash') :
@@ -195,31 +225,31 @@ class InvoiceControler extends Controller
 
             for ($i = 0; $i < count($request->service_type_id); $i++) :
                 if ($request->service_type_id[$i] === '1') :
-                    $invoiceItemData['domain_fee']  = $request->domain_fee;
-                    $invoiceItemData['hosting_fee'] = 0;
-                    $invoiceItemData['others_fee']  = 0;
                     $invoiceItemData['service_type_id']  = 1;
+                    $invoiceItemData['invoice_item_subtotal']   = $request->domain_invoice_item_subtotal;
+                    $invoiceItemData['invoice_item_discount']   = $request->domain_invoice_item_discount;
+                    $invoiceItemData['invoice_item_total']      = $request->domain_invoice_item_total;
                     InvoiceItem::create($invoiceItemData);
                 endif;
                 if ($request->service_type_id[$i] === '2') :
-                    $invoiceItemData['domain_fee']  = 0;
-                    $invoiceItemData['hosting_fee'] = $request->hosting_fee;
-                    $invoiceItemData['others_fee']  = 0;
                     $invoiceItemData['service_type_id']  = 2;
+                    $invoiceItemData['invoice_item_subtotal']   = $request->hosting_invoice_item_subtotal;
+                    $invoiceItemData['invoice_item_discount']   = $request->hosting_invoice_item_discount;
+                    $invoiceItemData['invoice_item_total']      = $request->hosting_invoice_item_total;
                     InvoiceItem::create($invoiceItemData);
                 endif;
                 if ($request->service_type_id[$i] === '3') :
-                    $invoiceItemData['domain_fee']  = 0;
-                    $invoiceItemData['hosting_fee'] = 0;
-                    $invoiceItemData['others_fee']  = $request->others_fee;
                     $invoiceItemData['service_type_id']  = 3;
+                    $invoiceItemData['invoice_item_subtotal']   = $request->other_invoice_item_subtotal;
+                    $invoiceItemData['invoice_item_discount']   = $request->other_invoice_item_discount;
+                    $invoiceItemData['invoice_item_total']      = $request->other_invoice_item_total;
                     InvoiceItem::create($invoiceItemData);
                 endif;
             endfor;
 
             Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
             session()->flash('success', 'Invoice Create Successfully');
-            return redirect()->route('invoices');
+            return redirect()->route('services.show', $serviceId);
         endif;
 
         if ($request->payment_method === 'bank') :
@@ -244,35 +274,58 @@ class InvoiceControler extends Controller
 
             for ($i = 0; $i < count($request->service_type_id); $i++) :
                 if ($request->service_type_id[$i] === '1') :
-                    $invoiceItemData['domain_fee']  = $request->domain_fee;
-                    $invoiceItemData['hosting_fee'] = 0;
-                    $invoiceItemData['others_fee']  = 0;
                     $invoiceItemData['service_type_id']  = 1;
+                    $invoiceItemData['invoice_item_subtotal']   = $request->domain_invoice_item_subtotal;
+                    $invoiceItemData['invoice_item_discount']   = $request->domain_invoice_item_discount;
+                    $invoiceItemData['invoice_item_total']      = $request->domain_invoice_item_total;
                     InvoiceItem::create($invoiceItemData);
                 endif;
                 if ($request->service_type_id[$i] === '2') :
-                    $invoiceItemData['domain_fee']  = 0;
-                    $invoiceItemData['hosting_fee'] = $request->hosting_fee;
-                    $invoiceItemData['others_fee']  = 0;
                     $invoiceItemData['service_type_id']  = 2;
+                    $invoiceItemData['invoice_item_subtotal']   = $request->hosting_invoice_item_subtotal;
+                    $invoiceItemData['invoice_item_discount']   = $request->hosting_invoice_item_discount;
+                    $invoiceItemData['invoice_item_total']      = $request->hosting_invoice_item_total;
                     InvoiceItem::create($invoiceItemData);
                 endif;
                 if ($request->service_type_id[$i] === '3') :
-                    $invoiceItemData['domain_fee']  = 0;
-                    $invoiceItemData['hosting_fee'] = 0;
-                    $invoiceItemData['others_fee']  = $request->others_fee;
                     $invoiceItemData['service_type_id']  = 3;
+                    $invoiceItemData['invoice_item_subtotal']   = $request->other_invoice_item_subtotal;
+                    $invoiceItemData['invoice_item_discount']   = $request->other_invoice_item_discount;
+                    $invoiceItemData['invoice_item_total']      = $request->other_invoice_item_total;
                     InvoiceItem::create($invoiceItemData);
                 endif;
             endfor;
 
             Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
             session()->flash('success', 'Invoice Create Successfully');
-            return redirect()->route('invoices');
-
+            return redirect()->route('services.show', $serviceId);
         endif;
 
         session()->flash('warning', 'Something Happend Wrong');
-        return redirect()->route('invoices');
+        return redirect()->route('services.show', $serviceId);
+    }
+
+    public function generateInvoicePdf($id)
+    {
+        $service = Service::findOrFail($id);
+        $customer = Customer::where('id', '=', $service->customer_id)->first();
+        $user = User::select('email', 'mobile')->where('id', '=', $customer->user_id)->first();
+        $invoice = Invoice::where('service_id', '=', $service->id)->first();
+
+        $invoiceItems = InvoiceItem::where('invoice_id', '=', $invoice->id)->get();
+        // dd($invoiceItems);
+
+        $pdf = PDF::loadView('invoices.invoice', [
+            'service' => $service,
+            'customer' => $customer,
+            'user' => $user,
+            'invoice' => $invoice,
+            'invoiceItems' => $invoiceItems
+        ]);
+        $pdf->setPaper('A4');
+        // return view('invoices.invoice')
+
+        return $pdf->stream('invoice.pdf');
+        // return $pdf->download('invoice.pdf');
     }
 }

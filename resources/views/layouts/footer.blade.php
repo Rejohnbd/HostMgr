@@ -38,7 +38,7 @@
 <script>
   $(document).ready(function() {
     $("#resellerRenewDate").datepicker({
-      format: "yyyy-mm-dd",
+      format: "dd-mm-yyyy",
       todayHighlight: true,
     });
   });

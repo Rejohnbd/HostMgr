@@ -20,7 +20,7 @@ class HostigResellerRenewController extends Controller
         $attributeNames['hosting_reseller_renew_for']    = 'Hosting Reseller Renew Month';
         $attributeNames['hosting_reseller_renew_amount'] = 'Hosting Reseller Renew Amount';
 
-        $rules['hosting_reseller_renew_date']    = 'required:date';
+        $rules['hosting_reseller_renew_date']    = 'required|date_format:d-m-Y';
         $rules['hosting_reseller_renew_for']     = 'required|integer|gt:0|lte:12';
         $rules['hosting_reseller_renew_amount']  = 'required|integer|gt:0';
 
@@ -30,7 +30,13 @@ class HostigResellerRenewController extends Controller
 
         $reseller = HostingReseller::where('id', '=', $request->hosting_reseller_id)->first();
         if ($reseller) :
-            HostingResellerRenewLog::create($request->all());
+
+            $data['hosting_reseller_id']             =  $request->hosting_reseller_id;
+            $data['hosting_reseller_renew_date']     =  date('Y-m-d', strtotime($request->hosting_reseller_renew_date));
+            $data['hosting_reseller_renew_for']      =  $request->hosting_reseller_renew_for;
+            $data['hosting_reseller_renew_amount']   =  $request->hosting_reseller_renew_amount;
+
+            HostingResellerRenewLog::create($data);
             session()->flash('success', 'Hosting Reseller Renew Successfully');
             return redirect()->route('hosting-resellers.show', $request->hosting_reseller_id);
         endif;

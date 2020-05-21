@@ -53,7 +53,7 @@ class CustomerController extends Controller
         $rules['customer_address']      = 'required|string';
         $rules['email']                 = 'required|email|unique:users';
         $rules['password']              = 'required';
-        $rules['customer_join_date']    = 'required|date';
+        $rules['customer_join_date']    = 'required|date_format:d-m-Y';
         $rules['customer_join_year']    = 'required|integer';
 
         return $rules;
@@ -71,7 +71,7 @@ class CustomerController extends Controller
             'customer_type'         => $request->customer_type,
             'customer_gender'       => $request->customer_gender,
             'customer_address'      => $request->customer_address,
-            'customer_join_date'    => $request->customer_join_date,
+            'customer_join_date'    => date('Y-m-d', strtotime($request->customer_join_date)),
             'customer_join_year'    => $request->customer_join_year,
             'customer_reference'    => $request->customer_reference,
             'created_by'            => auth()->user()->id,
@@ -109,7 +109,7 @@ class CustomerController extends Controller
         $rules['company_name']          = 'required|string';
         $rules['email']                 = 'required|email|unique:users';
         $rules['password']              = 'required';
-        $rules['customer_join_date']    = 'required|date';
+        $rules['customer_join_date']    = 'required|date_format:d-m-Y';
         $rules['customer_join_year']    = 'required|integer';
         $rules['company_website']       = 'required|url';
         $rules['full_name']             = 'required';
@@ -137,7 +137,7 @@ class CustomerController extends Controller
             'company_website'       => $request->company_website,
             'company_details'       => $request->company_details,
             'customer_address'      => $request->customer_address,
-            'customer_join_date'    => $request->customer_join_date,
+            'customer_join_date'    => date('Y-m-d', strtotime($request->customer_join_date)),
             'customer_join_year'    => $request->customer_join_year,
             'customer_reference'    => $request->customer_reference,
             'created_by'            => auth()->user()->id,

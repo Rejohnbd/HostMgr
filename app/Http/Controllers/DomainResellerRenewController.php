@@ -20,7 +20,7 @@ class DomainResellerRenewController extends Controller
         $attributeNames['domain_reseller_renew_for']    = 'Domain Reseller Renew Month';
         $attributeNames['domain_reseller_renew_amount'] = 'Domain Reseller Renew Amount';
 
-        $rules['domain_reseller_renew_date']    = 'required:date';
+        $rules['domain_reseller_renew_date']    = 'required|date_format:d-m-Y';
         $rules['domain_reseller_renew_for']     = 'required|integer|gt:0|lte:12';
         $rules['domain_reseller_renew_amount']  = 'required|integer|gt:0';
 
@@ -30,7 +30,13 @@ class DomainResellerRenewController extends Controller
 
         $reseller = DomainReseller::where('id', '=', $request->domain_reseller_id)->first();
         if ($reseller) :
-            DomainResellerRenewLog::create($request->all());
+
+            $data['domain_reseller_id']             =  $request->domain_reseller_id;
+            $data['domain_reseller_renew_date']     =  date('Y-m-d', strtotime($request->domain_reseller_renew_date));
+            $data['domain_reseller_renew_for']      =  $request->domain_reseller_renew_for;
+            $data['domain_reseller_renew_amount']   =  $request->domain_reseller_renew_amount;
+
+            DomainResellerRenewLog::create($data);
             session()->flash('success', 'Domain Reseller Renew Successfully');
             return redirect()->route('domain-resellers.show', $request->domain_reseller_id);
         endif;

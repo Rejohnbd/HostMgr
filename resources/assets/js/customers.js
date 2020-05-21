@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $("#custJoinDate").datepicker({
-        format: "yyyy-mm-dd",
+        format: "dd-mm-yyyy",
         todayHighlight: true,
     });
     $("#joinYear").datepicker({

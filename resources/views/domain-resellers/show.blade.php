@@ -74,7 +74,7 @@
                     <tbody>
                         <tr>
                             <th scope="row">Last Renew date</th>
-                            <td>{{ date('d-m-Y', strtotime($domainReseller->domainRenewLogs->last()->domain_reseller_renew_date)) }}</td>
+                            <td>{{ date('d/m/Y', strtotime($domainReseller->domainRenewLogs->last()->domain_reseller_renew_date)) }}</td>
                         </tr>
                         <tr>
                             <th scope="row">Last Renew Month</th>
@@ -83,7 +83,7 @@
                         <tr>
                             <th scope="row">Last Expire Date</th>
                             <td>
-                                {{ date('d-m-Y', $domainReseller->calculateExpireDate($domainReseller->domainRenewLogs->last()->domain_reseller_renew_date, $domainReseller->domainRenewLogs->last()->domain_reseller_renew_for))}}
+                                {{ date('d/m/Y', $domainReseller->calculateExpireDate($domainReseller->domainRenewLogs->last()->domain_reseller_renew_date, $domainReseller->domainRenewLogs->last()->domain_reseller_renew_for))}}
                             </td>
                         </tr>
                     </tbody>
@@ -117,11 +117,11 @@
                         <tr>
                             <td>{{ $domainReseller->name }}</td>
                             <td>
-                                {{ date('d-m-Y', strtotime($renewLog->domain_reseller_renew_date))}}
+                                {{ date('d/m/Y', strtotime($renewLog->domain_reseller_renew_date))}}
                             </td>
                             <td>{{ $renewLog->domain_reseller_renew_for }} Months</td>
                             <td>
-                                {{ date('d-m-Y', $domainReseller->calculateExpireDate($renewLog->domain_reseller_renew_date, $renewLog->domain_reseller_renew_for))}}
+                                {{ date('d/m/Y', $domainReseller->calculateExpireDate($renewLog->domain_reseller_renew_date, $renewLog->domain_reseller_renew_for))}}
                             </td>
                             <td>{{ $renewLog->domain_reseller_renew_amount }}</td>
                             <td>

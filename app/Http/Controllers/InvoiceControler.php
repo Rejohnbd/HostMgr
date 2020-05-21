@@ -59,7 +59,7 @@ class InvoiceControler extends Controller
         $rules['invoice_item_for']          = 'required';
         $rules['payment_method']            = 'required';
         $rules['invoice_item_details']      = 'required|string';
-        $rules['payment_date']              = 'required|date';
+        $rules['payment_date']              = 'required|date_format:d-m-Y';
         return $rules;
     }
 
@@ -166,7 +166,7 @@ class InvoiceControler extends Controller
         $invoiceData['invoice_discount']    = $invDiscount;
         $invoiceData['invoice_total']       = $invTotal;
         $invoiceData['payment_method']      = $request->payment_method;
-        $invoiceData['payment_date']        = $request->payment_date;
+        $invoiceData['payment_date']        = date('Y-m-d', strtotime($request->payment_date));
         $invoiceData['created_by']          = auth()->user()->id;
 
         $invoiceItemData['invoice_number']          = $invoiceNumber;

@@ -41,7 +41,7 @@
                         <td>{{ $reseller->website }}</td>
                         <td>
                             @if($reseller->domainRenewLogs->count() > 0)
-                            {{ date('d-m-Y', $reseller->calculateExpireDate($reseller->domainRenewLogs->last()->domain_reseller_renew_date, $reseller->domainRenewLogs->last()->domain_reseller_renew_for))}}
+                            {{ date('d/m/Y', $reseller->calculateExpireDate($reseller->domainRenewLogs->last()->domain_reseller_renew_date, $reseller->domainRenewLogs->last()->domain_reseller_renew_for))}}
                             @else
                             No Data Found
                             @endif

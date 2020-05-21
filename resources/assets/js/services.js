@@ -4,11 +4,11 @@ $(document).ready(function () {
     $("#domainReseller").select2();
     $("#hostingReseller").select2();
     $("#serviceStartDaty").datepicker({
-        format: "yyyy-mm-dd",
+        format: "dd-mm-yyyy",
         todayHighlight: true,
     });
     $("#serviceExpireDate").datepicker({
-        format: "yyyy-mm-dd",
+        format: "dd-mm-yyyy",
         todayHighlight: true,
     });
 

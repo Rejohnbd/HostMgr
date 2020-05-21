@@ -35,8 +35,8 @@ class ServicesController extends Controller
     {
         $rules['service_for']           = 'required';
         $rules['domain_name']           = 'required|string';
-        $rules['service_start_date']    = 'required|date';
-        $rules['service_expire_date']   = 'required|date';
+        $rules['service_start_date']    = 'required|date_format:d-m-Y';
+        $rules['service_expire_date']   = 'required|date_format:d-m-Y';
         return $rules;
     }
 
@@ -78,87 +78,6 @@ class ServicesController extends Controller
         $userId = DB::table('customers')->where('id', '=', $customerId)->pluck('user_id')->first();
         return $userId;
     }
-
-    /*
-     
-    protected function attributesForOnlyDomain()
-    {
-        $attributeNames['service_for']          = 'Service For';
-        $attributeNames['domain_name']          = 'Domain Name';
-        $attributeNames['domain_reseller_id']   = 'Domain Reseller Name';
-        $attributeNames['service_start_date']   = 'Service Start Date';
-        $attributeNames['service_expire_date']  = 'Service Expire Date';
-        return $attributeNames;
-    }
-
-    protected function rulesForOnlyDomain()
-    {
-        $rules['service_for']           = 'required|integer';
-        $rules['domain_name']           = 'required|string';
-        $rules['domain_reseller_id']    = 'required';
-        $rules['service_start_date']    = 'required|date';
-        $rules['service_expire_date']   = 'required|date';
-        return $rules;
-    }
-
-    protected function attributesForOnlyHosting()
-    {
-        $attributeNames['service_for']          = 'Service For';
-        $attributeNames['domain_name']          = 'Domain Name';
-        $attributeNames['hosting_reseller_id']  = 'Hosting Reseller Name';
-        $attributeNames['hosting_type']         = 'Hosting Type';
-        $attributeNames['service_start_date']   = 'Service Start Date';
-        $attributeNames['service_expire_date']  = 'Service Expire Date';
-        return $attributeNames;
-    }
-
-    protected function rulesForOnlyHosting()
-    {
-        $rules['service_for']           = 'required|integer';
-        $rules['domain_name']           = 'required|string';
-        $rules['hosting_reseller_id']   = 'required';
-        $rules['hosting_type']          = 'required';
-        $rules['service_start_date']    = 'required|date';
-        $rules['service_expire_date']   = 'required|date';
-        return $rules;
-    }
-
-    protected function attributesForPackageHosting()
-    {
-        $attributeNames['hosting_package_id']   = 'Hosting Package';
-        return $attributeNames;
-    }
-
-    protected function rulesForPackageHosting()
-    {
-        $rules['hosting_package_id'] = 'required';
-        return $rules;
-    }
-
-    protected function attributesForDomainHosting()
-    {
-        $attributeNames['service_for']          = 'Service For';
-        $attributeNames['domain_name']          = 'Domain Name';
-        $attributeNames['domain_reseller_id']   = 'Domain Reseller Name';
-        $attributeNames['hosting_reseller_id']  = 'Hosting Reseller Name';
-        $attributeNames['hosting_type']         = 'Hosting Type';
-        $attributeNames['service_start_date']   = 'Service Start Date';
-        $attributeNames['service_expire_date']  = 'Service Expire Date';
-        return $attributeNames;
-    }
-
-    protected function rulesForDomainHosting()
-    {
-        $rules['service_for']           = 'required|integer';
-        $rules['domain_name']           = 'required|string';
-        $rules['domain_reseller_id']    = 'required';
-        $rules['hosting_reseller_id']   = 'required';
-        $rules['hosting_type']          = 'required';
-        $rules['service_start_date']    = 'required|date';
-        $rules['service_expire_date']   = 'required|date';
-        return $rules;
-    }
-    */
 
     /**
      * Display a listing of the resource.
@@ -223,8 +142,8 @@ class ServicesController extends Controller
         $this->checkValidity($request, $rules, $attributeNames);
 
         $data['domain_name'] = $request->domain_name;
-        $data['service_start_date'] = $request->service_start_date;
-        $data['service_expire_date'] = $request->service_expire_date;
+        $data['service_start_date'] = date('Y-m-d', strtotime($request->service_start_date));
+        $data['service_expire_date'] = date('Y-m-d', strtotime($request->service_expire_date));
 
         $dataItem = array();
         for ($i = 1; $i <= count($request->service_types); $i++) :
@@ -304,149 +223,6 @@ class ServicesController extends Controller
 
         session()->flash('success', 'Service Create Successfully.');
         return redirect()->route('services.index');
-        /*
-        if ($request->service_for == 3) :
-            $attributeNames = $this->attributesForOnlyDomain();
-            $rules = $this->rulesForOnlyDomain();
-            $this->checkValidity($request, $rules, $attributeNames);
-
-            $data['service_for'] = $request->service_for;
-            $data['domain_name'] = $request->domain_name;
-            $data['domain_reseller_id'] = $request->domain_reseller_id;
-            $data['service_start_date'] = $request->service_start_date;
-            $data['service_expire_date'] = $request->service_expire_date;
-            $data['created_by'] = auth()->user()->id;
-            $service = Service::create($data);
-
-            $logData['customer_id']         = $data['customer_id'];
-            $logData['service_id']          = $service->id;
-            $logData['service_type']        = 'new';
-            $logData['service_start_date']  = $data['service_start_date'];
-            $logData['service_expire_date'] = $data['service_expire_date'];
-            ServiceLog::create($logData);
-
-            session()->flash('success', 'Customer Service Created Succeffully');
-            return redirect()->back();
-        endif;
-
-        if ($request->service_for == 2) :
-            $attributeNames = $this->attributesForOnlyHosting();
-            $rules = $this->rulesForOnlyHosting();
-            $this->checkValidity($request, $rules, $attributeNames);
-
-            $data['service_for']            = $request->service_for;
-            $data['domain_name']            = $request->domain_name;
-            $data['domain_reseller_id']     = $request->domain_reseller_id;
-            $data['hosting_reseller_id']    = $request->hosting_reseller_id;
-            $data['hosting_type']           = $request->hosting_type;
-            $data['service_start_date']     = $request->service_start_date;
-            $data['service_expire_date']    = $request->service_expire_date;
-
-            if ($request->hosting_type == 'package') :
-                $attributeNames = $this->attributesForPackageHosting();
-                $rules = $this->rulesForPackageHosting();
-                $this->checkValidity($request, $rules, $attributeNames);
-
-                $data['hosting_package_id']   = $request->hosting_package_id;
-                $data['created_by'] = auth()->user()->id;
-                $service = Service::create($data);
-
-                $logData['customer_id']         = $data['customer_id'];
-                $logData['service_id']          = $service->id;
-                $logData['service_type']        = 'new';
-                $logData['service_start_date']  = $data['service_start_date'];
-                $logData['service_expire_date'] = $data['service_expire_date'];
-                ServiceLog::create($logData);
-
-                session()->flash('success', 'Customer Service Created Succeffully');
-                return redirect()->back();
-            endif;
-
-            if ($request->hosting_type == 'custom') :
-
-                $data['hosting_space']              = $request->hosting_space;
-                $data['hosting_bandwidth']          = $request->hosting_bandwidth;
-                $data['hosting_db_qty']             = $request->hosting_db_qty;
-                $data['hosting_emails_qty']         = $request->hosting_emails_qty;
-                $data['hosting_subdomain_qty']      = $request->hosting_subdomain_qty;
-                $data['hosting_ftp_qty']            = $request->hosting_ftp_qty;
-                $data['hosting_park_domain_qty']    = $request->hosting_park_domain_qty;
-                $data['hosting_addon_domain_qty']   = $request->hosting_addon_domain_qty;
-                $data['created_by'] = auth()->user()->id;
-                $service = Service::create($data);
-
-                $logData['customer_id']         = $data['customer_id'];
-                $logData['service_id']          = $service->id;
-                $logData['service_type']        = 'new';
-                $logData['service_start_date']  = $data['service_start_date'];
-                $logData['service_expire_date'] = $data['service_expire_date'];
-                ServiceLog::create($logData);
-
-                session()->flash('success', 'Customer Service Created Succeffully');
-                return redirect()->back();
-            endif;
-        endif;
-
-        if ($request->service_for == 1) :
-            $attributeNames = $this->attributesForDomainHosting();
-            $rules = $this->rulesForDomainHosting();
-            $this->checkValidity($request, $rules, $attributeNames);
-
-            $data['service_for']            = $request->service_for;
-            $data['domain_name']            = $request->domain_name;
-            $data['domain_reseller_id']     = $request->domain_reseller_id;
-            $data['hosting_reseller_id']    = $request->hosting_reseller_id;
-            $data['hosting_type']           = $request->hosting_type;
-            $data['service_start_date']     = $request->service_start_date;
-            $data['service_expire_date']    = $request->service_expire_date;
-
-            if ($request->hosting_type == 'package') :
-                $attributeNames = $this->attributesForPackageHosting();
-                $rules = $this->rulesForPackageHosting();
-                $this->checkValidity($request, $rules, $attributeNames);
-
-                $data['hosting_package_id']   = $request->hosting_package_id;
-                $data['created_by'] = auth()->user()->id;
-                $service = Service::create($data);
-
-                $logData['customer_id']         = $data['customer_id'];
-                $logData['service_id']          = $service->id;
-                $logData['service_type']        = 'new';
-                $logData['service_start_date']  = $data['service_start_date'];
-                $logData['service_expire_date'] = $data['service_expire_date'];
-                ServiceLog::create($logData);
-
-                session()->flash('success', 'Customer Service Created Succeffully');
-                return redirect()->back();
-            endif;
-
-            if ($request->hosting_type == 'custom') :
-                $data['hosting_space']              = $request->hosting_space;
-                $data['hosting_bandwidth']          = $request->hosting_bandwidth;
-                $data['hosting_db_qty']             = $request->hosting_db_qty;
-                $data['hosting_emails_qty']         = $request->hosting_emails_qty;
-                $data['hosting_subdomain_qty']      = $request->hosting_subdomain_qty;
-                $data['hosting_ftp_qty']            = $request->hosting_ftp_qty;
-                $data['hosting_park_domain_qty']    = $request->hosting_park_domain_qty;
-                $data['hosting_addon_domain_qty']   = $request->hosting_addon_domain_qty;
-                $data['created_by']                 = auth()->user()->id;
-                $service = Service::create($data);
-
-                $logData['customer_id']         = $data['customer_id'];
-                $logData['service_id']          = $service->id;
-                $logData['service_type']        = 'new';
-                $logData['service_start_date']  = $data['service_start_date'];
-                $logData['service_expire_date'] = $data['service_expire_date'];
-                ServiceLog::create($logData);
-
-                session()->flash('success', 'Customer Service Created Succeffully');
-                return redirect()->back();
-            endif;
-        endif;
-
-        session()->flash('warning', 'Something Happend Wrong');
-        return redirect()->route('services.index');
-        */
     }
 
     /**

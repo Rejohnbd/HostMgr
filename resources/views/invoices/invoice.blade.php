@@ -175,6 +175,16 @@
             font-weight: bold;
         }
 
+        .customer-info {
+            margin-top: 10px;
+        }
+
+        .address,
+        .email {
+            font-size: 65% !important;
+            font-weight: normal !important;
+        }
+
         /* table meta & balance */
 
         table.meta,
@@ -265,16 +275,28 @@
         @page {
             margin: 0;
         }
+
+        footer {
+            position: fixed;
+            bottom: 50px;
+            width: 100%;
+        }
+
+        footer hr {
+            border: 0.55px solid #000;
+            margin-bottom: 5px;
+        }
+
+        footer>p {
+            font-size: 75%;
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
     <header>
         <h1>Invoice</h1>
-        <address>
-            <p>{{ $customer->customer_address }}</p>
-            <p>{{ $user->email }}</p>
-        </address>
         <img style="width: 200px; height: 60px" alt="Host Manager Invoice Logo" src="{{ asset('resources/assets/img/logo.png') }}">
     </header>
 
@@ -286,7 +308,12 @@
             @if($customer->customer_type === 'company')
             <p>{{ $customer->company_name }}</p>
             @endif
+            <div class="customer-info">
+                <p class="address">{{ $customer->customer_address }}</p>
+                <p class="email">{{ $user->email }}</p>
+            </div>
         </address>
+
         <table class="meta">
             <tr>
                 <th><span>Sl. No.</span></th>
@@ -318,9 +345,9 @@
                 <tr>
                     <th><span>Sl. No.</span></th>
                     <th><span>Service</span></th>
-                    <th><span>Fee</span></th>
-                    <th><span>Discount</span></th>
-                    <th><span>Price</span></th>
+                    <th><span>Fee (BDT)</span></th>
+                    <th><span>Discount (BDT)</span></th>
+                    <th><span>Price (BDT)</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -338,29 +365,32 @@
                         <span>{{ 'Others' }}</span>
                         @endif
                     </td>
-                    <td><span>Tk-</span><span> {{ $invoiceItem->invoice_item_subtotal }}</span></td>
-                    <td><span>Tk-</span><span> {{ $invoiceItem->invoice_item_discount }}</span></td>
-                    <td><span>Tk-</span><span> {{ $invoiceItem->invoice_item_total }}</span></td>
+                    <td><span> {{ $invoiceItem->invoice_item_subtotal }}</span></td>
+                    <td><span> {{ $invoiceItem->invoice_item_discount }}</span></td>
+                    <td><span> {{ $invoiceItem->invoice_item_total }}</span></td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
         <table class="balance">
             <tr>
-                <th><span>Gross Total</span></th>
-                <td><span>Tk-</span><span> {{ $invoice->invoice_gross_total }}</span></td>
+                <th><span>Total</span></th>
+                <td><span> {{ $invoice->invoice_gross_total }}</span></td>
             </tr>
             <tr>
                 <th><span>Discount</span></th>
-                <td><span>Tk-</span><span> {{ $invoice->invoice_discount }}</span></td>
+                <td><span> {{ $invoice->invoice_discount }}</span></td>
             </tr>
             <tr>
-                <th><span>Total</span></th>
-                <td><span>Tk-</span><span>{{ $invoice->invoice_total }}</span></td>
+                <th><span>Gross Total</span></th>
+                <td><span>{{ $invoice->invoice_total }}</span></td>
             </tr>
         </table>
     </article>
-
+    <footer>
+        <hr />
+        <p>This is Footer Text.</p>
+    </footer>
 </body>
 
 </html>

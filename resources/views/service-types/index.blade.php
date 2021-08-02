@@ -33,7 +33,7 @@
                                     <i class="fas fa-ellipsis-v fa-sm fa-fw"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="serviceTyes-{{ $serviceType->id }}" x-placement="bottom-end">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item" href="{{ route('service-types.edit', $serviceType->id) }}"><i class="fas fa-edit"></i> Edit</a>
                                     <a class="dropdown-item" href="#"><i class="fas fa-trash"></i> Delete</a>
                                 </div>
                             </div>

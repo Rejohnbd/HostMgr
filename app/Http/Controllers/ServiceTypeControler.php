@@ -68,9 +68,9 @@ class ServiceTypeControler extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ServiceType $serviceType)
     {
-        //
+        return view('service-types.create', compact('serviceType'));
     }
 
     /**
@@ -80,9 +80,22 @@ class ServiceTypeControler extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ServiceType $serviceType)
     {
-        //
+        $attributeNames['name'] = 'Service Type Name';
+        $attributeNames['details'] = 'Service Type Details';
+
+        $rules['name'] = 'required';
+        $rules['details'] = 'required';
+
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames($attributeNames);
+        $validator->validate();
+
+        $serviceType->update($request->all());
+        session()->flash('success', 'Service Type Update');
+
+        return redirect()->back();
     }
 
     /**

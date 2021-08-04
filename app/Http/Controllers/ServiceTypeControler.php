@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ServiceItem;
 use App\Models\ServiceType;
 use Illuminate\Http\Request;
 use Validator;
@@ -104,8 +105,22 @@ class ServiceTypeControler extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $serviceTypeInfo = ServiceType::find($request->id);
+        if ($serviceTypeInfo) :
+            $serviceInfo = ServiceItem::where('service_type_id', $serviceTypeInfo->id)->first();
+            if ($serviceInfo) :
+                session()->flash('warning', 'This Service Type Used by System. You can not delete this.');
+                return redirect()->back();
+            else :
+                ServiceType::where('id', $request->id)->delete();
+                session()->flash('success', 'Service Type Delete Successfully');
+                return redirect()->back();
+            endif;
+        else :
+            session()->flash('warning', 'Something Happend Wrong. Try Again.');
+            return redirect()->back();
+        endif;
     }
 }

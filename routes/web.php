@@ -24,13 +24,14 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('customers', 'CustomerController');
     Route::resource('services', 'ServicesController');
     Route::Resource('service-types', 'ServiceTypeControler');
+    Route::post('service-types-destroy', 'ServiceTypeControler@destroy')->name('service-types-destroy');
     Route::resource('domain-resellers', 'DomainResellerController');
-    Route::post('domain-resellers', 'DomainResellerController@destroy')->name('domain-resellers-destroy');
+    Route::post('domain-resellers-destroy', 'DomainResellerController@destroy')->name('domain-resellers-destroy');
     Route::get('domain-reseller/{id}/renew', 'DomainResellerRenewController@renew')->name('domain-reseller.renew');
     Route::post('domain-reseller/renew-store', 'DomainResellerRenewController@store')->name('domain-reseller.renew-store');
     Route::delete('domain-reseller', 'DomainResellerRenewController@destroy')->name('domain-reseller.destroy');
     Route::resource('hosting-resellers', 'HostingResellerController');
-    Route::post('hosting-resellers', 'HostingResellerController@destroy')->name('hosting-resellers-destroy');
+    Route::post('hosting-resellers-destroy', 'HostingResellerController@destroy')->name('hosting-resellers-destroy');
     Route::get('hosting-reseller/{id}/renew', 'HostigResellerRenewController@renew')->name('hosting-reseller.renew');
     Route::post('hosting-reseller/renew-store', 'HostigResellerRenewController@store')->name('hosting-reseller.renew-store');
     Route::delete('hosting-reseller', 'HostigResellerRenewController@destroy')->name('hosting-reseller.destroy');

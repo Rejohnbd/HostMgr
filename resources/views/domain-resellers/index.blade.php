@@ -79,13 +79,13 @@
     </div>
 </div>
 
-<form action="{{ route('domain-resellers-destroy') }}" method="POST" id="deleteForm">
+<form action="{{ route('hosting-resellers-destroy') }}" method="POST" id="deleteForm">
     @csrf
     <div class="modal fade" id="listDeleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModal">Delete Domain Resellers</h5>
+                    <h5 class="modal-title" id="deleteModal">Delete Hosting Resellers</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -93,7 +93,7 @@
                 <div class="modal-body">
                     <input type="hidden" id="id" name="id">
                     <p class="text-center text-bold">
-                        Are you Sure? You want to delete this Domain Resellers.
+                        Are you Sure? You want to delete this Hosting Resellers.
                     </p>
                 </div>
                 <div class="modal-footer">

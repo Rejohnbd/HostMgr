@@ -17,6 +17,16 @@
     </div>
 </div>
 
+{{-- Show Success Alert --}}
+@if(session('success'))
+@include('partials.success-alert')
+@endif
+
+{{-- Show Warning Alert --}}
+@if(session('warning'))
+@include('partials.warning-alert')
+@endif
+
 <div class="col-lg-12">
     <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -53,6 +63,9 @@
                             <a href="{{ route('domain-resellers.edit', $reseller->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Edit">
                                 <i class="far fa-edit"></i>
                             </a>
+                            <button class="btn btn-danger btn-sm btn-delete" data-id="{{ $reseller->id }}" data-toggle="tooltip" data-placement="top" title="Reseller Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
                     @empty
@@ -65,4 +78,42 @@
         </div>
     </div>
 </div>
+
+<form action="{{ route('domain-resellers-destroy') }}" method="POST" id="deleteForm">
+    @csrf
+    <div class="modal fade" id="listDeleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModal">Delete Domain Resellers</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="id" name="id">
+                    <p class="text-center text-bold">
+                        Are you Sure? You want to delete this Domain Resellers.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Go Back</button>
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $('.btn-delete').click(function() {
+            var dataId = $(this).data("id");
+            $('#listDeleteModal').modal('show');
+            $('#id').val(dataId);
+        })
+    })
+</script>
 @endsection

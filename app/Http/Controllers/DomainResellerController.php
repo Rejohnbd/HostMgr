@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DomainReseller;
 use App\Http\Requests\DomainResellerRequest;
 use App\Models\DomainResellerRenewLog;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -116,8 +117,22 @@ class DomainResellerController extends Controller
      * @param  \App\DomainReseller  $domainReseller
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DomainReseller $domainReseller)
+    public function destroy(Request $request)
     {
-        //
+        $dominResellerInfo = DomainReseller::find($request->id);
+        if ($dominResellerInfo) :
+            $serviceInfo = Service::where('domain_reseller_id', $dominResellerInfo->id)->first();
+            if ($serviceInfo) :
+                session()->flash('warning', 'This Domain Reseller Used by System. You can not delete this.');
+                return redirect()->back();
+            else :
+                DomainReseller::where('id', $request->id)->delete();
+                session()->flash('success', 'Domain Reseller Delete Successfully');
+                return redirect()->back();
+            endif;
+        else :
+            session()->flash('warning', 'Something Happend Wrong. Try Again.');
+            return redirect()->back();
+        endif;
     }
 }

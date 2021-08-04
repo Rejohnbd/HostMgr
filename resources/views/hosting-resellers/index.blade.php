@@ -11,6 +11,12 @@
 ])
 @endcomponent
 
+<div class="col-lg-12">
+    <div class="d-flex justify-content-start">
+        <a href="{{ route('hosting-resellers.create') }}" class="btn btn-info mb-2">Add Reseller</a>
+    </div>
+</div>
+
 {{-- Show Success Alert --}}
 @if(session('success'))
 @include('partials.success-alert')
@@ -20,12 +26,6 @@
 @if(session('warning'))
 @include('partials.warning-alert')
 @endif
-
-<div class="col-lg-12">
-    <div class="d-flex justify-content-start">
-        <a href="{{ route('hosting-resellers.create') }}" class="btn btn-info mb-2">Add Reseller</a>
-    </div>
-</div>
 
 <div class="col-lg-12">
     <div class="card mb-4">
@@ -113,10 +113,6 @@
             var dataId = $(this).data("id");
             $('#listDeleteModal').modal('show');
             $('#id').val(dataId);
-            // var form = document.getElementById('deleteForm');
-
-            // console.log(dataId)
-            // form.action = '{{route("hosting-resellers.destroy",' + dataId + ')}}';
         })
     })
 </script>

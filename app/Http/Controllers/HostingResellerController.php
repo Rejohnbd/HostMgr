@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HostingReseller;
 use App\Http\Requests\HostingResellerRequest;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -115,8 +116,22 @@ class HostingResellerController extends Controller
      * @param  \App\HostingReseller  $hostingReseller
      * @return \Illuminate\Http\Response
      */
-    public function destroy(HostingReseller $hostingReseller)
+    public function destroy(Request $request)
     {
-        //
+        $hostingInfo = HostingReseller::find($request->id);
+        if ($hostingInfo) :
+            $serviceInfo = Service::where('hosting_reseller_id', $hostingInfo->id)->first();
+            if ($serviceInfo) :
+                session()->flash('warning', 'This Hosting Reseller Used by System. You can not delete this.');
+                return redirect()->back();
+            else :
+                HostingReseller::where('id', $request->id)->delete();
+                session()->flash('success', 'Hosting Reseller Delete Successfully');
+                return redirect()->back();
+            endif;
+        else :
+            session()->flash('warning', 'Something Happend Wrong. Try Again.');
+            return redirect()->back();
+        endif;
     }
 }

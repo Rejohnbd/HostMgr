@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('domain-reseller/renew-store', 'DomainResellerRenewController@store')->name('domain-reseller.renew-store');
     Route::delete('domain-reseller', 'DomainResellerRenewController@destroy')->name('domain-reseller.destroy');
     Route::resource('hosting-resellers', 'HostingResellerController');
+    Route::post('hosting-resellers', 'HostingResellerController@destroy')->name('hosting-resellers-destroy');
     Route::get('hosting-reseller/{id}/renew', 'HostigResellerRenewController@renew')->name('hosting-reseller.renew');
     Route::post('hosting-reseller/renew-store', 'HostigResellerRenewController@store')->name('hosting-reseller.renew-store');
     Route::delete('hosting-reseller', 'HostigResellerRenewController@destroy')->name('hosting-reseller.destroy');

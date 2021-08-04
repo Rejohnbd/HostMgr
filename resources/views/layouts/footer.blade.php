@@ -44,7 +44,7 @@
   });
 </script>
 @endif
-@if(Request::is('customers/create'))
+@if(Request::is('customers/create') || Request::is('customers/*/edit'))
 <script src="{{ asset('resources/assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/customers.js') }}"></script>
 @endif

@@ -21,6 +21,15 @@ class CustomerController extends Controller
         ]);
     }
 
+    protected function updateUser($email, $password, $customer)
+    {
+        $user = User::find($customer->user_id);
+        $user->email    = $email;
+        $user->password = Hash::make($password);
+        $user->save();
+        return $user;
+    }
+
     /**
      * Attributes Name for Customer Types Individual
      * @return attributesNames 
@@ -78,6 +87,29 @@ class CustomerController extends Controller
         ]);
     }
 
+    protected function updateIndividualCustomer($request, $customer)
+    {
+        $customer = Customer::find($customer->id);
+
+        $customer->customer_first_name  = $request->customer_first_name;
+        $customer->customer_last_name   = $request->customer_last_name;
+        $customer->customer_type        = $request->customer_type;
+        $customer->customer_gender      = $request->customer_gender;
+        $customer->customer_address     = $request->customer_address;
+        $customer->customer_join_date   = date('Y-m-d', strtotime($request->customer_join_date));
+        $customer->customer_join_year   = $request->customer_join_year;
+        $customer->customer_reference   = $request->customer_reference;
+        $customer->created_by           = auth()->user()->id;
+
+        $customer->save();
+        return $customer;
+    }
+
+    protected function deleteOldContactPerson($customerId)
+    {
+        CustomerContactPerson::where('customer_id', $customerId)->delete();
+    }
+
     /**
      * Attributes Name for Customer Types Individual
      * @return attributesNames 
@@ -122,6 +154,21 @@ class CustomerController extends Controller
         return $rules;
     }
 
+    protected function rulesForCompanyCustomerUpdate()
+    {
+        $rules['customer_type']         = 'required|string';
+        $rules['customer_address']      = 'required|string';
+        $rules['company_name']          = 'required|string';
+        $rules['email']                 = 'required|email';
+        $rules['password']              = 'required';
+        $rules['customer_join_date']    = 'required|date_format:d-m-Y';
+        $rules['customer_join_year']    = 'required|integer';
+        $rules['company_website']       = 'required|url';
+        $rules['full_name']             = 'required';
+        $rules['contact_mobile']        = 'required';
+        return $rules;
+    }
+
     /**
      * Store Company Customer
      */
@@ -142,6 +189,27 @@ class CustomerController extends Controller
             'customer_reference'    => $request->customer_reference,
             'created_by'            => auth()->user()->id,
         ]);
+    }
+
+    protected  function UpdateCompanyCustomer($request, $customer)
+    {
+        $customer = Customer::find($customer->id);
+
+        $customer->customer_first_name  = $request->customer_first_name;
+        $customer->customer_last_name   = $request->customer_last_name;
+        $customer->customer_type        = $request->customer_type;
+        $customer->customer_gender      = $request->customer_gender;
+        $customer->company_name         = $request->company_name;
+        $customer->company_website      = $request->company_website;
+        $customer->company_details      = $request->company_details;
+        $customer->customer_address     = $request->customer_address;
+        $customer->customer_join_date   =  date('Y-m-d', strtotime($request->customer_join_date));
+        $customer->customer_join_year   = $request->customer_join_year;
+        $customer->customer_reference   = $request->customer_reference;
+        $customer->created_by           = auth()->user()->id;
+
+        $customer->save();
+        return $customer;
     }
 
     /**
@@ -200,6 +268,7 @@ class CustomerController extends Controller
 
             $user = $this->createUser($request);
             $customer = $this->createCompanyCustomer($user, $request);
+
             // Loop for Contact Person value save
             for ($i = 0; $i < count($request->contact_mobile); $i++) :
                 if (isset($request->full_name[$i]) && isset($request->contact_mobile[$i])) :
@@ -240,7 +309,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('customers.edit', compact('customer'));
     }
 
     /**
@@ -252,7 +321,53 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+
+        // Value Save Individual Customer
+        if ($request->customer_type === 'individual') :
+            $attributeNames = $this->attributesForIndividualCustomer();
+            $rules = $this->rulesForIndividualCustomer();
+
+            $validator = Validator::make($request->all(), $rules);
+            $validator->setAttributeNames($attributeNames);
+            $validator->validate();
+
+            $this->updateUser($request->email, $request->password, $customer);
+            $this->updateIndividualCustomer($request, $customer);
+
+            session()->flash('success', 'Customer Update Successfully.');
+            return redirect()->back();
+
+        // Value Save Company Customer
+        elseif ($request->customer_type === 'company') :
+            // $this->validationForCompany($request);
+            $attributeNames = $this->attributesForCompanyCustomer();
+            $rules = $this->rulesForCompanyCustomerUpdate();
+
+            $validator = Validator::make($request->all(), $rules);
+            $validator->setAttributeNames($attributeNames);
+            $validator->validate();
+
+            $this->updateUser($request->email, $request->password, $customer);
+            $customer = $this->UpdateCompanyCustomer($request, $customer);
+            $this->deleteOldContactPerson($customer->id);
+            // Loop for Contact Person value save
+            for ($i = 0; $i < count($request->contact_mobile); $i++) :
+                if (isset($request->full_name[$i]) && isset($request->contact_mobile[$i])) :
+                    CustomerContactPerson::create([
+                        'customer_id'       => $customer->id,
+                        'full_name'         => $request->full_name[$i],
+                        'contact_email'     => $request->contact_email[$i],
+                        'contact_mobile'    => $request->contact_mobile[$i],
+                        'created_by'        => auth()->user()->id,
+                    ]);
+                endif;
+            endfor;
+            session()->flash('success', 'Customer Created Successfully.');
+            return redirect()->back();
+        else :
+            session()->flash('warning', 'Something Happend Wrong.');
+            return redirect()->back();
+        endif;
     }
 
     /**

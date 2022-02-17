@@ -41,12 +41,11 @@ class ServiceExpireEmail extends Command
      */
     public function handle()
     {
-        $services = Service::all();
+        $services = Service::where('service_status', 'active')->where('service_expire_date', '>', Carbon::today())->get();
 
         foreach ($services as $service) :
             $expireDate = Carbon::createFromFormat('Y-m-d', $service->service_expire_date);
             $todayData = Carbon::createFromFormat('Y-m-d', date('Y-m-d', time()));
-
             if ($expireDate->diffInMonths($todayData) === 0) {
                 $user = User::where('id', '=', $service->user_id)->first();
                 $user->notify(new EmailNearestExpireDateServices);

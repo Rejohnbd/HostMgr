@@ -15,11 +15,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Service::
         $todayDate = Carbon::today()->toDateString();
         $nextSencodMonthDate = Carbon::today()->addMonth(2)->toDateString();
-        // $expireSoonServices =  Service::whereBetween('service_expire_date', [$today, $nextSencodMonth])->count();
-        // dd($today, $nextSencodMonth, $expireSoonServices);
+
         return view('dashboards.index')
             ->with('admins', User::where('type', 'admin')->count())
             ->with('executives', User::where('type', 'executive')->count())

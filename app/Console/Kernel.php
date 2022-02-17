@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\ServiceExpireEmail;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -27,6 +28,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        // Log::info('working');
+        // $schedule->command('service:expire-email')->everyMinute();
         $schedule->command('service:expire-email')->weekly();
     }
 

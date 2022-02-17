@@ -1,4 +1,4 @@
-<div class="col-xl-3 col-md-6 mb-4">
+<div class="@if(isset($col)) {{$col}} @else col-xl-3 @endif col-md-6 mb-4">
     <div class="card h-100">
         <div class="card-body">
             <div class="row no-gutters align-items-center">

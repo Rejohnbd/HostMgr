@@ -8,12 +8,18 @@ use App\Models\HostingPackage;
 use App\Models\HostingReseller;
 use App\Models\Service;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        // Service::
+        $todayDate = Carbon::today()->toDateString();
+        $nextSencodMonthDate = Carbon::today()->addMonth(2)->toDateString();
+        // $expireSoonServices =  Service::whereBetween('service_expire_date', [$today, $nextSencodMonth])->count();
+        // dd($today, $nextSencodMonth, $expireSoonServices);
         return view('dashboards.index')
             ->with('admins', User::where('type', 'admin')->count())
             ->with('executives', User::where('type', 'executive')->count())
@@ -22,6 +28,7 @@ class DashboardController extends Controller
             ->with('services', Service::count())
             ->with('hostingPackages', HostingPackage::count())
             ->with('domainResellers', DomainReseller::count())
-            ->with('hostingResellers', HostingReseller::count());
+            ->with('hostingResellers', HostingReseller::count())
+            ->with('expireSoonServices', Service::whereBetween('service_expire_date', [$todayDate, $nextSencodMonthDate])->count());
     }
 }

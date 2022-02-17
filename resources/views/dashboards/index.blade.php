@@ -58,19 +58,10 @@
 </div>
 
 <div class="row mb-3">
-    {{-- Customers Show --}}
-    @component('partials.dashboard-item', [
-    'title' => 'Total Services',
-    'value' => $services,
-    'viewLink' => route('services.index'),
-    'viewText' => 'View Services',
-    'icon' => 'fas fa-archive',
-    'iconColor' => 'text-success'
-    ])
-    @endcomponent
 
     {{-- Hosting Packages Show --}}
     @component('partials.dashboard-item', [
+    'col' => 'col-xl-4',
     'title' => 'Hosting Packages',
     'value' => $hostingPackages,
     'viewLink' => route('hosting-packages.index'),
@@ -82,6 +73,7 @@
 
     {{-- Domain Resellers Show --}}
     @component('partials.dashboard-item', [
+    'col' => 'col-xl-4',
     'title' => 'Domain Reseller',
     'value' => $domainResellers,
     'viewLink' => route('domain-resellers.index'),
@@ -93,12 +85,37 @@
 
     {{-- Hosting Resellers Show --}}
     @component('partials.dashboard-item', [
+    'col' => 'col-xl-4',
     'title' => 'Hosting Reseller',
     'value' => $hostingResellers,
     'viewLink' => route('hosting-resellers.index'),
     'viewText' => 'View Hosting Reseller',
     'icon' => 'fas fa-hdd',
     'iconColor' => 'text-success'
+    ])
+    @endcomponent
+</div>
+
+<div class="row mb-3">
+    {{-- Total Service Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Total Services',
+    'value' => $services,
+    'viewLink' => route('services.index'),
+    'viewText' => 'View Services',
+    'icon' => 'fas fa-archive',
+    'iconColor' => 'text-success'
+    ])
+    @endcomponent
+
+    {{-- Expire Soon Services Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Service Expire in 2 Month',
+    'value' => $expireSoonServices,
+    'viewLink' => route('services.index'),
+    'viewText' => 'View Services',
+    'icon' => 'fas fa-archive',
+    'iconColor' => 'text-warning'
     ])
     @endcomponent
 </div>

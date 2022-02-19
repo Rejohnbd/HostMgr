@@ -4,7 +4,7 @@
 <footer class="sticky-footer bg-white">
   <div class="container my-auto">
     <div class="copyright text-center my-auto">
-      <span>copyright &copy; <script>
+      <span>Copyright &copy; 2020 to <script>
           document.write(new Date().getFullYear());
         </script> - developed by
         <b><a href="{{ url('/') }}" target="_blank">Hostbd</a></b>

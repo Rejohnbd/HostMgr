@@ -118,6 +118,28 @@
     'iconColor' => 'text-warning'
     ])
     @endcomponent
+
+    {{-- Expired Services Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Service Expired',
+    'value' => $expiredServices,
+    'viewLink' => route('services.index'),
+    'viewText' => 'View Services',
+    'icon' => 'fas fa-archive',
+    'iconColor' => 'text-danger'
+    ])
+    @endcomponent
+
+    {{-- Active Services Show --}}
+    @component('partials.dashboard-item', [
+    'title' => 'Active Service',
+    'value' => $services - $expiredServices,
+    'viewLink' => route('services.index'),
+    'viewText' => 'View Services',
+    'icon' => 'fas fa-archive',
+    'iconColor' => 'text-info'
+    ])
+    @endcomponent
 </div>
 
 @endsection

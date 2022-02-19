@@ -323,7 +323,7 @@ class InvoiceControler extends Controller
             'invoiceItems' => $invoiceItems
         ]);
         $pdf->setPaper('A4');
-        // return view('invoices.invoice')
+        // return view('invoices.invoice');
 
         return $pdf->stream('invoice.pdf');
         // return $pdf->download('invoice.pdf');

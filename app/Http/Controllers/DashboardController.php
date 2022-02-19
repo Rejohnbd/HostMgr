@@ -17,7 +17,8 @@ class DashboardController extends Controller
     {
         $todayDate = Carbon::today()->toDateString();
         $nextSencodMonthDate = Carbon::today()->addMonth(2)->toDateString();
-
+        // $expiredServices = Service::where('service_expire_date', '<', $todayDate)->get();
+        // dd($expiredServices);
         return view('dashboards.index')
             ->with('admins', User::where('type', 'admin')->count())
             ->with('executives', User::where('type', 'executive')->count())
@@ -27,6 +28,7 @@ class DashboardController extends Controller
             ->with('hostingPackages', HostingPackage::count())
             ->with('domainResellers', DomainReseller::count())
             ->with('hostingResellers', HostingReseller::count())
-            ->with('expireSoonServices', Service::whereBetween('service_expire_date', [$todayDate, $nextSencodMonthDate])->count());
+            ->with('expireSoonServices', Service::whereBetween('service_expire_date', [$todayDate, $nextSencodMonthDate])->count())
+            ->with('expiredServices', Service::where('service_expire_date', '<', $todayDate)->count());
     }
 }

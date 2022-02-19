@@ -23,6 +23,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', 'DashboardController@index');
     Route::resource('customers', 'CustomerController');
     Route::resource('services', 'ServicesController');
+    Route::get('services-expire-soon', 'ServicesController@expireSoonServices')->name('services-expire-soon');
+    Route::get('services-expired', 'ServicesController@expiredServices')->name('services-expired');
     Route::Resource('service-types', 'ServiceTypeControler');
     Route::post('service-types-destroy', 'ServiceTypeControler@destroy')->name('service-types-destroy');
     Route::resource('domain-resellers', 'DomainResellerController');

@@ -112,8 +112,8 @@
     @component('partials.dashboard-item', [
     'title' => 'Service Expire in 2 Month',
     'value' => $expireSoonServices,
-    'viewLink' => route('services.index'),
-    'viewText' => 'View Services',
+    'viewLink' => route('services-expire-soon'),
+    'viewText' => 'View Expire Soon Services',
     'icon' => 'fas fa-archive',
     'iconColor' => 'text-warning'
     ])
@@ -123,8 +123,8 @@
     @component('partials.dashboard-item', [
     'title' => 'Service Expired',
     'value' => $expiredServices,
-    'viewLink' => route('services.index'),
-    'viewText' => 'View Services',
+    'viewLink' => route('services-expired'),
+    'viewText' => 'View Expired Services',
     'icon' => 'fas fa-archive',
     'iconColor' => 'text-danger'
     ])

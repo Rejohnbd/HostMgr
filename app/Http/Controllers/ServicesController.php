@@ -12,6 +12,7 @@ use App\Models\Service;
 use App\Models\ServiceItem;
 use App\Models\ServiceLog;
 use App\Models\ServiceType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
 
@@ -268,5 +269,20 @@ class ServicesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function expireSoonServices()
+    {
+        $todayDate = Carbon::today()->toDateString();
+        $nextSencodMonthDate = Carbon::today()->addMonth(2)->toDateString();
+        $services = Service::whereBetween('service_expire_date', [$todayDate, $nextSencodMonthDate])->get();
+        return view('services.service-expire-soon', compact('services'));
+    }
+
+    public function expiredServices()
+    {
+        $todayDate = Carbon::today()->toDateString();
+        $services = Service::where('service_expire_date', '<', $todayDate)->get();
+        return view('services.service-expired', compact('services'));
     }
 }

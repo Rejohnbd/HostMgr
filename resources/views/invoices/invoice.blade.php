@@ -152,6 +152,7 @@
         table.meta,
         table.inventory {
             margin: 0 0 3em;
+            color: #000;
         }
 
         .article-first {
@@ -259,6 +260,7 @@
         /* aside */
         aside {
             margin-bottom: 30px;
+            color: #000;
         }
 
         aside h1 {
@@ -280,6 +282,7 @@
             position: fixed;
             bottom: 50px;
             width: 100%;
+            color: #000;
         }
 
         footer hr {
@@ -301,7 +304,7 @@
     </header>
 
     <article class="article-first">
-        <address>
+        <address style="color: #000">
             @if($customer->customer_type === 'individual')
             <p>{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}</p>
             @endif
@@ -389,7 +392,7 @@
     </article>
     <footer>
         <hr />
-        <p>This is Footer Text.</p>
+        <p>Thanks for stay with us.</p>
     </footer>
 </body>
 

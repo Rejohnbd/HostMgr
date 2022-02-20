@@ -33,6 +33,8 @@
     <div id="collapseServices" class="collapse @if(Request::is('services*') || Request::is('service-types*') || Request::is('invoices*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <a class="collapse-item  @if(Request::is('services*') || Request::is('invoices*')) active @endif" href="{{ route('services.index') }}">All Services</a>
+        <a class="collapse-item  @if(Request::is('services-expire-soon')) active @endif" href="{{ route('services-expire-soon') }}">Expired Soon Services</a>
+        <a class="collapse-item  @if(Request::is('services-expired')) active @endif" href="{{ route('services-expired') }}">Expired Services</a>
         <a class="collapse-item @if(Request::is('service-types*')) active @endif" href="{{ route('service-types.index') }}">Service Type</a>
       </div>
     </div>

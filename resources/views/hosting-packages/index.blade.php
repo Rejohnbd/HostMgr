@@ -19,10 +19,10 @@
     @forelse($hostingPackages as $hostingPackage)
     <div class="col-md-4 col-sm-12 mb-4">
         <div class="card shadow mb-4">
-            <a href="#collapseCHostingPackage-{{ $hostingPackage->id }}" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseHostingPackage-{{ $hostingPackage->id }}">
+            <a href="#collapseCHostingPackage-{{ $hostingPackage->id }}" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseHostingPackage-{{ $hostingPackage->id }}">
                 <h6 class="m-0 font-weight-bold text-primary">{{ $hostingPackage->name }}</h6>
             </a>
-            <div class="collapse show" id="collapseCHostingPackage-{{ $hostingPackage->id }}">
+            <div class="collapse" id="collapseCHostingPackage-{{ $hostingPackage->id }}">
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -53,13 +53,10 @@
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-between align-items-center">
-                <a href="{{ route('hosting-packages.edit', $hostingPackage->id) }}" class="btn btn-info btn-circle">
+                <a href="{{ route('hosting-packages.edit', $hostingPackage->id) }}" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Edit Package {{ $hostingPackage->name }}">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a href="#" class="btn btn-success btn-circle ">
-                    <i class="fas fa-thumbs-up"></i>
-                </a>
-                <a href="#" class="btn btn-danger btn-circle">
+                <a href="#" class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete Package {{ $hostingPackage->name }}">
                     <i class="fas fa-trash"></i>
                 </a>
             </div>

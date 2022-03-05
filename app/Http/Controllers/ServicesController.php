@@ -216,12 +216,14 @@ class ServicesController extends Controller
             } else {
                 $dataItem['service_type_id'] = $request->service_types[$i];
                 ServiceItem::create($dataItem);
-                $logData['service_type_id'] = $request->service_types[$i];
-                ServiceLog::create($logData);
+                // $logData['service_type_id'] = $request->service_types[$i];
+                // ServiceLog::create($logData);
+                $serviceTypeIds[] = $request->service_types[$i];
             }
-
         endfor;
 
+        $logData['service_type_ids'] = implode(',', $serviceTypeIds);
+        ServiceLog::create($logData);
         session()->flash('success', 'Service Create Successfully.');
         return redirect()->route('services.index');
     }

@@ -269,6 +269,7 @@ if (strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) {
                             <th>Start Date</th>
                             <th>Expire Date</th>
                             <th>Invoice</th>
+                            <th>Payment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -276,26 +277,25 @@ if (strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) {
                         <tr>
                             <td>{{ ucfirst($serviceLog->service_log_for) }}</td>
                             <td>
-                                @if($serviceLog->service_type_id === 1)
-                                {{ 'Domain' }}
-                                @endif
-                                @if($serviceLog->service_type_id === 2)
-                                {{ 'Hosting' }}
-                                @endif
-                                @if($serviceLog->service_type_id === 3)
-                                {{ 'Others' }}
-                                @endif
+                                @php
+                                $serviceTypeIds = explode (",", $serviceLog->service_type_ids);
+                                foreach($serviceTypeIds as $id){
+                                @endphp
+                                <span class="badge badge-primary">{{ $service->findServiceTypeNameFromId($id) }}</span>
+                                @php
+                                }
+                                @endphp
                             </td>
                             <td>{{ date('d/m/Y', strtotime($serviceLog->service_start_date)) }}</td>
                             <td>{{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }}</td>
                             <td>
-                                @if($service->invoice_status === 0)
+                                @if($serviceLog->invoice_status === 0)
                                 Invoice Not Ready
                                 @endif
-                                @if($service->invoice_status === 1)
-                                <a href="{{ route('invoices.download', $service->id) }}" target="_blank" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Downlad Invoice">
-                                    <i class="fas fa-file-download"></i>
-                                </a>
+                            </td>
+                            <td>
+                                @if($serviceLog->payment_status === 0)
+                                Unpaid
                                 @endif
                             </td>
                         </tr>

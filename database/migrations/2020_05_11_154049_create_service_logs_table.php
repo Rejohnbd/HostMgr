@@ -17,11 +17,13 @@ class CreateServiceLogsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('customer_id')->comment('FK from table: customers');
             $table->unsignedBigInteger('service_id')->comment('FK from table: services');
-            $table->unsignedBigInteger('service_type_id')->comment('FR from table: service_types');
+            $table->string('service_type_ids', 20)->comment('FR array from table: service_items');
             $table->string('service_log_for', 20)->comment('new/renewal');
             $table->date('service_start_date');
             $table->date('service_expire_date');
             $table->text('comment')->nullable();
+            $table->tinyInteger('invoice_status')->default('0')->comment('0 = Invoice Not Ready, 1 = Invoice Ready');
+            $table->tinyInteger('payment_status')->default('0')->comment('0 = Not Paid, 1 = Paid, 2 = Partial Paid');
             $table->timestamps();
 
             $table->foreign('service_id')
@@ -32,10 +34,6 @@ class CreateServiceLogsTable extends Migration
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers');
-
-            $table->foreign('service_type_id')
-                ->references('id')
-                ->on('service_types');
         });
     }
 

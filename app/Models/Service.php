@@ -43,4 +43,10 @@ class Service extends Model
     {
         return $this->hasMany(ServiceItem::class, 'service_id');
     }
+
+    public static function findServiceTypeNameFromId($id)
+    {
+        $serviceTypeName = ServiceType::select('name')->where('id', $id)->first();
+        return $serviceTypeName->name;
+    }
 }

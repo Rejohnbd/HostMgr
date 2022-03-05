@@ -33,7 +33,8 @@ class CreateServicesTable extends Migration
             $table->date('service_start_date');
             $table->date('service_expire_date');
             $table->string('service_status', 30)->comment('active/suspended/discontinued');
-            $table->tinyInteger('invoice_status')->default('0');
+            $table->tinyInteger('invoice_status')->default('0')->comment('0 = Invoice Not Ready, 1 = Invoice Ready');
+            $table->tinyInteger('payment_status')->default('0')->comment('0 = Not Paid, 1 = Paid, 2 = Partial Paid');
             $table->date('service_discontinued_from')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->default('0');

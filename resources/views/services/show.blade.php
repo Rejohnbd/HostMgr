@@ -23,6 +23,34 @@
 @include('partials.warning-alert')
 @endif
 
+<?php
+if (strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) {
+?>
+    <div class="col-lg-12">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            This Service Cross the Expire date.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <?php
+} elseif (strtotime($service->service_expire_date) > strtotime(date('Y-m-d'))) {
+    $monthDifferece = calculate_month_differents(date('Y-m-d'), $service->service_expire_date);
+    if ($monthDifferece <= 2) {
+    ?>
+        <div class="col-lg-12">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                This Service Expire as soon.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+<?php
+    }
+}
+?>
 
 <div class="col-lg-12">
     <div class="card mb-4 ">
@@ -33,7 +61,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3 @if(strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) bg-danger @elseif(strtotime($service->service_expire_date) > strtotime(date('Y-m-d')))@php $monthDifferece = calculate_month_differents(date('Y-m-d'), $service->service_expire_date); if($monthDifferece <= 2){echo'bg-warning';}@endphp@endif">
+                        <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Details of : {{$service->domain_name }}</h6>
                         </div>
 

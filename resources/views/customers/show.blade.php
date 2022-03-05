@@ -5,15 +5,27 @@
 @section('content')
 
 {{-- Breadcrumb Show --}}
+@if($customer->customer_type === 'individual')
 @component('partials.breadcrumb',[
-'title' => 'Customer Details',
+'title' => 'Details of '. $customer->customer_first_name . ' ' . $customer->customer_last_name,
 'itemOne' => 'Customers',
 'itemOneUrl' => 'customers.index',
 'activePage' => 'Customer Details'
 ])
 @endcomponent
+@endif
 
-<div class="row">
+@if($customer->customer_type === 'company')
+@component('partials.breadcrumb',[
+'title' => 'Details of '. $customer->company_name,
+'itemOne' => 'Customers',
+'itemOneUrl' => 'customers.index',
+'activePage' => 'Customer Details'
+])
+@endcomponent
+@endif
+
+<div class="row mb-4">
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">

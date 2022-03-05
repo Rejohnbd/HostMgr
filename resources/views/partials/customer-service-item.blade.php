@@ -9,7 +9,7 @@
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <strong>Service For </strong>
                         @foreach($service->serviceLogs as $serviceLog)
-                        <span class="text-info">
+                        <span class="badge badge-primary p-2">
                             @if($serviceLog->service_type_id === 1)
                             {{ 'Domain' }}
                             @endif
@@ -28,7 +28,7 @@
                     </li>
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <strong>Hosting Tye </strong>
+                        <strong>Hosting Type </strong>
                         <span class="text-info">
                             @if($service->hosting_type)
                             {{ ucfirst($service->hosting_type) }}
@@ -53,15 +53,12 @@
             <a href="{{ route('services.show', $service->id) }}" class="btn btn-warning btn-circle" data-toggle="tooltip" data-placement="top" title="Service Details">
                 <i class="fas fa-eye"></i>
             </a>
-            <a href="#" class="btn btn-info btn-circle">
-                <i class="fas fa-edit"></i>
-            </a>
-            <a href="#" class="btn btn-success btn-circle ">
+            {{-- <a href="#" class="btn btn-success btn-circle ">
                 <i class="fas fa-thumbs-up"></i>
             </a>
             <a href="#" class="btn btn-danger btn-circle">
                 <i class="fas fa-trash"></i>
-            </a>
+            </a> --}}
         </div>
     </div>
 </div>

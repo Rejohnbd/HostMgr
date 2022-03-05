@@ -51,10 +51,10 @@
                         <td>{{ $customer->customerServices->count() }}</td>
                         <td>{{ ucfirst($customer->customer_type) }}</td>
                         <td>
-                            <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Customer Details">
+                            <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Show @if($customer->customer_type === 'individual') {{ $customer->customer_first_name }}  {{ $customer->customer_last_name }} @elseif($customer->customer_type === 'company') {{ $customer->company_name }} @endif Details">
                                 <i class="fas fa-search-plus"></i>
                             </a>
-                            <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Customer Edit">
+                            <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit @if($customer->customer_type === 'individual') {{ $customer->customer_first_name }}  {{ $customer->customer_last_name }} @elseif($customer->customer_type === 'company') {{ $customer->company_name }} @endif Info">
                                 <i class="far fa-edit"></i>
                             </a>
                         </td>

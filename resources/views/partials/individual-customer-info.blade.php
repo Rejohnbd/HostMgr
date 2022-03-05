@@ -45,14 +45,14 @@
         </table>
     </div>
     <div class="card-footer d-flex justify-content-between align-items-center">
-        <a href="#" class="btn btn-info btn-circle">
+        <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Edit {{ $customer->customer_first_name }}  {{ $customer->customer_last_name }} Info">
             <i class="fas fa-edit"></i>
         </a>
-        <a href="#" class="btn btn-success btn-circle ">
+        {{-- <a href="#" class="btn btn-success btn-circle ">
             <i class="fas fa-thumbs-up"></i>
         </a>
         <a href="#" class="btn btn-danger btn-circle">
             <i class="fas fa-trash"></i>
-        </a>
+        </a> --}}
     </div>
 </div>

@@ -39,6 +39,7 @@
                         <th>Service</th>
                         <th>Domain</th>
                         <th>Start to Expire Date</th>
+                        <th>Invoice/Payment</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -70,6 +71,9 @@
                         <td>{{ $service->domain_name }} </td>
                         <td class="@if(strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) bg-danger @elseif(strtotime($service->service_expire_date) > strtotime(date('Y-m-d')))@php $monthDifferece = calculate_month_differents(date('Y-m-d'), $service->service_expire_date); if($monthDifferece <= 2){echo'bg-warning';}@endphp@endif">
                             {{ date('d/m/Y', strtotime($service->service_start_date)) }} to {{ date('d/m/Y', strtotime($service->service_expire_date)) }}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm @if($service->invoice_status)btn-success @else btn-danger @endif">@if($service->invoice_status) Ready @else Not Ready @endif</button>
                         </td>
                         <td>
                             <a href=" {{ route('services.show', $service->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Service Details">

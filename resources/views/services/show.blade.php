@@ -33,8 +33,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Details of : <a href="{{$service->domain_name }}" target="_blank"> {{$service->domain_name }}</a></h6>
+                        <div class="card-header py-3 @if(strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) bg-danger @elseif(strtotime($service->service_expire_date) > strtotime(date('Y-m-d')))@php $monthDifferece = calculate_month_differents(date('Y-m-d'), $service->service_expire_date); if($monthDifferece <= 2){echo'bg-warning';}@endphp@endif">
+                            <h6 class="m-0 font-weight-bold text-primary">Details of : {{$service->domain_name }}</h6>
                         </div>
 
                         <table class="table table-striped text-gray-900 mb-0">
@@ -113,12 +113,12 @@
                             </a>
                             @endif
                             @if($service->invoice_status === 1)
-                            <a href="{{ route('invoices.download', $service->id) }}" target="_blank" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Downlad Invoice">
-                                <i class="fas fa-file-download"></i>
+                            <a href="" class="btn btn-success btn-circle" data-toggle="tooltip" data-placement="top" title="Renew Services">
+                                <i class="fas fa-handshake"></i>
                             </a>
                             @endif
-                            <a href="#" class="btn btn-success btn-circle ">
-                                <i class="fas fa-thumbs-up"></i>
+                            <a href="#" class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Deactive This Service">
+                                <i class="fas fa-thumbs-down"></i>
                             </a>
                             <a href="#" class="btn btn-danger btn-circle">
                                 <i class="fas fa-trash"></i>
@@ -265,7 +265,9 @@
                                 Invoice Not Ready
                                 @endif
                                 @if($service->invoice_status === 1)
-                                Invoice Ready
+                                <a href="{{ route('invoices.download', $service->id) }}" target="_blank" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Downlad Invoice">
+                                    <i class="fas fa-file-download"></i>
+                                </a>
                                 @endif
                             </td>
                         </tr>

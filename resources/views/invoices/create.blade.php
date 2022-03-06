@@ -11,6 +11,10 @@
 ])
 @endcomponent
 
+@if(session('warning'))
+@include('partials.warning-alert')
+@endif
+
 <div class="row">
     <div class="col-xl-12 mb-4">
         <div class="card shadow mb-4">
@@ -143,7 +147,7 @@
                                 <option value="">Select Invoice For</option>
                                 <option value="1">New Service</option>
                                 <option value="2">Renew Service</option>
-                                <option value="3">Others Service</option>
+                                {{-- <option value="3">Others Service</option> --}}
                             </select>
                             @error('invoice_item_for')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -238,7 +242,7 @@
                     @endif
                     @endforeach
 
-                    <div class="form-group required">
+                    {{-- <div class="form-group required">
                         <label for="paymentType" class="col-form-label text-right text-gray-900">Payment Type</label>
                         <select name="payment_method" class="form-control  @error('payment_method') is-invalid @enderror" id="paymentType" required>
                             <option value="">Select Payment Type</option>
@@ -248,75 +252,75 @@
                         </select>
                         @error('payment_method')
                         <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
+                    @enderror
+            </div>
 
-                    <div class="form-row bkash-info">
-                        <div class="form-group col-md-6 required">
-                            <label for="bkashMobile" class="col-form-label text-right text-gray-900">bKash Mobile Number</label>
-                            <input type="text" name="bkash_mobile_number" class="form-control @error('bkash_mobile_number') is-invalid @enderror" id="bkashMobile" placeholder="bKash Mobile Number" value="{{ old('bkash_mobile_number') }}">
-                            @error('bkash_mobile_number')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+            <div class="form-row bkash-info">
+                <div class="form-group col-md-6 required">
+                    <label for="bkashMobile" class="col-form-label text-right text-gray-900">bKash Mobile Number</label>
+                    <input type="text" name="bkash_mobile_number" class="form-control @error('bkash_mobile_number') is-invalid @enderror" id="bkashMobile" placeholder="bKash Mobile Number" value="{{ old('bkash_mobile_number') }}">
+                    @error('bkash_mobile_number')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
 
-                        <div class="form-group col-md-6 required">
-                            <label for="bkashTransNo" class="col-form-label text-right text-gray-900">bKash Transaction No</label>
-                            <input type="text" name="bkash_transaction_no" class="form-control @error('bkash_transaction_no') is-invalid @enderror" id="bkashTransNo" placeholder="bKash Transaction No" value="{{ old('bkash_transaction_no') }}">
-                            @error('bkash_transaction_no')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
+                <div class="form-group col-md-6 required">
+                    <label for="bkashTransNo" class="col-form-label text-right text-gray-900">bKash Transaction No</label>
+                    <input type="text" name="bkash_transaction_no" class="form-control @error('bkash_transaction_no') is-invalid @enderror" id="bkashTransNo" placeholder="bKash Transaction No" value="{{ old('bkash_transaction_no') }}">
+                    @error('bkash_transaction_no')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
 
-                    <div class="form-row bank-info">
-                        <div class="form-group col-md-6 required">
-                            <label for="bankName" class="col-form-label text-right text-gray-900">Bank Name</label>
-                            <input type="text" name="bank_name" class="form-control @error('bank_name') is-invalid @enderror" id="bankName" placeholder="Bank Name" value="{{ old('bank_name') }}">
-                            @error('bank_name')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+            <div class="form-row bank-info">
+                <div class="form-group col-md-6 required">
+                    <label for="bankName" class="col-form-label text-right text-gray-900">Bank Name</label>
+                    <input type="text" name="bank_name" class="form-control @error('bank_name') is-invalid @enderror" id="bankName" placeholder="Bank Name" value="{{ old('bank_name') }}">
+                    @error('bank_name')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
 
-                        <div class="form-group col-md-6 required">
-                            <label for="bankAccNo" class="col-form-label text-right text-gray-900">Bank Account No</label>
-                            <input type="text" name="bank_account_number" class="form-control @error('bank_account_number') is-invalid @enderror" id="bankAccNo" placeholder="Bank Account No" value="{{ old('bank_account_number') }}">
-                            @error('bank_account_number')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
+                <div class="form-group col-md-6 required">
+                    <label for="bankAccNo" class="col-form-label text-right text-gray-900">Bank Account No</label>
+                    <input type="text" name="bank_account_number" class="form-control @error('bank_account_number') is-invalid @enderror" id="bankAccNo" placeholder="Bank Account No" value="{{ old('bank_account_number') }}">
+                    @error('bank_account_number')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div> --}}
 
-                    <div class="form-row">
-                        <div class="form-group col-md-6 required">
-                            <label for="invoiceDetails" class="col-form-label text-right text-gray-900">Invoice Details Info</label>
-                            <textarea name="invoice_item_details" class="form-control @error('invoice_item_details') is-invalid @enderror" id="invoiceDetails" rows="3" placeholder="Invoice Details Info" required>{{ old('invoice_item_details') }}</textarea>
-                            @error('invoice_item_details')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 required">
+                    <label for="invoiceDetails" class="col-form-label text-right text-gray-900">Invoice Details Info</label>
+                    <textarea name="invoice_item_details" class="form-control @error('invoice_item_details') is-invalid @enderror" id="invoiceDetails" rows="3" placeholder="Invoice Details Info" required>{{ old('invoice_item_details') }}</textarea>
+                    @error('invoice_item_details')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
 
-                        <div class="form-group col-md-6 required">
-                            <label for="paymentDate" class=" col-form-label text-right text-gray-900">Payment Date</label>
-                            <input data-provide="datepicker" type="text" name="payment_date" class="form-control @error('payment_date') is-invalid @enderror" id="paymentDate" placeholder="Payment Date" value="{{ old('payment_date')  }}" required autocomplete="off">
-                            @error('payment_date')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
+                {{-- <div class="form-group col-md-6 required">
+                    <label for="paymentDate" class=" col-form-label text-right text-gray-900">Payment Date</label>
+                    <input data-provide="datepicker" type="text" name="payment_date" class="form-control @error('payment_date') is-invalid @enderror" id="paymentDate" placeholder="Payment Date" value="{{ old('payment_date')  }}" required autocomplete="off">
+                @error('payment_date')
+                <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div> --}}
+        </div>
 
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            <button type="submit" class="btn btn-block btn-primary">Save</button>
-                        </div>
-                        <div class="col-md-6">
-                            <a href="{{ route('invoices') }}" class="btn btn-block btn-outline-secondary">Cancel</a>
-                        </div>
-                    </div>
-                </form>
+        <div class="form-group row">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-block btn-primary">Save</button>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ route('service-types.index') }}" class="btn btn-block btn-outline-secondary">Cancel</a>
             </div>
         </div>
+        </form>
     </div>
+</div>
+</div>
 </div>
 
 @endsection
@@ -335,7 +339,7 @@
             todayHighlight: true,
         });
 
-        $('.bkash-info').hide();
+        /*$('.bkash-info').hide();
         $('.bank-info').hide();
         $("#paymentType").on("change", function() {
             var paymentType = $(this).children(":selected").val();
@@ -349,11 +353,11 @@
                 $('.bkash-info').hide();
                 $('.bank-info').hide();
             }
-        });
+        });*/
     });
 </script>
 
-@if($errors->has('bkash_mobile_number') || $errors->has('bkash_transaction_no'))
+{{-- @if($errors->has('bkash_mobile_number') || $errors->has('bkash_transaction_no'))
 <script>
     $(document).ready(function() {
         $('#paymentType').val("bkash");
@@ -369,5 +373,5 @@
         $('.bank-info').show();
     });
 </script>
-@endif
+@endif --}}
 @endsection

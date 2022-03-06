@@ -47,9 +47,7 @@ class InvoiceControler extends Controller
     {
         $attributeNames['invoice_year']             = 'Invoice Year';
         $attributeNames['invoice_item_for']         = 'Invoice For';
-        $attributeNames['payment_method']           = 'Payment Type';
         $attributeNames['invoice_item_details']     = 'Payment Details';
-        $attributeNames['payment_date']             = 'Payment Date';
         return $attributeNames;
     }
 
@@ -57,9 +55,7 @@ class InvoiceControler extends Controller
     {
         $rules['invoice_year']              = 'required|string';
         $rules['invoice_item_for']          = 'required';
-        $rules['payment_method']            = 'required';
         $rules['invoice_item_details']      = 'required|string';
-        $rules['payment_date']              = 'required|date_format:d-m-Y';
         return $rules;
     }
 
@@ -80,17 +76,27 @@ class InvoiceControler extends Controller
     public function create($id)
     {
         $service = Service::findOrFail($id);
-        // dd($service);
         return view('invoices.create', compact('service'));
     }
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $userId = $request->userId;
         $serviceId = $request->serId;
         User::findOrFail($userId);
         Service::findOrFail($serviceId);
+        $cusomerInfo = Customer::where('user_id', $userId)->first();
+
+        if ($request->invoice_item_for == 1) {
+            $serviceLogsInfo = ServiceLog::where('customer_id', $cusomerInfo->id)->where('service_id', $serviceId)->where('service_log_for', 'new')->latest()->first();
+        } else if ($request->invoice_item_for == 2) {
+            $serviceLogsInfo = ServiceLog::where('customer_id', $cusomerInfo->id)->where('service_id', $serviceId)->where('service_log_for', 'renewal')->latest()->first();
+        }
+
+        if (is_null($serviceLogsInfo)) {
+            session()->flash('warning', 'You Select Wrong Invoice For');
+            return redirect()->back();
+        }
 
         $attributeNames = $this->attributesForAll();
         $rules = $this->rulesForAll();
@@ -113,6 +119,22 @@ class InvoiceControler extends Controller
                 $validator->setAttributeNames($attributeNames);
                 $validator->validate();
 
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->after(function ($validator) use ($request) {
+                    if ($request->domain_invoice_item_subtotal <= $request->domain_invoice_item_discount) {
+                        $validator->errors()->add('domain_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('domain_invoice_item_discount', 'Insert Wrong Value');
+                    }
+
+                    if (($request->domain_invoice_item_subtotal - $request->domain_invoice_item_discount) != $request->domain_invoice_item_total) {
+                        $validator->errors()->add('domain_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('domain_invoice_item_discount', 'Insert Wrong Value');
+                        $validator->errors()->add('domain_invoice_item_total', 'Insert Wrong Value');
+                    }
+                });
+                $validator->validate();
+
                 $invGrossTotal  = $invGrossTotal + $request->domain_invoice_item_subtotal;
                 $invDiscount    = $invDiscount + $request->domain_invoice_item_discount;
                 $invTotal       = $invTotal + $request->domain_invoice_item_total;
@@ -128,6 +150,22 @@ class InvoiceControler extends Controller
 
                 $validator = Validator::make($request->all(), $rules);
                 $validator->setAttributeNames($attributeNames);
+                $validator->validate();
+
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->after(function ($validator) use ($request) {
+                    if ($request->hosting_invoice_item_subtotal <= $request->hosting_invoice_item_discount) {
+                        $validator->errors()->add('hosting_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('hosting_invoice_item_discount', 'Insert Wrong Value');
+                    }
+
+                    if (($request->hosting_invoice_item_subtotal - $request->hosting_invoice_item_discount) != $request->hosting_invoice_item_total) {
+                        $validator->errors()->add('hosting_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('hosting_invoice_item_discount', 'Insert Wrong Value');
+                        $validator->errors()->add('hosting_invoice_item_total', 'Insert Wrong Value');
+                    }
+                });
                 $validator->validate();
 
                 $invGrossTotal  = $invGrossTotal + $request->hosting_invoice_item_subtotal;
@@ -147,12 +185,27 @@ class InvoiceControler extends Controller
                 $validator->setAttributeNames($attributeNames);
                 $validator->validate();
 
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->after(function ($validator) use ($request) {
+                    if ($request->other_invoice_item_subtotal <= $request->other_invoice_item_discount) {
+                        $validator->errors()->add('other_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('other_invoice_item_discount', 'Insert Wrong Value');
+                    }
+
+                    if (($request->other_invoice_item_subtotal - $request->other_invoice_item_discount) != $request->other_invoice_item_total) {
+                        $validator->errors()->add('other_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('other_invoice_item_discount', 'Insert Wrong Value');
+                        $validator->errors()->add('other_invoice_item_total', 'Insert Wrong Value');
+                    }
+                });
+                $validator->validate();
+
                 $invGrossTotal  = $invGrossTotal + $request->other_invoice_item_subtotal;
                 $invDiscount    = $invDiscount + $request->other_invoice_item_discount;
                 $invTotal       = $invTotal + $request->other_invoice_item_total;
             endif;
         endfor;
-
 
         $invoiceSerial = $this->invoiceSerial();
         $invoiceNumber = $this->invoiceNumber();
@@ -165,15 +218,47 @@ class InvoiceControler extends Controller
         $invoiceData['invoice_gross_total'] = $invGrossTotal;
         $invoiceData['invoice_discount']    = $invDiscount;
         $invoiceData['invoice_total']       = $invTotal;
-        $invoiceData['payment_method']      = $request->payment_method;
-        $invoiceData['payment_date']        = date('Y-m-d', strtotime($request->payment_date));
+
         $invoiceData['created_by']          = auth()->user()->id;
 
         $invoiceItemData['invoice_number']          = $invoiceNumber;
         $invoiceItemData['invoice_item_for']        = $request->invoice_item_for;
         $invoiceItemData['invoice_item_details']    = $request->invoice_item_details;
 
-        if ($request->payment_method === 'cash') :
+        $newInvoice = Invoice::create($invoiceData);
+        $invoiceItemData['invoice_id'] = $newInvoice->id;
+
+        for ($i = 0; $i < count($request->service_type_id); $i++) :
+            if ($request->service_type_id[$i] === '1') :
+                $invoiceItemData['service_type_id']  = 1;
+                $invoiceItemData['invoice_item_subtotal']   = $request->domain_invoice_item_subtotal;
+                $invoiceItemData['invoice_item_discount']   = $request->domain_invoice_item_discount;
+                $invoiceItemData['invoice_item_total']      = $request->domain_invoice_item_total;
+                InvoiceItem::create($invoiceItemData);
+            endif;
+            if ($request->service_type_id[$i] === '2') :
+                $invoiceItemData['service_type_id']  = 2;
+                $invoiceItemData['invoice_item_subtotal']   = $request->hosting_invoice_item_subtotal;
+                $invoiceItemData['invoice_item_discount']   = $request->hosting_invoice_item_discount;
+                $invoiceItemData['invoice_item_total']      = $request->hosting_invoice_item_total;
+                InvoiceItem::create($invoiceItemData);
+            endif;
+            if ($request->service_type_id[$i] === '3') :
+                $invoiceItemData['service_type_id']  = 3;
+                $invoiceItemData['invoice_item_subtotal']   = $request->other_invoice_item_subtotal;
+                $invoiceItemData['invoice_item_discount']   = $request->other_invoice_item_discount;
+                $invoiceItemData['invoice_item_total']      = $request->other_invoice_item_total;
+                InvoiceItem::create($invoiceItemData);
+            endif;
+        endfor;
+
+        Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
+        ServiceLog::where('id', $serviceLogsInfo->id)->update(['invoice_status' => 1, 'invoice_number' => $invoiceNumber]);
+
+        session()->flash('success', 'Invoice Create Successfully');
+        return redirect()->route('services.show', $serviceId);
+
+        /*if ($request->payment_method === 'cash') :
             $newInvoice = Invoice::create($invoiceData);
             $invoiceItemData['invoice_id'] = $newInvoice->id;
 
@@ -202,7 +287,7 @@ class InvoiceControler extends Controller
             endfor;
 
             Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
-
+            
             session()->flash('success', 'Invoice Create Successfully');
             return redirect()->route('services.show', $serviceId);
         endif;
@@ -248,6 +333,7 @@ class InvoiceControler extends Controller
             endfor;
 
             Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
+            
             session()->flash('success', 'Invoice Create Successfully');
             return redirect()->route('services.show', $serviceId);
         endif;
@@ -297,12 +383,14 @@ class InvoiceControler extends Controller
             endfor;
 
             Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
+           
             session()->flash('success', 'Invoice Create Successfully');
             return redirect()->route('services.show', $serviceId);
-        endif;
+        endif; 
 
         session()->flash('warning', 'Something Happend Wrong');
         return redirect()->route('services.show', $serviceId);
+        */
     }
 
     public function generateInvoicePdf($id)

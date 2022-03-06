@@ -393,9 +393,10 @@ class InvoiceControler extends Controller
         */
     }
 
-    public function generateInvoicePdf($id)
+    public function generateInvoicePdf($invoice_number)
     {
-        $service = Service::findOrFail($id);
+        $serviceLogInfo = ServiceLog::where('invoice_number', $invoice_number)->first();
+        $service = Service::findOrFail($serviceLogInfo->service_id);
         $customer = Customer::where('id', '=', $service->customer_id)->first();
         $user = User::select('email', 'mobile')->where('id', '=', $customer->user_id)->first();
         $invoice = Invoice::where('service_id', '=', $service->id)->first();

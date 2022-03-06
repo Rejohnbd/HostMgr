@@ -292,6 +292,11 @@ if (strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) {
                                 @if($serviceLog->invoice_status === 0)
                                 Invoice Not Ready
                                 @endif
+                                @if($serviceLog->invoice_status === 1)
+                                <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" target="_blank" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Downlad Invoice">
+                                    <i class="fas fa-file-download"></i>
+                                </a>
+                                @endif
                             </td>
                             <td>
                                 @if($serviceLog->payment_status === 0)

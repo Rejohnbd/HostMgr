@@ -17,7 +17,7 @@
   @if(Request::is('domain-resellers*') || Request::is('hosting-resellers*') || Request::is('customers') || Request::is('services*') )
   <link href="{{ asset('resources/assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
   @endif
-  @if(Request::is('customers/create') || Request::is('customers/*/edit') || Request::is('services/create') || Request::is('domain-reseller/*/renew') || Request::is('hosting-reseller/*/renew') || Request::is('invoices/*/create'))
+  @if(Request::is('customers/create') || Request::is('customers/*/edit') || Request::is('services/create') || Request::is('domain-reseller/*/renew') || Request::is('hosting-reseller/*/renew') || Request::is('invoices/*/create') || Request::is('services/*/renew'))
   <link href="{{ asset('resources/assets/vendor/select-option/css/select2.min.css') }}" rel="stylesheet">
   <link href="{{ asset('resources/assets/vendor/datetimepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
   @endif

@@ -141,7 +141,7 @@ if (strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) {
                             </a>
                             @endif
                             @if($service->invoice_status === 1)
-                            <a href="" class="btn btn-success btn-circle" data-toggle="tooltip" data-placement="top" title="Renew Services">
+                            <a href="{{ route('services.renew', $service->id) }}" class="btn btn-success btn-circle" data-toggle="tooltip" data-placement="top" title="Renew Services">
                                 <i class="fas fa-handshake"></i>
                             </a>
                             @endif

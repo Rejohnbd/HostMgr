@@ -12,6 +12,7 @@ use App\Models\Service;
 use App\Models\ServiceItem;
 use App\Models\ServiceLog;
 use App\Models\ServiceType;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
@@ -115,7 +116,6 @@ class ServicesController extends Controller
      */
     public function store(Request $request)
     {
-
         $attributeNames['customer_type']  = 'Customer Types';
         $rules['customer_type'] = 'required|integer|min:1|max:2';
         $this->checkValidity($request, $rules, $attributeNames);
@@ -271,6 +271,38 @@ class ServicesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function renewService(Service $service)
+    {
+        return view('services.renew')->with('service', $service)
+            ->with('serviceTypes', ServiceType::all())
+            ->with('domainResellers', DomainReseller::all())
+            ->with('hostingResslers', HostingReseller::all())
+            ->with('hostingPackages', HostingPackage::all());
+    }
+
+    public function renewalService(Request $request)
+    {
+        dd($request->all());
+        $attributeNames['customer_type']  = 'Customer Types';
+        $rules['customer_type'] = 'required|integer|min:1|max:2';
+        $this->checkValidity($request, $rules, $attributeNames);
+
+        // Check Customer Type Validity
+        if ($request->customer_type == 1) :
+            $attributeNames['individual_customer']  = 'Individual Customer';
+            $rules['individual_customer'] = 'required|integer';
+            $this->checkValidity($request, $rules, $attributeNames);
+            $data['customer_id'] = $request->individual_customer;
+        endif;
+        // Check Customer Type Validity
+        if ($request->customer_type == 2) :
+            $attributeNames['company_customer']  = 'Company Customer';
+            $rules['company_customer'] = 'required|integer';
+            $this->checkValidity($request, $rules, $attributeNames);
+            $data['customer_id'] = $request->company_customer;
+        endif;
     }
 
     public function expireSoonServices()

@@ -23,6 +23,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', 'DashboardController@index');
     Route::resource('customers', 'CustomerController');
     Route::resource('services', 'ServicesController');
+    Route::get('services/{service}/renew', 'ServicesController@renewService')->name('services.renew');
+    Route::post('services-renewal', 'ServicesController@renewalService')->name('services_renewal');
     Route::get('services-expire-soon', 'ServicesController@expireSoonServices')->name('services-expire-soon');
     Route::get('services-expired', 'ServicesController@expiredServices')->name('services-expired');
     Route::Resource('service-types', 'ServiceTypeControler');

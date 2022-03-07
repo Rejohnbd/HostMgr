@@ -1,15 +1,15 @@
 @extends('layouts.master')
 
-@section('title', 'Service Create')
+@section('title', 'Service Renew')
 
 @section('content')
 
 {{-- Breadcrumb Show --}}
 @component('partials.breadcrumb',[
-'title' => 'Create Services',
+'title' => 'Renew Services',
 'itemOne' => 'Services',
 'itemOneUrl' => 'services.index',
-'activePage' => 'Create'
+'activePage' => 'Renew'
 ])
 @endcomponent
 
@@ -18,7 +18,7 @@
     <div class="col-xl-12 mb-4">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Create Services</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Renew Services</h6>
             </div>
             <div class="card-body">
                 <form action="{{ route('services_renewal', ['serId' => $service->id]) }}" method="POST">

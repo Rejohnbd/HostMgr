@@ -395,6 +395,20 @@ class InvoiceControler extends Controller
         */
     }
 
+    public function renew($invoice_number)
+    {
+        $invoiceInfo = Invoice::where('invoice_number', $invoice_number)->first();
+        $service = Service::where('id', $invoiceInfo->service_id)->first();
+        return view('invoices.edit')
+            ->with('service', $service)
+            ->with('invoiceInfo', $invoiceInfo);
+    }
+
+    public function update(Request $request)
+    {
+        dd($request->all());
+    }
+
     public function generateInvoicePdf($invoice_number)
     {
         $serviceLogInfo = ServiceLog::where('invoice_number', $invoice_number)->first();

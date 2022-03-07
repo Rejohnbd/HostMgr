@@ -42,7 +42,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('hosting-packages', 'HostingPackageController');
     Route::get('invoices', 'InvoiceControler@index')->name('invoices');
     Route::get('invoices/{id}/create', 'InvoiceControler@create')->name('invoices.create');
+    Route::get('invoices/{invoice_number}/renew', 'InvoiceControler@renew')->name('invoices.renew');
     Route::post('invoices', 'InvoiceControler@store')->name('invoices.store');
+    Route::post('invoices-update', 'InvoiceControler@update')->name('invoices.update');
     Route::get('invoices/{invoice_number}/download', 'InvoiceControler@generateInvoicePdf')->name('invoices.download');
     Route::get('profile', 'ProfileController@profile')->name('profile');
     Route::post('update-password', 'ProfileController@updatePassword')->name('update_password');

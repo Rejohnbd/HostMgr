@@ -28,4 +28,9 @@ class Invoice extends Model
             return $customerInfo->company_name;
         }
     }
+
+    public function invoiceItems()
+    {
+        return $this->hasMany(InvoiceItem::class);
+    }
 }

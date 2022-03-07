@@ -56,7 +56,7 @@
                             </a>
                             @endif
                             @if(strtotime(date('Y-m-d')) == strtotime(date('Y-m-d', strtotime($invoice->created_at))))
-                            <a href="" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Edit Invoice No {{ $invoice->invoice_number }}">
+                            <a href="{{ route('invoices.renew',  $invoice->invoice_number) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Edit Invoice No {{ $invoice->invoice_number }}">
                                 <i class="fas fa-edit"></i>
                             </a>
                             @endif

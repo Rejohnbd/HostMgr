@@ -30,9 +30,9 @@
       <i class="fas fa-archive"></i>
       <span>Services</span>
     </a>
-    <div id="collapseServices" class="collapse @if(Request::is('services*') || Request::is('service-types*') || Request::is('invoices*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+    <div id="collapseServices" class="collapse @if(Request::is('services*') || Request::is('service-types*') || Request::is('invoices/*/create')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item  @if(Request::is('services*') || Request::is('invoices*')) active @endif" href="{{ route('services.index') }}">All Services</a>
+        <a class="collapse-item  @if(Request::is('services*') || Request::is('invoices/*/create')) active @endif" href="{{ route('services.index') }}">All Services</a>
         <a class="collapse-item  @if(Request::is('services-expire-soon')) active @endif" href="{{ route('services-expire-soon') }}">Expired Soon Services</a>
         <a class="collapse-item  @if(Request::is('services-expired')) active @endif" href="{{ route('services-expired') }}">Expired Services</a>
         <a class="collapse-item @if(Request::is('service-types*')) active @endif" href="{{ route('service-types.index') }}">Service Type</a>
@@ -63,6 +63,16 @@
     <a class="nav-link" href="{{ route('hosting-resellers.index') }}">
       <i class="fas fa-hdd"></i>
       <span>Hosting Resellers</span>
+    </a>
+  </li>
+  <hr class="sidebar-divider">
+  <div class="sidebar-heading">
+    Invoices
+  </div>
+  <li class="nav-item @if(Request::is('invoices')) active @endif">
+    <a class="nav-link" href="{{ route('invoices') }}">
+      <i class="fas fa-file"></i>
+      <span>Invoices</span>
     </a>
   </li>
   <hr class="sidebar-divider">

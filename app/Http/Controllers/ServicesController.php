@@ -376,12 +376,15 @@ class ServicesController extends Controller
         $serviceUpdate->payment_status  = 0;
         $serviceUpdate->created_by      = auth()->user()->id;
 
+        $serviceUpdate->save();
+
         $logData['customer_id']         = $data['customer_id'];
         $logData['service_id']          = $request->serId;
         $logData['service_log_for']     = 'renewal';
         $logData['service_start_date']  = $serviceStartDate;
         $logData['service_expire_date'] = $serviceExpireDate;
 
+        ServiceItem::where('service_id', $request->serId)->delete();
 
         $dataItem['service_id'] = $request->serId;
         for ($i = 1; $i <= count($request->service_types); $i++) :
@@ -400,7 +403,6 @@ class ServicesController extends Controller
         ServiceLog::create($logData);
         session()->flash('success', 'Service Update Successfully.');
         return redirect()->route('services.index');
-        // dd($serviceUpdate, $request->all());
     }
 
     public function expireSoonServices()

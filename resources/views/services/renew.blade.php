@@ -61,7 +61,7 @@
                                 <div class="col-md-6 custom-control custom-checkbox">
                                     <input type="checkbox" name="service_for" class="serviceCheckbox custom-control-input @error('service_for') is-invalid @enderror" id="{{$serviceType->id}}" value="{{ $serviceType->id }}" @foreach($service->serviceItems as $item) @if($item->service_type_id == $serviceType->id) checked @endif @endforeach>
                                     <label class="custom-control-label" for="{{ $serviceType->id }}">{{ $serviceType->name }} </label>
-                                    <input type="hidden" id="hidden_st_{{$serviceType->id}}" name="service_types[{{$serviceType->id}}]" value="@php foreach($service->serviceItems as $item){ if($item->service_type_id == $serviceType->id){ echo '1'; break; }else{ echo '0'; } } @endphp" />
+                                    <input type="hidden" id="hidden_st_{{$serviceType->id}}" name="service_types[{{$serviceType->id}}]" value="@php foreach($service->serviceItems as $item){ if($item->service_type_id == $serviceType->id){ echo $serviceType->id; }} @endphp" />
                                 </div>
                                 @endforeach
                             </div>

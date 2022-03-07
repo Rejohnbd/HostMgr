@@ -268,6 +268,7 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                             <th>Service Type</th>
                             <th>Start Date</th>
                             <th>Expire Date</th>
+                            <th>Invoice No</th>
                             <th>Invoice</th>
                             <th>Payment</th>
                         </tr>
@@ -288,17 +289,21 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                             </td>
                             <td>{{ date('d/m/Y', strtotime($serviceLog->service_start_date)) }}</td>
                             <td>{{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }}</td>
+                            <td>{{ $serviceLog->invoice_number }}</td>
                             <td>
                                 @if($serviceLog->invoice_status === 0)
                                 Invoice Not Ready
                                 @endif
                                 @if($serviceLog->invoice_status === 1)
-                                <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" target="_blank" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Downlad Invoice">
+                                <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" target="_blank" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Downlad Invoice No {{ $serviceLog->invoice_number }}">
                                     <i class="fas fa-file-download"></i>
+                                </a>
+                                <a href="" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Payment for Invoice No {{ $serviceLog->invoice_number }}">
+                                    <i class="fas fa-money-bill"></i>
                                 </a>
                                 @endif
                                 @if($serviceLog->invoice_status === 1 && (strtotime(date('Y-m-d')) == strtotime(date('Y-m-d', strtotime($serviceLog->created_at)))))
-                                <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Edit Invoice">
+                                <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Invoice No {{ $serviceLog->invoice_number }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 @endif

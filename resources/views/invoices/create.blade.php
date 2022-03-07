@@ -332,6 +332,7 @@
             format: "yyyy",
             viewMode: "years",
             minViewMode: "years",
+
         });
 
         $("#paymentDate").datepicker({

@@ -9,17 +9,16 @@
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <strong>Service For </strong>
                         @foreach($service->serviceLogs as $serviceLog)
-                        <span class="badge badge-primary p-2">
-                            @if($serviceLog->service_type_id === 1)
-                            {{ 'Domain' }}
-                            @endif
-                            @if($serviceLog->service_type_id === 2)
-                            {{ 'Hosting' }}
-                            @endif
-                            @if($serviceLog->service_type_id === 3)
-                            {{ 'Others' }}
-                            @endif
-                        </span>
+
+                        @php
+                        $serviceTypeIds = explode (",", $serviceLog->service_type_ids);
+                        foreach($serviceTypeIds as $id){
+                        @endphp
+                        <span class="badge badge-primary">{{ $service->findServiceTypeNameFromId($id) }}</span>
+                        @php
+                        }
+                        @endphp
+
                         @endforeach
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">

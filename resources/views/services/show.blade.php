@@ -298,7 +298,6 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                                 </a>
                                 @endif
                                 @if($serviceLog->invoice_status === 1 && (strtotime(date('Y-m-d')) == strtotime(date('Y-m-d', strtotime($serviceLog->created_at)))))
-
                                 <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Edit Invoice">
                                     <i class="fas fa-edit"></i>
                                 </a>

@@ -71,7 +71,7 @@
   </div>
   <li class="nav-item @if(Request::is('invoices')) active @endif">
     <a class="nav-link" href="{{ route('invoices') }}">
-      <i class="fas fa-file"></i>
+      <i class="fas fa-file-alt"></i>
       <span>Invoices</span>
     </a>
   </li>

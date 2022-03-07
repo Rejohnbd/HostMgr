@@ -68,9 +68,9 @@ class InvoiceControler extends Controller
 
     public function index()
     {
-        // $invoices = Service::where('invoice_status', '=', 0)->get();
-        // dd($invoices);
-        return view('invoices.index');
+        $invoices = Invoice::orderBy('id', 'DESC')->get();
+
+        return view('invoices.index', compact('invoices'));
     }
 
     public function create($id)
@@ -91,6 +91,8 @@ class InvoiceControler extends Controller
             $serviceLogsInfo = ServiceLog::where('customer_id', $cusomerInfo->id)->where('service_id', $serviceId)->where('service_log_for', 'new')->latest()->first();
         } else if ($request->invoice_item_for == 2) {
             $serviceLogsInfo = ServiceLog::where('customer_id', $cusomerInfo->id)->where('service_id', $serviceId)->where('service_log_for', 'renewal')->latest()->first();
+        } else {
+            $serviceLogsInfo = NULL;
         }
 
         if (is_null($serviceLogsInfo)) {

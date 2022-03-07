@@ -24,7 +24,7 @@
 @endif
 
 <?php
-if (strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) {
+if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
 ?>
     <div class="col-lg-12">
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -295,6 +295,12 @@ if (strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) {
                                 @if($serviceLog->invoice_status === 1)
                                 <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" target="_blank" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Downlad Invoice">
                                     <i class="fas fa-file-download"></i>
+                                </a>
+                                @endif
+                                @if($serviceLog->invoice_status === 1 && (strtotime(date('Y-m-d')) == strtotime(date('Y-m-d', strtotime($serviceLog->created_at)))))
+
+                                <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Edit Invoice">
+                                    <i class="fas fa-edit"></i>
                                 </a>
                                 @endif
                             </td>

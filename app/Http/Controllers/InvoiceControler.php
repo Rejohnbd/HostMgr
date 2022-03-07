@@ -399,7 +399,7 @@ class InvoiceControler extends Controller
         $service = Service::findOrFail($serviceLogInfo->service_id);
         $customer = Customer::where('id', '=', $service->customer_id)->first();
         $user = User::select('email', 'mobile')->where('id', '=', $customer->user_id)->first();
-        $invoice = Invoice::where('service_id', '=', $service->id)->first();
+        $invoice = Invoice::where('invoice_number', '=', $invoice_number)->first();
 
         $invoiceItems = InvoiceItem::where('invoice_id', '=', $invoice->id)->get();
         // dd($invoiceItems);

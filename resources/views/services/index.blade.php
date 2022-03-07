@@ -69,11 +69,12 @@
                             @endforeach
                         </td>
                         <td>{{ $service->domain_name }} </td>
-                        <td class="@if(strtotime($service->service_expire_date) < strtotime(date('Y-m-d'))) bg-danger @elseif(strtotime($service->service_expire_date) > strtotime(date('Y-m-d')))@php $monthDifferece = calculate_month_differents(date('Y-m-d'), $service->service_expire_date); if($monthDifferece <= 2){echo'bg-warning';}@endphp@endif">
+                        <td class="@if(strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) bg-danger @elseif(strtotime($service->service_expire_date) > strtotime(date('Y-m-d')))@php $monthDifferece = calculate_month_differents(date('Y-m-d'), $service->service_expire_date); if($monthDifferece <= 2){echo'bg-warning';}@endphp@endif">
                             {{ date('d/m/Y', strtotime($service->service_start_date)) }} to {{ date('d/m/Y', strtotime($service->service_expire_date)) }}
                         </td>
                         <td>
                             <button class="btn btn-sm @if($service->invoice_status)btn-success @else btn-danger @endif">@if($service->invoice_status) Ready @else Not Ready @endif</button>
+                            <button class="btn btn-sm @if($service->payment_status == 1) btn-success @elseif($service->payment_status == 2) btn-warning @else btn-danger @endif">@if($service->payment_status == 1) Paid @elseif($service->payment_status == 2) Partial Paid @else Not Paid @endif</button>
                         </td>
                         <td>
                             <a href=" {{ route('services.show', $service->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Service Details">

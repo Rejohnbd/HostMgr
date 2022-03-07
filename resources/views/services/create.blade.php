@@ -213,7 +213,6 @@
                         </div>
                     </div>
 
-
                     <div class="form-group required other-details">
                         <label for="itemDetails" class="col-form-label text-right text-gray-900">Item Details</label>
                         <textarea name="item_details" class="form-control @error('item_details') is-invalid @enderror" id="itemDetails" rows="3" placeholder="Others Details">{{ old('item_details') }}</textarea>
@@ -221,6 +220,7 @@
                         <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
+
                     <div class="form-row">
                         <div class="form-group col-md-6 required">
                             <label for="serviceStartDaty" class="col-form-label text-right text-gray-900">Service Start Date</label>

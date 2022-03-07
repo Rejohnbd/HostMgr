@@ -284,11 +284,9 @@ class ServicesController extends Controller
 
     public function renewalService(Request $request)
     {
-        dd($request->all());
         $attributeNames['customer_type']  = 'Customer Types';
         $rules['customer_type'] = 'required|integer|min:1|max:2';
         $this->checkValidity($request, $rules, $attributeNames);
-
         // Check Customer Type Validity
         if ($request->customer_type == 1) :
             $attributeNames['individual_customer']  = 'Individual Customer';
@@ -303,6 +301,106 @@ class ServicesController extends Controller
             $this->checkValidity($request, $rules, $attributeNames);
             $data['customer_id'] = $request->company_customer;
         endif;
+
+        // $user_id = $this->getUserId($data['customer_id']);
+        // $data['user_id'] = $user_id;
+        // Start here for update
+        $serviceUpdate = Service::find($request->serId);
+
+        // Check Initial Validity For all intial show form fields
+        $attributeNames = $this->attributesForAll();
+        $rules = $this->rulesForAll();
+        $this->checkValidity($request, $rules, $attributeNames);
+
+        // $data['domain_name'] = $request->domain_name;
+        $serviceUpdate->domain_name         = $request->domain_name;
+        $serviceStartDate                   = date('Y-m-d', strtotime($request->service_start_date));
+        $serviceUpdate->service_start_date  = $serviceStartDate;
+        $serviceExpireDate                  = date('Y-m-d', strtotime($request->service_expire_date));
+        $serviceUpdate->service_expire_date = $serviceExpireDate;
+
+        $dataItem = array();
+        for ($i = 1; $i <= count($request->service_types); $i++) :
+
+            if ($request->service_types[$i] == 1) :
+                $attributeNames['domain_reseller_id'] = 'Domain Reseller Name';
+                $rules['domain_reseller_id']          = 'required';
+                $this->checkValidity($request, $rules, $attributeNames);
+
+                $serviceUpdate->domain_reseller_id = $request->domain_reseller_id;
+            endif;
+            if ($request->service_types[$i] == 2) :
+                $attributeNames['hosting_reseller_id']  = 'Hosting Reseller Name';
+                $attributeNames['hosting_type']         = 'Hosting Type';
+                $rules['hosting_reseller_id']           = 'required';
+                $rules['hosting_type']                  = 'required';
+                $this->checkValidity($request, $rules, $attributeNames);
+
+                $serviceUpdate->hosting_reseller_id    = $request->hosting_reseller_id;
+                $serviceUpdate->hosting_type           = $request->hosting_type;
+
+                if ($request->hosting_type == 'package') :
+                    $attributeNames['hosting_package_id']     = 'Hosting Package';
+                    $rules['hosting_package_id']              = 'required';
+                    $this->checkValidity($request, $rules, $attributeNames);
+
+                    $serviceUpdate->hosting_package_id   = $request->hosting_package_id;
+                endif;
+
+                if ($request->hosting_type == 'custom') :
+                    $attributeNames = $this->attributesForCustomPackage();
+                    $rules = $this->rulesForCustomPackage();
+                    $this->checkValidity($request, $rules, $attributeNames);
+
+                    $serviceUpdate->hosting_space              = $request->hosting_space;
+                    $serviceUpdate->hosting_bandwidth          = $request->hosting_bandwidth;
+                    $serviceUpdate->hosting_db_qty             = $request->hosting_db_qty;
+                    $serviceUpdate->hosting_emails_qty         = $request->hosting_emails_qty;
+                    $serviceUpdate->hosting_subdomain_qty      = $request->hosting_subdomain_qty;
+                    $serviceUpdate->hosting_ftp_qty            = $request->hosting_ftp_qty;
+                    $serviceUpdate->hosting_park_domain_qty    = $request->hosting_park_domain_qty;
+                    $serviceUpdate->hosting_addon_domain_qty   = $request->hosting_addon_domain_qty;
+                endif;
+
+            endif;
+            if ($request->service_types[$i] == 3) :
+                $attributeNames['item_details'] = 'Item Details';
+                $rules['item_details']          = 'required';
+                $this->checkValidity($request, $rules, $attributeNames);
+                $dataItem['item_details'] = $request->item_details;
+            endif;
+
+        endfor;
+        $serviceUpdate->service_status  = 'active';
+        $serviceUpdate->invoice_status  = 0;
+        $serviceUpdate->payment_status  = 0;
+        $serviceUpdate->created_by      = auth()->user()->id;
+
+        $logData['customer_id']         = $data['customer_id'];
+        $logData['service_id']          = $request->serId;
+        $logData['service_log_for']     = 'renewal';
+        $logData['service_start_date']  = $serviceStartDate;
+        $logData['service_expire_date'] = $serviceExpireDate;
+
+
+        $dataItem['service_id'] = $request->serId;
+        for ($i = 1; $i <= count($request->service_types); $i++) :
+            if ($request->service_types[$i] == 0) {
+                continue;
+            } else {
+                $dataItem['service_type_id'] = $request->service_types[$i];
+                ServiceItem::create($dataItem);
+                // $logData['service_type_id'] = $request->service_types[$i];
+                // ServiceLog::create($logData);
+                $serviceTypeIds[] = $request->service_types[$i];
+            }
+        endfor;
+
+        $logData['service_type_ids'] = implode(',', $serviceTypeIds);
+        ServiceLog::create($logData);
+        session()->flash('success', 'Service Update Successfully.');
+        return redirect()->route('services.index');
+        // dd($serviceUpdate, $request->all());
     }
 
     public function expireSoonServices()

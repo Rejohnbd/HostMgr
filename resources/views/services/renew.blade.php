@@ -61,7 +61,7 @@
                                 <div class="col-md-6 custom-control custom-checkbox">
                                     <input type="checkbox" name="service_for" class="serviceCheckbox custom-control-input @error('service_for') is-invalid @enderror" id="{{$serviceType->id}}" value="{{ $serviceType->id }}" @foreach($service->serviceItems as $item) @if($item->service_type_id == $serviceType->id) checked @endif @endforeach>
                                     <label class="custom-control-label" for="{{ $serviceType->id }}">{{ $serviceType->name }} </label>
-                                    <input type="hidden" id="hidden_st_{{$serviceType->id}}" name="service_types[{{$serviceType->id}}]" value="0" />
+                                    <input type="hidden" id="hidden_st_{{$serviceType->id}}" name="service_types[{{$serviceType->id}}]" value="@php foreach($service->serviceItems as $item){ if($item->service_type_id == $serviceType->id){ echo '1'; break; }else{ echo '0'; } } @endphp" />
                                 </div>
                                 @endforeach
                             </div>
@@ -74,7 +74,8 @@
 
                         <div class="form-group col-md-6 required">
                             <label for="domainName" class="col-form-label text-right text-gray-900">Service Domain name</label>
-                            <input type="text" name="domain_name" class="form-control @error('domain_name') is-invalid @enderror" id="domainName" value="{{ $service->domain_name }}" required disabled>
+                            <input type="text" class="form-control" id="domainName" value="{{ $service->domain_name }}" required disabled>
+                            <input type="hidden" name="domain_name" class="form-control @error('domain_name') is-invalid @enderror" id="domainName" value="{{ $service->domain_name }}">
                             @error('domain_name')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -253,6 +254,7 @@
         $(".hosting-package").hide();
         $(".custom-package").hide();
         $(".other-details").hide();
+
         $("#serviceStartDate").datepicker({
             format: "dd-mm-yyyy",
             todayHighlight: true,
@@ -312,6 +314,15 @@
                     $(".other-details").hide();
                 }
             });
+        });
+
+        $(".serviceCheckbox").on("click", function() {
+            var id = $(this).val();
+            if ($(this).is(":checked")) {
+                $("#hidden_st_" + id).val(id);
+            } else {
+                $("#hidden_st_" + id).val(0);
+            }
         });
 
         let packageOnLoad = $('#hostingType').children(":selected").val();

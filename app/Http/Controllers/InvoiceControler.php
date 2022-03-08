@@ -406,7 +406,185 @@ class InvoiceControler extends Controller
 
     public function update(Request $request)
     {
-        dd($request->all());
+        $userId = $request->userId;
+        $serviceId = $request->serId;
+        $invoiceNo = $request->invNo;
+
+        User::findOrFail($userId);
+        Service::findOrFail($serviceId);
+        $cusomerInfo = Customer::where('user_id', $userId)->first();
+
+        if ($request->invoice_item_for == 1) {
+            $serviceLogsInfo = ServiceLog::where('customer_id', $cusomerInfo->id)->where('service_id', $serviceId)->where('service_log_for', 'new')->latest()->first();
+        } else if ($request->invoice_item_for == 2) {
+            $serviceLogsInfo = ServiceLog::where('customer_id', $cusomerInfo->id)->where('service_id', $serviceId)->where('service_log_for', 'renewal')->latest()->first();
+        } else {
+            $serviceLogsInfo = NULL;
+        }
+
+        if (is_null($serviceLogsInfo)) {
+            session()->flash('warning', 'You Select Wrong Invoice For');
+            return redirect()->back();
+        }
+
+        $attributeNames = $this->attributesForAll();
+        $rules = $this->rulesForAll();
+        $this->checkValidity($request, $rules, $attributeNames);
+
+        $invGrossTotal = 0;
+        $invDiscount = 0;
+        $invTotal = 0;
+        for ($i = 0; $i < count($request->service_type_id); $i++) :
+            if ($request->service_type_id[$i] === '1') :
+                $attributeNames['domain_invoice_item_subtotal']    = 'Domain Fee';
+                $attributeNames['domain_invoice_item_discount']    = 'Domain Discount';
+                $attributeNames['domain_invoice_item_total']       = 'Net Amount';
+
+                $rules['domain_invoice_item_subtotal']     = 'required|integer|gt:0';
+                $rules['domain_invoice_item_discount']     = 'required|integer|gt:-1';
+                $rules['domain_invoice_item_total']        = 'required|integer|gt:0';
+
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->validate();
+
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->after(function ($validator) use ($request) {
+                    if ($request->domain_invoice_item_subtotal <= $request->domain_invoice_item_discount) {
+                        $validator->errors()->add('domain_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('domain_invoice_item_discount', 'Insert Wrong Value');
+                    }
+
+                    if (($request->domain_invoice_item_subtotal - $request->domain_invoice_item_discount) != $request->domain_invoice_item_total) {
+                        $validator->errors()->add('domain_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('domain_invoice_item_discount', 'Insert Wrong Value');
+                        $validator->errors()->add('domain_invoice_item_total', 'Insert Wrong Value');
+                    }
+                });
+                $validator->validate();
+
+                $invGrossTotal  = $invGrossTotal + $request->domain_invoice_item_subtotal;
+                $invDiscount    = $invDiscount + $request->domain_invoice_item_discount;
+                $invTotal       = $invTotal + $request->domain_invoice_item_total;
+            endif;
+            if ($request->service_type_id[$i] === '2') :
+                $attributeNames['hosting_invoice_item_subtotal']    = 'Hosting Fee';
+                $attributeNames['hosting_invoice_item_discount']    = 'Hosting Discount';
+                $attributeNames['hosting_invoice_item_total']       = 'Net Amount';
+
+                $rules['hosting_invoice_item_subtotal']     = 'required|integer|gt:0';
+                $rules['hosting_invoice_item_discount']     = 'required|integer|gt:-1';
+                $rules['hosting_invoice_item_total']        = 'required|integer|gt:0';
+
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->validate();
+
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->after(function ($validator) use ($request) {
+                    if ($request->hosting_invoice_item_subtotal <= $request->hosting_invoice_item_discount) {
+                        $validator->errors()->add('hosting_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('hosting_invoice_item_discount', 'Insert Wrong Value');
+                    }
+
+                    if (($request->hosting_invoice_item_subtotal - $request->hosting_invoice_item_discount) != $request->hosting_invoice_item_total) {
+                        $validator->errors()->add('hosting_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('hosting_invoice_item_discount', 'Insert Wrong Value');
+                        $validator->errors()->add('hosting_invoice_item_total', 'Insert Wrong Value');
+                    }
+                });
+                $validator->validate();
+
+                $invGrossTotal  = $invGrossTotal + $request->hosting_invoice_item_subtotal;
+                $invDiscount    = $invDiscount + $request->hosting_invoice_item_discount;
+                $invTotal       = $invTotal + $request->hosting_invoice_item_total;
+            endif;
+            if ($request->service_type_id[$i] === '3') :
+                $attributeNames['other_invoice_item_subtotal']      = 'Others Fee';
+                $attributeNames['other_invoice_item_discount']      = 'Others Discount';
+                $attributeNames['other_invoice_item_total']         = 'Net Amount';
+
+                $rules['other_invoice_item_subtotal']       = 'required|integer|gt:0';
+                $rules['other_invoice_item_discount']       = 'required|integer|gt:-1';
+                $rules['other_invoice_item_total']          = 'required|integer|gt:0';
+
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->validate();
+
+                $validator = Validator::make($request->all(), $rules);
+                $validator->setAttributeNames($attributeNames);
+                $validator->after(function ($validator) use ($request) {
+                    if ($request->other_invoice_item_subtotal <= $request->other_invoice_item_discount) {
+                        $validator->errors()->add('other_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('other_invoice_item_discount', 'Insert Wrong Value');
+                    }
+
+                    if (($request->other_invoice_item_subtotal - $request->other_invoice_item_discount) != $request->other_invoice_item_total) {
+                        $validator->errors()->add('other_invoice_item_subtotal', 'Insert Wrong Value');
+                        $validator->errors()->add('other_invoice_item_discount', 'Insert Wrong Value');
+                        $validator->errors()->add('other_invoice_item_total', 'Insert Wrong Value');
+                    }
+                });
+                $validator->validate();
+
+                $invGrossTotal  = $invGrossTotal + $request->other_invoice_item_subtotal;
+                $invDiscount    = $invDiscount + $request->other_invoice_item_discount;
+                $invTotal       = $invTotal + $request->other_invoice_item_total;
+            endif;
+        endfor;
+
+        $updateInvoice = Invoice::where('invoice_number', $invoiceNo)->first();
+
+        $updateInvoice->user_id             = $userId;
+        $updateInvoice->service_id          = $serviceId;
+        $updateInvoice->invoice_year        = $request->invoice_year;
+        $updateInvoice->invoice_number      = $invoiceNo;
+        $updateInvoice->invoice_gross_total = $invGrossTotal;
+        $updateInvoice->invoice_discount    = $invDiscount;
+        $updateInvoice->invoice_total       = $invTotal;
+        $updateInvoice->created_by          = auth()->user()->id;
+
+        $updateInvoice->save();
+
+        $invoiceItemData['invoice_number']          = $invoiceNo;
+        $invoiceItemData['invoice_item_for']        = $request->invoice_item_for;
+        $invoiceItemData['invoice_item_details']    = $request->invoice_item_details;
+        $invoiceItemData['invoice_id']              = $updateInvoice->id;
+
+        InvoiceItem::where('invoice_id', $updateInvoice->id)->delete();
+
+        for ($i = 0; $i < count($request->service_type_id); $i++) :
+            if ($request->service_type_id[$i] === '1') :
+                $invoiceItemData['service_type_id']  = 1;
+                $invoiceItemData['invoice_item_subtotal']   = $request->domain_invoice_item_subtotal;
+                $invoiceItemData['invoice_item_discount']   = $request->domain_invoice_item_discount;
+                $invoiceItemData['invoice_item_total']      = $request->domain_invoice_item_total;
+                InvoiceItem::create($invoiceItemData);
+            endif;
+            if ($request->service_type_id[$i] === '2') :
+                $invoiceItemData['service_type_id']  = 2;
+                $invoiceItemData['invoice_item_subtotal']   = $request->hosting_invoice_item_subtotal;
+                $invoiceItemData['invoice_item_discount']   = $request->hosting_invoice_item_discount;
+                $invoiceItemData['invoice_item_total']      = $request->hosting_invoice_item_total;
+                InvoiceItem::create($invoiceItemData);
+            endif;
+            if ($request->service_type_id[$i] === '3') :
+                $invoiceItemData['service_type_id']  = 3;
+                $invoiceItemData['invoice_item_subtotal']   = $request->other_invoice_item_subtotal;
+                $invoiceItemData['invoice_item_discount']   = $request->other_invoice_item_discount;
+                $invoiceItemData['invoice_item_total']      = $request->other_invoice_item_total;
+                InvoiceItem::create($invoiceItemData);
+            endif;
+        endfor;
+
+        // Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
+        // ServiceLog::where('id', $serviceLogsInfo->id)->update(['invoice_status' => 1, 'invoice_number' => $invoiceNumber]);
+
+        session()->flash('success', 'Invoice Updated Successfully');
+        return redirect()->route('invoices');
     }
 
     public function generateInvoicePdf($invoice_number)

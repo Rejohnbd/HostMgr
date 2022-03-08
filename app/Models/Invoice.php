@@ -21,7 +21,7 @@ class Invoice extends Model
 
     public static function findCustomerNameByUserId($userId)
     {
-        $customerInfo = Customer::select('customer_first_name', 'customer_last_name')->where('user_id', $userId)->first();
+        $customerInfo = Customer::select('customer_first_name', 'customer_last_name', 'company_name')->where('user_id', $userId)->first();
         if (!is_null($customerInfo->customer_first_name) && !is_null($customerInfo->customer_last_name)) {
             return $customerInfo->customer_first_name . ' ' . $customerInfo->customer_last_name;
         } else {

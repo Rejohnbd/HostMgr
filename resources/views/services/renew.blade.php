@@ -57,11 +57,18 @@
                         <div class="form-group col-md-6 required">
                             <label for="serviceFor" class="col-form-label text-right text-gray-900">Service For</label>
                             <div class="row ml-2">
+
+                                @php
+                                foreach($service->serviceItems as $item) {
+                                $service_type_id_array[] = $item->service_type_id;
+                                }
+                                @endphp
+
                                 @foreach($serviceTypes as $serviceType)
                                 <div class="col-md-6 custom-control custom-checkbox">
-                                    <input type="checkbox" name="service_for" class="serviceCheckbox custom-control-input @error('service_for') is-invalid @enderror" id="{{$serviceType->id}}" value="{{ $serviceType->id }}" @foreach($service->serviceItems as $item) @if($item->service_type_id == $serviceType->id) checked @endif @endforeach>
+                                    <input type="checkbox" name="service_for" class="serviceCheckbox custom-control-input @error('service_for') is-invalid @enderror" id="{{$serviceType->id}}" value="{{ $serviceType->id }}" {{ in_array($serviceType->id,$service_type_id_array)?"checked":"" }}>
                                     <label class="custom-control-label" for="{{ $serviceType->id }}">{{ $serviceType->name }} </label>
-                                    <input type="hidden" id="hidden_st_{{$serviceType->id}}" name="service_types[{{$serviceType->id}}]" value="@php foreach($service->serviceItems as $item){ if($item->service_type_id == $serviceType->id){ echo $serviceType->id; }} @endphp" />
+                                    <input type="hidden" id="hidden_st_{{$serviceType->id}}" name="service_types[{{$serviceType->id}}]" value="{{ in_array($serviceType->id,$service_type_id_array)? $serviceType->id:'' }}" />
                                 </div>
                                 @endforeach
                             </div>

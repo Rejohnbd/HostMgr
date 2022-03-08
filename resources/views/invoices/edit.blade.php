@@ -153,13 +153,19 @@
                             @enderror
                         </div>
                     </div>
+                    @php
+                    foreach($invoiceInfo->invoiceItems as $invoice_item) {
+                    $data[$invoice_item->service_type_id] = $invoice_item;
+                    }
+                    @endphp
+
 
                     @foreach($service->serviceItems as $serviceItem)
                     @if($serviceItem->service_type_id === 1)
                     <div class="form-row">
                         <div class="form-group col-md-4 required">
                             <label for="domainSubTotal" class="col-form-label text-right text-gray-900">Domain Fee</label>
-                            <input type="number" name="domain_invoice_item_subtotal" class="form-control @error('domain_invoice_item_subtotal') is-invalid @enderror" id="domainSubTotal" placeholder="Domain Fee" value="@php foreach($invoiceInfo->invoiceItems as $item){ if($item->service_type_id == 1) {echo $item->invoice_item_subtotal; }} @endphp" required>
+                            <input type="number" name="domain_invoice_item_subtotal" class="form-control @error('domain_invoice_item_subtotal') is-invalid @enderror" id="domainSubTotal" placeholder="Domain Fee" value="{{ $data[1]->invoice_item_subtotal }}" required>
                             @error('domain_invoice_item_subtotal')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -167,7 +173,7 @@
 
                         <div class="form-group col-md-4 required">
                             <label for="domainDiscount" class="col-form-label text-right text-gray-900">Domain Discount</label>
-                            <input type="number" name="domain_invoice_item_discount" class="form-control @error('domain_invoice_item_discount') is-invalid @enderror" id="domainDiscount" placeholder="Domain Discount" value="@php foreach($invoiceInfo->invoiceItems as $item){ if($item->service_type_id == 1) {echo $item->invoice_item_discount; }} @endphp" required>
+                            <input type="number" name="domain_invoice_item_discount" class="form-control @error('domain_invoice_item_discount') is-invalid @enderror" id="domainDiscount" placeholder="Domain Discount" value="{{ $data[1]->invoice_item_discount }}" required>
                             @error('domain_invoice_item_discount')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -175,7 +181,7 @@
 
                         <div class="form-group col-md-4 required">
                             <label for="domainNetAmount" class="col-form-label text-right text-gray-900">Net Amount</label>
-                            <input type="number" name="domain_invoice_item_total" class="form-control @error('domain_invoice_item_total') is-invalid @enderror" id="domainNetAmount" placeholder="Net Amount" value="@php foreach($invoiceInfo->invoiceItems as $item){ if($item->service_type_id == 1) {echo $item->invoice_item_total; }} @endphp" required>
+                            <input type="number" name="domain_invoice_item_total" class="form-control @error('domain_invoice_item_total') is-invalid @enderror" id="domainNetAmount" placeholder="Net Amount" value="{{ $data[1]->invoice_item_total }}" required>
                             @error('domain_invoice_item_total')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -187,7 +193,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-4 required">
                             <label for="hostingSubTotal" class="col-form-label text-right text-gray-900">Hosting Fee</label>
-                            <input type="number" name="hosting_invoice_item_subtotal" class="form-control @error('hosting_invoice_item_subtotal') is-invalid @enderror" id="hostingSubTotal" placeholder="Hosting Fee" value="@php foreach($invoiceInfo->invoiceItems as $item){ if($item->service_type_id == 2) {echo $item->invoice_item_subtotal; }} @endphp" required>
+                            <input type="number" name="hosting_invoice_item_subtotal" class="form-control @error('hosting_invoice_item_subtotal') is-invalid @enderror" id="hostingSubTotal" placeholder="Hosting Fee" value="{{ $data[2]->invoice_item_subtotal }}" required>
                             @error('hosting_invoice_item_subtotal')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -195,7 +201,7 @@
 
                         <div class="form-group col-md-4 required">
                             <label for="hostingDiscount" class="col-form-label text-right text-gray-900">Hosting Discount</label>
-                            <input type="number" name="hosting_invoice_item_discount" class="form-control @error('hosting_invoice_item_discount') is-invalid @enderror" id="hostingDiscount" placeholder="Hosting Discount" value="@php foreach($invoiceInfo->invoiceItems as $item){ if($item->service_type_id == 2) {echo $item->invoice_item_discount; }} @endphp" required>
+                            <input type="number" name="hosting_invoice_item_discount" class="form-control @error('hosting_invoice_item_discount') is-invalid @enderror" id="hostingDiscount" placeholder="Hosting Discount" value="{{ $data[2]->invoice_item_discount }}" required>
                             @error('hosting_invoice_item_discount')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -203,7 +209,7 @@
 
                         <div class="form-group col-md-4 required">
                             <label for="hostingNetAmount" class="col-form-label text-right text-gray-900">Net Amount</label>
-                            <input type="number" name="hosting_invoice_item_total" class="form-control @error('hosting_invoice_item_total') is-invalid @enderror" id="hostingNetAmount" placeholder="Net Amount" value="@php foreach($invoiceInfo->invoiceItems as $item){ if($item->service_type_id == 2) {echo $item->invoice_item_total; }} @endphp" required>
+                            <input type="number" name="hosting_invoice_item_total" class="form-control @error('hosting_invoice_item_total') is-invalid @enderror" id="hostingNetAmount" placeholder="Net Amount" value="{{ $data[2]->invoice_item_total }}" required>
                             @error('hosting_invoice_item_total')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -215,7 +221,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-4 required">
                             <label for="othersSubTotal" class="col-form-label text-right text-gray-900">Others Fee</label>
-                            <input type="number" name="other_invoice_item_subtotal" class="form-control @error('other_invoice_item_subtotal') is-invalid @enderror" id="othersSubTotal" placeholder="Others Fee" value="@php foreach($invoiceInfo->invoiceItems as $item){ if($item->service_type_id == 3) {echo $item->invoice_item_subtotal; }} @endphp" required>
+                            <input type="number" name="other_invoice_item_subtotal" class="form-control @error('other_invoice_item_subtotal') is-invalid @enderror" id="othersSubTotal" placeholder="Others Fee" value="{{ $data[3]->invoice_item_subtotal }}" required>
                             @error('other_invoice_item_subtotal')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -223,7 +229,7 @@
 
                         <div class="form-group col-md-4 required">
                             <label for="othersDiscount" class="col-form-label text-right text-gray-900">Others Discount</label>
-                            <input type="number" name="other_invoice_item_discount" class="form-control @error('other_invoice_item_discount') is-invalid @enderror" id="othersDiscount" placeholder="Others Discount" value="@php foreach($invoiceInfo->invoiceItems as $item){ if($item->service_type_id == 3) {echo $item->invoice_item_discount; }} @endphp" required>
+                            <input type="number" name="other_invoice_item_discount" class="form-control @error('other_invoice_item_discount') is-invalid @enderror" id="othersDiscount" placeholder="Others Discount" value="{{ $data[3]->invoice_item_discount }}" required>
                             @error('other_invoice_item_discount')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -231,7 +237,7 @@
 
                         <div class="form-group col-md-4 required">
                             <label for="othersNetAmount" class="col-form-label text-right text-gray-900">Net Amount</label>
-                            <input type="number" name="other_invoice_item_total" class="form-control @error('other_invoice_item_total') is-invalid @enderror" id="othersNetAmount" placeholder="Net Amount" value="@php foreach($invoiceInfo->invoiceItems as $item){ if($item->service_type_id == 3) {echo $item->invoice_item_total; }} @endphp" required>
+                            <input type="number" name="other_invoice_item_total" class="form-control @error('other_invoice_item_total') is-invalid @enderror" id="othersNetAmount" placeholder="Net Amount" value="{{ $data[3]->invoice_item_total }}" required>
                             @error('other_invoice_item_total')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -244,12 +250,11 @@
                     <div class="form-row">
                         <div class="form-group col-md-12 required">
                             <label for="invoiceDetails" class="col-form-label text-right text-gray-900">Invoice Details Info</label>
-                            <textarea name="invoice_item_details" class="form-control @error('invoice_item_details') is-invalid @enderror" id="invoiceDetails" rows="3" placeholder="Invoice Details Info" required>@php foreach($invoiceInfo->invoiceItems as $item){ if($item->service_type_id == 1) {echo $item->invoice_item_details; }} @endphp</textarea>
+                            <textarea name="invoice_item_details" class="form-control @error('invoice_item_details') is-invalid @enderror" id="invoiceDetails" rows="3" placeholder="Invoice Details Info" required>{{ $data[1]->invoice_item_details }}</textarea>
                             @error('invoice_item_details')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-
                     </div>
 
                     <div class="form-group row">

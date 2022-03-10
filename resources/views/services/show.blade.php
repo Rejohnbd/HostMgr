@@ -298,7 +298,7 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                                 <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" target="_blank" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Downlad Invoice No {{ $serviceLog->invoice_number }}">
                                     <i class="fas fa-file-download"></i>
                                 </a>
-                                <a href="" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Payment for Invoice No {{ $serviceLog->invoice_number }}">
+                                <a href="{{ route('payment-invoice', $serviceLog->invoice_number) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Payment for Invoice No {{ $serviceLog->invoice_number }}">
                                     <i class="fas fa-money-bill"></i>
                                 </a>
                                 @endif

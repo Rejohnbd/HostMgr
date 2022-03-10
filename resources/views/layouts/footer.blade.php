@@ -48,7 +48,7 @@
 <script src="{{ asset('resources/assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/customers.js') }}"></script>
 @endif
-@if(Request::is('services/create'))
+@if(Request::is('services/create') || Request::is('payments/*/invoice'))
 <script src="{{ asset('resources/assets/vendor/select-option/js/select2.min.js') }}"></script>
 <script src="{{ asset('resources/assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/services.js') }}"></script>

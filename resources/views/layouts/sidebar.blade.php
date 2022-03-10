@@ -76,4 +76,13 @@
     </a>
   </li>
   <hr class="sidebar-divider">
+  <div class="sidebar-heading">
+    Accounts
+  </div>
+  <li class="nav-item @if(Request::is('payments')) active @endif">
+    <a class="nav-link" href="{{ route('payments.index') }}">
+      <i class="fas fa-money-bill"></i>
+      <span>Payments</span>
+    </a>
+  </li>
 </ul>

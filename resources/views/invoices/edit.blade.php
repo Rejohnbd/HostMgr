@@ -280,29 +280,7 @@
             format: "yyyy",
             viewMode: "years",
             minViewMode: "years",
-
         });
-
-        $("#paymentDate").datepicker({
-            format: "dd-mm-yyyy",
-            todayHighlight: true,
-        });
-
-        /*$('.bkash-info').hide();
-        $('.bank-info').hide();
-        $("#paymentType").on("change", function() {
-            var paymentType = $(this).children(":selected").val();
-            if (paymentType === 'bkash') {
-                $('.bkash-info').show();
-                $('.bank-info').hide();
-            } else if (paymentType === 'bank') {
-                $('.bkash-info').hide();
-                $('.bank-info').show();
-            } else {
-                $('.bkash-info').hide();
-                $('.bank-info').hide();
-            }
-        });*/
     });
 </script>
 

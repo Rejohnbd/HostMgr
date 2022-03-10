@@ -260,39 +260,7 @@ class InvoiceControler extends Controller
         session()->flash('success', 'Invoice Create Successfully');
         return redirect()->route('services.show', $serviceId);
 
-        /*if ($request->payment_method === 'cash') :
-            $newInvoice = Invoice::create($invoiceData);
-            $invoiceItemData['invoice_id'] = $newInvoice->id;
-
-            for ($i = 0; $i < count($request->service_type_id); $i++) :
-                if ($request->service_type_id[$i] === '1') :
-                    $invoiceItemData['service_type_id']  = 1;
-                    $invoiceItemData['invoice_item_subtotal']   = $request->domain_invoice_item_subtotal;
-                    $invoiceItemData['invoice_item_discount']   = $request->domain_invoice_item_discount;
-                    $invoiceItemData['invoice_item_total']      = $request->domain_invoice_item_total;
-                    InvoiceItem::create($invoiceItemData);
-                endif;
-                if ($request->service_type_id[$i] === '2') :
-                    $invoiceItemData['service_type_id']  = 2;
-                    $invoiceItemData['invoice_item_subtotal']   = $request->hosting_invoice_item_subtotal;
-                    $invoiceItemData['invoice_item_discount']   = $request->hosting_invoice_item_discount;
-                    $invoiceItemData['invoice_item_total']      = $request->hosting_invoice_item_total;
-                    InvoiceItem::create($invoiceItemData);
-                endif;
-                if ($request->service_type_id[$i] === '3') :
-                    $invoiceItemData['service_type_id']  = 3;
-                    $invoiceItemData['invoice_item_subtotal']   = $request->other_invoice_item_subtotal;
-                    $invoiceItemData['invoice_item_discount']   = $request->other_invoice_item_discount;
-                    $invoiceItemData['invoice_item_total']      = $request->other_invoice_item_total;
-                    InvoiceItem::create($invoiceItemData);
-                endif;
-            endfor;
-
-            Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
-            
-            session()->flash('success', 'Invoice Create Successfully');
-            return redirect()->route('services.show', $serviceId);
-        endif;
+        /*
 
         if ($request->payment_method === 'bkash') :
             $attributeNames['bkash_mobile_number']     = 'bKash Mobile Number';

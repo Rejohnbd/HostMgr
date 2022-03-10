@@ -48,4 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('invoices/{invoice_number}/download', 'InvoiceControler@generateInvoicePdf')->name('invoices.download');
     Route::get('profile', 'ProfileController@profile')->name('profile');
     Route::post('update-password', 'ProfileController@updatePassword')->name('update_password');
+    Route::resource('payments', 'PaymentController');
+    Route::get('payments/{invoiceNo}/invoice', 'PaymentController@invoicePayment')->name('payment-invoice');
+    Route::post('payments-store', 'PaymentController@storePayment')->name('payments.store');
 });

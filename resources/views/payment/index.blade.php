@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title', 'Invoices')
+@section('title', 'Payment')
 
 @section('content')
 
 @component('partials.breadcrumb',[
-'title' => 'Invoices List',
-'activePage' => 'Invoices'
+'title' => 'Payment List',
+'activePage' => 'Payment'
 ])
 @endcomponent
 
@@ -22,7 +22,7 @@
 <div class="col-lg-12">
     <div class="card mb-4 ">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Invoices Table</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Payment Table</h6>
         </div>
 
         <div class="table-responsive p-3">
@@ -51,7 +51,7 @@
                         <td>{{ $invoice->user->email }}</td>
                         <td>
                             @if($invoice->payment_status == 0 || $invoice->payment_status == 2)
-                            <a href="{{ route('payment-invoice', $invoice->invoice_number) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Payment for Invoice No {{ $invoice->invoice_number }}">
+                            <a href="" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Payment for Invoice No {{ $invoice->invoice_number }}">
                                 <i class="fas fa-money-bill"></i>
                             </a>
                             @endif

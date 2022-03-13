@@ -30,13 +30,14 @@
                     <div class="form-group">
                         <label for="paymentUser" class="col-form-label text-right text-gray-900">Service Domain</label>
                         <input type="text" class="form-control" id="paymentUser" value="{{ $serviceInfo->domain_name }}" disabled>
+                        <input type="hidden" name="service_domain" value="{{ $serviceInfo->domain_name }}">
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="totalAmount" class="col-form-label text-right text-gray-900">Total Amount</label>
-                            <input class="form-control" id="totalAmount" value="{{ floor($invoiceInfo->invoice_total) }}" disabled>
-                            <input type="hidden" name="total_amount" value="{{ floor($invoiceInfo->invoice_total) }}" required>
+                            <input class="form-control" id="totalAmount" value="{{ floor($invoiceInfo->invoice_total - $paid_amount) }}" disabled>
+                            <input type="hidden" name="total_amount" value="{{ floor($invoiceInfo->invoice_total  - $paid_amount) }}" required>
                         </div>
 
                         <div class="form-group col-md-4 required">

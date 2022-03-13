@@ -17,8 +17,8 @@ class CreateTransactionsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('expense_id')->nullable()->comment('FK from table: users');
             $table->unsignedBigInteger('payment_id')->nullable()->comment('FK from table: payment');
-            $table->decimal('expenses', 10, 2);
-            $table->decimal('income', 10, 2);
+            $table->decimal('expenses', 10, 2)->nullable();
+            $table->decimal('income', 10, 2)->nullable();
             $table->decimal('previous_balance', 10, 2);
             $table->decimal('present_balance', 10, 2);
             $table->string('description');

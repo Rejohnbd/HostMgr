@@ -24,7 +24,7 @@ class CreateServiceLogsTable extends Migration
             $table->text('comment')->nullable();
             $table->tinyInteger('invoice_status')->default('0')->comment('0 = Invoice Not Ready, 1 = Invoice Ready');
             $table->integer('invoice_number')->unsigned()->nullable();
-            $table->tinyInteger('payment_status')->default('0')->comment('0 = Not Paid, 1 = Paid, 2 = Partial Paid');
+            // $table->tinyInteger('payment_status')->default('0')->comment('0 = Not Paid, 1 = Paid, 2 = Partial Paid');
             $table->timestamps();
 
             $table->foreign('service_id')

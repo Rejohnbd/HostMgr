@@ -14,7 +14,7 @@
   <link href="{{ asset('resources/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('resources/assets/css/admin.min.css') }}" rel="stylesheet">
   <link href="{{ asset('resources/assets/css/main.css') }}" rel="stylesheet">
-  @if(Request::is('domain-resellers*') || Request::is('hosting-resellers*') || Request::is('customers') || Request::is('services*') || Request::is('invoices*'))
+  @if(Request::is('domain-resellers*') || Request::is('hosting-resellers*') || Request::is('customers') || Request::is('services*') || Request::is('invoices*') || Request::is('payments'))
   <link href="{{ asset('resources/assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
   @endif
   @if(Request::is('customers/create') || Request::is('customers/*/edit') || Request::is('services/create') || Request::is('domain-reseller/*/renew') || Request::is('hosting-reseller/*/renew') || Request::is('invoices/*/create') || Request::is('services/*/renew') || Request::is('payments/*/invoice'))

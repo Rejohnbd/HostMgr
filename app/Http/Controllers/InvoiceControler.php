@@ -6,6 +6,7 @@ use App\Models\BankAccount;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\Payment;
 use App\Models\Service;
 use App\Models\ServiceLog;
 use App\User;
@@ -259,108 +260,6 @@ class InvoiceControler extends Controller
 
         session()->flash('success', 'Invoice Create Successfully');
         return redirect()->route('services.show', $serviceId);
-
-        /*
-
-        if ($request->payment_method === 'bkash') :
-            $attributeNames['bkash_mobile_number']     = 'bKash Mobile Number';
-            $attributeNames['bkash_transaction_no']    = 'bKash Transaction Number';
-            $rules['bkash_mobile_number']              = 'required|string';
-            $rules['bkash_transaction_no']             = 'required|string';
-
-            $validator = Validator::make($request->all(), $rules);
-            $validator->setAttributeNames($attributeNames);
-            $validator->validate();
-
-            $invoiceData['bkash_mobile_number']      = $request->bkash_mobile_number;
-            $invoiceData['bkash_transaction_no']     = $request->bkash_transaction_no;
-
-            $newInvoice = Invoice::create($invoiceData);
-            $invoiceItemData['invoice_id'] = $newInvoice->id;
-
-            for ($i = 0; $i < count($request->service_type_id); $i++) :
-                if ($request->service_type_id[$i] === '1') :
-                    $invoiceItemData['service_type_id']  = 1;
-                    $invoiceItemData['invoice_item_subtotal']   = $request->domain_invoice_item_subtotal;
-                    $invoiceItemData['invoice_item_discount']   = $request->domain_invoice_item_discount;
-                    $invoiceItemData['invoice_item_total']      = $request->domain_invoice_item_total;
-                    InvoiceItem::create($invoiceItemData);
-                endif;
-                if ($request->service_type_id[$i] === '2') :
-                    $invoiceItemData['service_type_id']  = 2;
-                    $invoiceItemData['invoice_item_subtotal']   = $request->hosting_invoice_item_subtotal;
-                    $invoiceItemData['invoice_item_discount']   = $request->hosting_invoice_item_discount;
-                    $invoiceItemData['invoice_item_total']      = $request->hosting_invoice_item_total;
-                    InvoiceItem::create($invoiceItemData);
-                endif;
-                if ($request->service_type_id[$i] === '3') :
-                    $invoiceItemData['service_type_id']  = 3;
-                    $invoiceItemData['invoice_item_subtotal']   = $request->other_invoice_item_subtotal;
-                    $invoiceItemData['invoice_item_discount']   = $request->other_invoice_item_discount;
-                    $invoiceItemData['invoice_item_total']      = $request->other_invoice_item_total;
-                    InvoiceItem::create($invoiceItemData);
-                endif;
-            endfor;
-
-            Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
-            
-            session()->flash('success', 'Invoice Create Successfully');
-            return redirect()->route('services.show', $serviceId);
-        endif;
-
-        if ($request->payment_method === 'bank') :
-            $attributeNames['bank_name']            = 'Bank Name';
-            $attributeNames['bank_account_number']  = 'Bank Account Number';
-            $rules['bank_name']                     = 'required|string';
-            $rules['bank_account_number']           = 'required|string';
-
-            $validator = Validator::make($request->all(), $rules);
-            $validator->setAttributeNames($attributeNames);
-            $validator->validate();
-
-            $bankAccData['bank_name']           = $request->bank_name;
-            $bankAccData['bank_account_number'] = $request->bank_account_number;
-            $bankAccData['created_by']          = auth()->user()->id;
-
-            $bankId = BankAccount::create($bankAccData);
-            $invoiceData['bank_account_id'] = $bankId->id;
-
-            $newInvoice = Invoice::create($invoiceData);
-            $invoiceItemData['invoice_id'] = $newInvoice->id;
-
-            for ($i = 0; $i < count($request->service_type_id); $i++) :
-                if ($request->service_type_id[$i] === '1') :
-                    $invoiceItemData['service_type_id']  = 1;
-                    $invoiceItemData['invoice_item_subtotal']   = $request->domain_invoice_item_subtotal;
-                    $invoiceItemData['invoice_item_discount']   = $request->domain_invoice_item_discount;
-                    $invoiceItemData['invoice_item_total']      = $request->domain_invoice_item_total;
-                    InvoiceItem::create($invoiceItemData);
-                endif;
-                if ($request->service_type_id[$i] === '2') :
-                    $invoiceItemData['service_type_id']  = 2;
-                    $invoiceItemData['invoice_item_subtotal']   = $request->hosting_invoice_item_subtotal;
-                    $invoiceItemData['invoice_item_discount']   = $request->hosting_invoice_item_discount;
-                    $invoiceItemData['invoice_item_total']      = $request->hosting_invoice_item_total;
-                    InvoiceItem::create($invoiceItemData);
-                endif;
-                if ($request->service_type_id[$i] === '3') :
-                    $invoiceItemData['service_type_id']  = 3;
-                    $invoiceItemData['invoice_item_subtotal']   = $request->other_invoice_item_subtotal;
-                    $invoiceItemData['invoice_item_discount']   = $request->other_invoice_item_discount;
-                    $invoiceItemData['invoice_item_total']      = $request->other_invoice_item_total;
-                    InvoiceItem::create($invoiceItemData);
-                endif;
-            endfor;
-
-            Service::where('id', '=', $serviceId)->update(['invoice_status' => 1]);
-           
-            session()->flash('success', 'Invoice Create Successfully');
-            return redirect()->route('services.show', $serviceId);
-        endif; 
-
-        session()->flash('warning', 'Something Happend Wrong');
-        return redirect()->route('services.show', $serviceId);
-        */
     }
 
     public function renew($invoice_number)

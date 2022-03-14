@@ -51,4 +51,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('payments', 'PaymentController');
     Route::get('payments/{invoiceNo}/invoice', 'PaymentController@invoicePayment')->name('payment-invoice');
     Route::post('payments-store', 'PaymentController@storePayment')->name('payments.store');
+    Route::resource('expenses', 'ExpensesController');
 });

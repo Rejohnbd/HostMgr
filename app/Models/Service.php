@@ -49,4 +49,10 @@ class Service extends Model
         $serviceTypeName = ServiceType::select('name')->where('id', $id)->first();
         return $serviceTypeName->name;
     }
+
+    public static function checkServicePaymentSatusbyInvoiceNumber($invoice_number)
+    {
+        $invoiceInfo = Invoice::select('payment_status')->where('invoice_number', $invoice_number)->first();
+        return $invoiceInfo->payment_status;
+    }
 }

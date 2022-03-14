@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\DomainReseller;
 use App\Models\DomainResellerRenewLog;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class DomainResellerRenewController extends Controller
@@ -12,6 +14,12 @@ class DomainResellerRenewController extends Controller
     public function renew(DomainReseller $id)
     {
         return view('domain-resellers-renew.renew', compact('id'));
+    }
+
+    public function getInitialBalance()
+    {
+        $initialBalance = DB::table('initial_balance')->select('initial_balance')->where('id', 1)->first();
+        return $initialBalance->initial_balance;
     }
 
     public function store(Request $request)
@@ -36,7 +44,28 @@ class DomainResellerRenewController extends Controller
             $data['domain_reseller_renew_for']      =  $request->domain_reseller_renew_for;
             $data['domain_reseller_renew_amount']   =  $request->domain_reseller_renew_amount;
 
-            DomainResellerRenewLog::create($data);
+            $renewInfo = DomainResellerRenewLog::create($data);
+
+            $lastTransaction = Transaction::latest()->first();
+            if (is_null($lastTransaction)) {
+                $initialBalance = $this->getInitialBalance();
+                Transaction::create([
+                    'domain_reseller_renew_logs_id'     => $renewInfo->id,
+                    'expenses'                          => $request->domain_reseller_renew_amount,
+                    'previous_balance'                  => $initialBalance,
+                    'present_balance'                   => $initialBalance - $request->domain_reseller_renew_amount,
+                    'description'                       => 'Paid Taka ' . $request->domain_reseller_renew_amount . ' for service domain renew.'
+                ]);
+            } else {
+                Transaction::create([
+                    'domain_reseller_renew_logs_id'     => $renewInfo->id,
+                    'expenses'                          => $request->domain_reseller_renew_amount,
+                    'previous_balance'                  => $lastTransaction->present_balance,
+                    'present_balance'                   => $lastTransaction->present_balance - $request->domain_reseller_renew_amount,
+                    'description'                       => 'Paid Taka ' . $request->domain_reseller_renew_amount . ' for service domain renew.'
+                ]);
+            }
+
             session()->flash('success', 'Domain Reseller Renew Successfully');
             return redirect()->route('domain-resellers.show', $request->domain_reseller_id);
         endif;

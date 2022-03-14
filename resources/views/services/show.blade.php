@@ -298,7 +298,7 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                                 <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" target="_blank" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Downlad Invoice No {{ $serviceLog->invoice_number }}">
                                     <i class="fas fa-file-download"></i>
                                 </a>
-                                @if($service->payment_status != 1)
+                                @if($service->checkServicePaymentSatusbyInvoiceNumber($serviceLog->invoice_number) != 1)
                                 <a href="{{ route('payment-invoice', $serviceLog->invoice_number) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Payment for Invoice No {{ $serviceLog->invoice_number }}">
                                     <i class="fas fa-money-bill"></i>
                                 </a>
@@ -311,9 +311,9 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                                 @endif
                             </td>
                             <td>
-                                @if($service->payment_status === 0)
+                                @if($service->checkServicePaymentSatusbyInvoiceNumber($serviceLog->invoice_number) === 0)
                                 Unpaid
-                                @elseif($service->payment_status === 1 )
+                                @elseif($service->checkServicePaymentSatusbyInvoiceNumber($serviceLog->invoice_number) === 1 )
                                 Paid
                                 @else
                                 Partial Paid

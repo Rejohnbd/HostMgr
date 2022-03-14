@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\HostingReseller;
 use App\Models\HostingResellerRenewLog;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class HostigResellerRenewController extends Controller
@@ -12,6 +14,12 @@ class HostigResellerRenewController extends Controller
     public function renew(HostingReseller $id)
     {
         return view('hosting-resellers-renew.renew', compact('id'));
+    }
+
+    public function getInitialBalance()
+    {
+        $initialBalance = DB::table('initial_balance')->select('initial_balance')->where('id', 1)->first();
+        return $initialBalance->initial_balance;
     }
 
     public function store(Request $request)
@@ -36,7 +44,28 @@ class HostigResellerRenewController extends Controller
             $data['hosting_reseller_renew_for']      =  $request->hosting_reseller_renew_for;
             $data['hosting_reseller_renew_amount']   =  $request->hosting_reseller_renew_amount;
 
-            HostingResellerRenewLog::create($data);
+            $renewInfo = HostingResellerRenewLog::create($data);
+
+            $lastTransaction = Transaction::latest()->first();
+            if (is_null($lastTransaction)) {
+                $initialBalance = $this->getInitialBalance();
+                Transaction::create([
+                    'hosting_reseller_renew_logs_id'    => $renewInfo->id,
+                    'expenses'                          => $request->hosting_reseller_renew_amount,
+                    'previous_balance'                  => $initialBalance,
+                    'present_balance'                   => $initialBalance - $request->hosting_reseller_renew_amount,
+                    'description'                       => 'Paid Taka ' . $request->hosting_reseller_renew_amount . ' for service domain renew.'
+                ]);
+            } else {
+                Transaction::create([
+                    'hosting_reseller_renew_logs_id'    => $renewInfo->id,
+                    'expenses'                          => $request->hosting_reseller_renew_amount,
+                    'previous_balance'                  => $lastTransaction->present_balance,
+                    'present_balance'                   => $lastTransaction->present_balance - $request->hosting_reseller_renew_amount,
+                    'description'                       => 'Paid Taka ' . $request->hosting_reseller_renew_amount . ' for service domain renew.'
+                ]);
+            }
+
             session()->flash('success', 'Hosting Reseller Renew Successfully');
             return redirect()->route('hosting-resellers.show', $request->hosting_reseller_id);
         endif;

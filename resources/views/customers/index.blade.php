@@ -109,7 +109,9 @@
                     }
 
                     if (response.status == 200) {
-                        $('#customerId-' + customerId).remove();
+                        $("#dataTable").DataTable().rows($("#customerId-" + customerId)).remove()
+                        $("#dataTable").DataTable().draw();
+                        // $('#customerId-' + customerId).remove();
                         $('#successModalTitle').text(response.title);
                         $('#successModalMessage').text(response.message);
                         $('#successModal').modal('show');

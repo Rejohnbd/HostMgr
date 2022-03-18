@@ -31,6 +31,14 @@ class CustomerController extends Controller
         return $user;
     }
 
+    protected function updateUserWithouPassword($email, $customer)
+    {
+        $user = User::find($customer->user_id);
+        $user->email    = $email;
+        $user->save();
+        return $user;
+    }
+
     /**
      * Attributes Name for Customer Types Individual
      * @return attributesNames 
@@ -63,6 +71,34 @@ class CustomerController extends Controller
         $rules['customer_address']      = 'required|string';
         $rules['email']                 = 'required|email|unique:users';
         $rules['password']              = 'required';
+        $rules['customer_join_date']    = 'required|date_format:d-m-Y';
+        $rules['customer_join_year']    = 'required|integer';
+
+        return $rules;
+    }
+
+    protected function attributesForIndividualCustomerUpdate()
+    {
+        $attributeNames['customer_type']        = 'Customer Type';
+        $attributeNames['customer_gender']      = 'Customer Gender';
+        $attributeNames['customer_first_name']  = 'Customer First Name';
+        $attributeNames['customer_last_name']   = 'Customer Last Name';
+        $attributeNames['customer_address']     = 'Customer Address';
+        $attributeNames['email']                = 'Customer Email';
+        $attributeNames['customer_join_date']   = 'Customer Join Date';
+        $attributeNames['customer_join_year']   = 'Customer Join Year';
+
+        return $attributeNames;
+    }
+
+    protected function rulesForIndividualCustomerUpdate($user)
+    {
+        $rules['customer_type']         = 'required|string';
+        $rules['customer_gender']       = 'required|string';
+        $rules['customer_first_name']   = 'required|string';
+        $rules['customer_last_name']    = 'required|string';
+        $rules['customer_address']      = 'required|string';
+        $rules['email']                 = 'required|email|unique:users,email,' . $user->id;
         $rules['customer_join_date']    = 'required|date_format:d-m-Y';
         $rules['customer_join_year']    = 'required|integer';
 
@@ -161,7 +197,7 @@ class CustomerController extends Controller
         $rules['customer_address']      = 'required|string';
         $rules['company_name']          = 'required|string';
         $rules['email']                 = 'required|email';
-        $rules['password']              = 'required';
+        // $rules['password']              = 'required';
         $rules['customer_join_date']    = 'required|date_format:d-m-Y';
         $rules['customer_join_year']    = 'required|integer';
         $rules['company_website']       = 'required|url';
@@ -255,7 +291,7 @@ class CustomerController extends Controller
             $user = $this->createUser($request);
             $this->createIndividualCustomer($user, $request);
             session()->flash('success', 'Customer Created Successfully.');
-            return redirect()->back();
+            return redirect()->route('customers.index');
 
         // Value Save Company Customer
         elseif ($request->customer_type === 'company') :
@@ -283,7 +319,7 @@ class CustomerController extends Controller
                 endif;
             endfor;
             session()->flash('success', 'Customer Created Successfully.');
-            return redirect()->back();
+            return redirect()->route('customers.index');
         else :
             session()->flash('warning', 'Something Happend Wrong.');
             return redirect()->back();
@@ -322,21 +358,32 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-
+        $user = User::find($request->usrId);
         // Value Save Individual Customer
         if ($request->customer_type === 'individual') :
-            $attributeNames = $this->attributesForIndividualCustomer();
-            $rules = $this->rulesForIndividualCustomer();
+            $attributeNames = $this->attributesForIndividualCustomerUpdate();
+            $rules = $this->rulesForIndividualCustomerUpdate($user);
 
             $validator = Validator::make($request->all(), $rules);
             $validator->setAttributeNames($attributeNames);
             $validator->validate();
+            if ($request->has('password') && !is_null($request->password)) {
+                $passwordAttrName['password']   = 'Password';
+                $passwordAttrRules['password']  = 'required';
 
-            $this->updateUser($request->email, $request->password, $customer);
+                $validator = Validator::make($request->all(), $passwordAttrRules);
+                $validator->setAttributeNames($passwordAttrName);
+                $validator->validate();
+
+                $this->updateUser($request->email, $request->password, $customer);
+            } else {
+                $this->updateUserWithouPassword($request->email, $customer);
+            }
+
             $this->updateIndividualCustomer($request, $customer);
 
             session()->flash('success', 'Customer Update Successfully.');
-            return redirect()->back();
+            return redirect()->route('customers.index');
 
         // Value Save Company Customer
         elseif ($request->customer_type === 'company') :
@@ -347,8 +394,18 @@ class CustomerController extends Controller
             $validator = Validator::make($request->all(), $rules);
             $validator->setAttributeNames($attributeNames);
             $validator->validate();
+            if ($request->has('password') && !is_null($request->password)) {
+                $passwordAttrName['password']   = 'Password';
+                $passwordAttrRules['password']  = 'required';
 
-            $this->updateUser($request->email, $request->password, $customer);
+                $validator = Validator::make($request->all(), $passwordAttrRules);
+                $validator->setAttributeNames($passwordAttrName);
+                $validator->validate();
+                $this->updateUser($request->email, $request->password, $customer);
+            } else {
+                $this->updateUserWithouPassword($request->email, $customer);
+            }
+
             $customer = $this->UpdateCompanyCustomer($request, $customer);
             $this->deleteOldContactPerson($customer->id);
             // Loop for Contact Person value save
@@ -364,7 +421,7 @@ class CustomerController extends Controller
                 endif;
             endfor;
             session()->flash('success', 'Customer Created Successfully.');
-            return redirect()->back();
+            return redirect()->route('customers.index');
         else :
             session()->flash('warning', 'Something Happend Wrong.');
             return redirect()->back();

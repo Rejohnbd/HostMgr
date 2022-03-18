@@ -10,6 +10,11 @@
 ])
 @endcomponent
 
+{{-- Show Success Alert --}}
+@if(session('success'))
+@include('partials.success-alert')
+@endif
+
 <div class="col-lg-12">
     <div class="d-flex justify-content-start">
         <a href="{{ route('customers.create') }}" class="btn btn-info mb-2">Add Customer</a>
@@ -111,7 +116,6 @@
                     if (response.status == 200) {
                         $("#dataTable").DataTable().rows($("#customerId-" + customerId)).remove()
                         $("#dataTable").DataTable().draw();
-                        // $('#customerId-' + customerId).remove();
                         $('#successModalTitle').text(response.title);
                         $('#successModalMessage').text(response.message);
                         $('#successModal').modal('show');

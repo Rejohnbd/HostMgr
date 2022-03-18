@@ -13,10 +13,7 @@
 ])
 @endcomponent
 
-{{-- Show Success Alert --}}
-@if(session('success'))
-@include('partials.success-alert')
-@endif
+
 
 {{-- Show Warning Alert --}}
 @if(session('warning'))
@@ -98,9 +95,9 @@
 
                             <div class="form-group col-md-6 required">
                                 <label for="companyWebsite" class="col-form-label text-right text-gray-900">Company Website</label>
-                                <input type="url" name="company_website" class="form-control @error('company_website') is-invalid @enderror" id="companyWebsite" placeholder="Company Website" value="{{ old('company_website') }}">
+                                <input type="url" name="company_website" class="form-control @error('company_website') is-invalid @enderror" id="companyWebsite" placeholder="Company Website" value="{{ old('company_website') }}" onblur="checkURL(this)">
                                 @error('company_website')
-                                <small class="form-text text-danger">{{ $message }}</small>
+                                <small class=" form-text text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -208,6 +205,14 @@
 
 @section('scripts')
 <script>
+    function checkURL(url) {
+        var string = url.value;
+        if (!~string.indexOf("https")) {
+            string = "https://" + string;
+        }
+        url.value = string;
+        return url
+    }
     $(document).ready(function() {
         $('.company-form').hide();
         $('#customerType input').on('change', function() {
@@ -220,6 +225,8 @@
                 $('.checked-company-form').show();
             }
         });
+
+
 
         @if(old('customer_type') === 'company')
         $('.company-form').show();

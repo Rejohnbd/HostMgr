@@ -29,10 +29,12 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Update Customer</h6>
             </div>
+
             <div class="card-body">
                 <form action="{{ route('customers.update', $customer->id) }}" method="POST">
                     @csrf
                     @method('PUT')
+                    <input type="hidden" name="usrId" value="{{ $customer->user->id }}" />
                     <div class="form-row">
                         <div class="form-group col-md-6 required">
                             <label for="customerType" class="col-form-label text-right text-gray-900">Customer Type</label>
@@ -191,7 +193,7 @@
 
                     <div class="form-group required">
                         <label for="customerPassword" class="col-form-label text-right text-gray-900">Customer Default Password</label>
-                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="customerPassword" placeholder="Customer Default Password" value="{{ old('password') }}" required>
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="customerPassword" placeholder="Customer Default Password" value="{{ old('password') }}">
                         @error('password')
                         <small class="form-text text-danger">{{ $message }}</small>
                         @enderror

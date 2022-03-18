@@ -3,7 +3,8 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Invoice</title>
+    <link href="{{ asset('resources/assets/img/logo.png') }}" rel="icon">
+    <title>HostMgr :: Invoice</title>
     <style type="text/css">
         * {
             border: 0;
@@ -278,6 +279,24 @@
             margin: 0;
         }
 
+        .payment {
+            color: #000;
+        }
+
+        .payment>p {
+            margin-bottom: 5px;
+        }
+
+        .payment>.payment-option {
+            margin-bottom: 3px;
+        }
+
+        .payment>.payment-option>p {
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+
         footer {
             position: fixed;
             bottom: 50px;
@@ -300,11 +319,19 @@
 <body>
     <header>
         <h1>Invoice</h1>
-        <img style="width: 200px; height: 60px" alt="Host Manager Invoice Logo" src="{{ asset('resources/assets/img/logo.png') }}">
+        <address style="color: #000">
+            <p>CodeRiver Applications</p>
+            <p>2<sup>nd</sup> Floor, Shaj Bhaban</p>
+            <p>73, Bijoynagar, Dhaka.</p>
+            <a href="www.coderiverbd.com" target="_blank" style="color: blue">www.coderiverbd.com</a>
+        </address>
+
+        <img style="width: 200px; height: 60px" alt="Host Manager Invoice Logo" src="{{ asset('resources/assets/img/log-extended.png') }}">
     </header>
 
     <article class="article-first">
         <address style="color: #000">
+            <p style="margin-bottom: 5px;">To,</p>
             @if($customer->customer_type === 'individual')
             <p>{{ $customer->customer_first_name }} {{ $customer->customer_last_name }}</p>
             @endif
@@ -335,10 +362,10 @@
 
     <aside>
         <div>
-            <p>Dear Customer,</p>
+            <p>Dear Client,</p>
         </div>
         <div>
-            <p>Thank you very much for paid amount against {{ $service->domain_name }} </p>
+            <p>Thanks for your purchase. Kindly make the payment for the following services {{ $service->domain_name }} </p>
         </div>
     </aside>
 
@@ -390,6 +417,21 @@
             </tr>
         </table>
     </article>
+    <section class="payment">
+        <p>Payment Options:</p>
+        <div class="payment-option">
+            <p>1. Bank Account</p>
+            <p style="margin-left: 15px;"><i>Account Name:</i> Jamiul Hasan</p>
+            <p style="margin-left: 15px;"><i>Account Number:</i> 108.101.154130</p>
+            <p style="margin-left: 15px;">Dutch-Bangla Bank Limited</p>
+            <p style="margin-left: 15px;">Shantinagar, Dhaka.</p>
+        </div>
+
+        <div class="payment-option" style="margin-top: 5px;">
+            <p>2. Bkash/Rocket/Nagad</p>
+            <p style="margin-left: 15px;">01710826403</p>
+        </div>
+    </section>
     <footer>
         <hr />
         <p>Thanks for stay with us.</p>

@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('customers', 'CustomerController');
     Route::post('cusomter-delete', 'CustomerController@destroy');
     Route::resource('services', 'ServicesController');
+    Route::post('services-filter', 'ServicesController@filterServices')->name('services-filter');
     Route::get('services/{service}/renew', 'ServicesController@renewService')->name('services.renew');
     Route::post('services-renewal', 'ServicesController@renewalService')->name('services_renewal');
     Route::get('services-expire-soon', 'ServicesController@expireSoonServices')->name('services-expire-soon');

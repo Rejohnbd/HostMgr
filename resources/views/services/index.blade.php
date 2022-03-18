@@ -29,6 +29,24 @@
     <div class="card mb-4 ">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Services Table</h6>
+            <div class="form-inline">
+
+                <div class="form-group mr-2">
+                    <select class="form-control" id="selectCustomer">
+                        <option selected>Select Customer Option</option>
+                        <option value="all">All</option>
+                        <option value="company">Company</option>
+                        <option value="individual">Individual</option>
+                    </select>
+                </div>
+                <div class="form-group mr-2">
+                    <input type="email" class="form-control" id="expireDateFrom" placeholder="Expire Date From">
+                </div>
+                <div class="form-group mr-2">
+                    <input type="email" class="form-control" id="expireDateTo" placeholder="Expire Date To">
+                </div>
+                <button class="btn btn-info" id="filterSearch">Search</button>
+            </div>
         </div>
         <div class="table-responsive p-3">
             <table class="table align-items-center table-flush" id="dataTable">
@@ -44,7 +62,7 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="filterServiceReport">
                     @forelse($services as $service)
                     <tr>
                         <td>
@@ -96,4 +114,62 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+
+<script>
+    $(document).ready(function() {
+        $("#expireDateFrom").datepicker({
+            format: "dd-mm-yyyy",
+            todayHighlight: true,
+        });
+
+        $("#expireDateTo").datepicker({
+            format: "dd-mm-yyyy",
+            todayHighlight: true,
+        });
+
+        let selectCustomer = null;
+        let expireDateFrom = null;
+        let expireDateTo = null;
+
+        $('#selectCustomer').on('change', function() {
+            selectCustomer = this.value;
+        })
+
+        $(document).on('click', '#filterSearch', function(e) {
+
+            $('#selectCustomer').removeClass('is-invalid');
+            $('#expireDateFrom').removeClass('is-invalid');
+            $('#expireDateTo').removeClass('is-invalid');
+
+            if (selectCustomer == null) {
+                $('#selectCustomer').addClass('is-invalid');
+            } else if (!$('#expireDateFrom').val()) {
+                $('#expireDateFrom').addClass('is-invalid');
+            } else if (!$('#expireDateTo').val()) {
+                $('#expireDateTo').addClass('is-invalid');
+            } else {
+                let expireDateFrom = $('#expireDateFrom').val();
+                let expireDateTo = $('#expireDateTo').val();
+                console.log(selectCustomer, expireDateFrom, expireDateTo)
+
+                $.ajax({
+                    url: "{{ route('services-filter') }}",
+                    method: 'POST',
+                    data: {
+                        selectCustomer: selectCustomer,
+                        expireDateFrom: expireDateFrom,
+                        expireDateTo: expireDateTo,
+                        _token: '{{csrf_token()}}',
+                    },
+                    success: function(response) {
+                        $('#filterServiceReport').html(response);
+                    }
+                })
+            }
+        })
+    });
+</script>
 @endsection

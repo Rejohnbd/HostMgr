@@ -226,8 +226,6 @@
             }
         });
 
-
-
         @if(old('customer_type') === 'company')
         $('.company-form').show();
         $('.checked-company-form').hide();

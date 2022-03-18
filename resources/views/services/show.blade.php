@@ -41,7 +41,7 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
     ?>
         <div class="col-lg-12">
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                This Service Expire as soon.
+                This service will expire soon.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

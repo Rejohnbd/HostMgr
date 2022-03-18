@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\CustomerContactPerson;
 use App\Http\Requests\CustomerRequest;
+use App\Models\Service;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -376,8 +377,57 @@ class CustomerController extends Controller
      * @param  \App\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy(Request $request)
     {
-        //
+        $customer = Customer::find($request->customerId);
+        if ($customer) :
+            $checkServiceExist = Service::where('customer_id', $customer->id)->exists();
+            if (!$checkServiceExist) :
+                if ($customer->customer_type == 'company') :
+                    $this->deleteCustomerContactPersonById($customer->id);
+                    $this->deleteCustomerById($customer->id);
+                    $this->deleteUserById($customer->user_id);
+                else :
+                    $this->deleteCustomerById($customer->id);
+                    $this->deleteUserById($customer->user_id);
+                endif;
+
+                $data = [
+                    'status'    => 200,
+                    'title'     => "Customer Deleted.",
+                    'message'   => "Customer Deleted Successfully."
+                ];
+                return response()->json($data);
+            else :
+                $data = [
+                    'status'    => 400,
+                    'title'     => "You Can't delete this customer.",
+                    'message'   => "This Customer Service Already Exist. Please Contact With Author."
+                ];
+                return response()->json($data);
+            endif;
+        else :
+            $data = [
+                'status'    => 404,
+                'title'     => "No Customer Found",
+                'message'   => "Something Happend Wrong. Try Again"
+            ];
+            return response()->json($data);
+        endif;
+    }
+
+    public function deleteCustomerById($customer_id)
+    {
+        Customer::where('id', $customer_id)->delete();
+    }
+
+    public function deleteCustomerContactPersonById($customer_id)
+    {
+        CustomerContactPerson::where('customer_id', $customer_id)->delete();
+    }
+
+    public function deleteUserById($user_id)
+    {
+        User::where('id', $user_id)->delete();
     }
 }

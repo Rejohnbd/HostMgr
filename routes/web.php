@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('dashboard', 'DashboardController@index');
     Route::resource('customers', 'CustomerController');
+    Route::post('cusomter-delete', 'CustomerController@destroy');
     Route::resource('services', 'ServicesController');
     Route::get('services/{service}/renew', 'ServicesController@renewService')->name('services.renew');
     Route::post('services-renewal', 'ServicesController@renewalService')->name('services_renewal');

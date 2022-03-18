@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HostingPackage;
 use App\Http\Requests\HostingPackageRequest;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -136,8 +137,34 @@ class HostingPackageController extends Controller
      * @param  \App\HostingPackage  $hostingPackage
      * @return \Illuminate\Http\Response
      */
-    public function destroy(HostingPackage $hostingPackage)
+    public function destroy(Request $request)
     {
-        //
+        $hostingPackage = HostingPackage::find($request->hostingPackageId);
+        if ($hostingPackage) :
+            $checkServiceExist = Service::where('hosting_package_id', $hostingPackage->id)->exists();
+            if (!$checkServiceExist) :
+                $hostingPackage->delete();
+                $data = [
+                    'status'    => 200,
+                    'title'     => "Customer Deleted.",
+                    'message'   => "Customer Deleted Successfully."
+                ];
+                return response()->json($data);
+            else :
+                $data = [
+                    'status'    => 400,
+                    'title'     => "You Can't delete this Hosting Package.",
+                    'message'   => "This Hosting Package Used in Service. Please Contact With Author."
+                ];
+                return response()->json($data);
+            endif;
+        else :
+            $data = [
+                'status'    => 404,
+                'title'     => "No Hosting Package Found",
+                'message'   => "Something Happend Wrong. Try Again"
+            ];
+            return response()->json($data);
+        endif;
     }
 }

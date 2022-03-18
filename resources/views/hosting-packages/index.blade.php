@@ -17,7 +17,7 @@
 
 <div class="row">
     @forelse($hostingPackages as $hostingPackage)
-    <div class="col-md-4 col-sm-12 mb-4">
+    <div class="col-md-4 col-sm-12 mb-4" id="hostingPackageId-{{ $hostingPackage->id }}">
         <div class="card shadow mb-4">
             <a href="#collapseCHostingPackage-{{ $hostingPackage->id }}" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseHostingPackage-{{ $hostingPackage->id }}">
                 <h6 class="m-0 font-weight-bold text-primary">{{ $hostingPackage->name }}</h6>
@@ -56,9 +56,9 @@
                 <a href="{{ route('hosting-packages.edit', $hostingPackage->id) }}" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="top" title="Edit Package {{ $hostingPackage->name }}">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a href="#" class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Delete Package {{ $hostingPackage->name }}">
+                <button class="btn btn-danger btn-circle deleteHostingPackage" data-id="{{ $hostingPackage->id }}" data-toggle="tooltip" data-placement="top" title="Delete Package {{ $hostingPackage->name }}">
                     <i class="fas fa-trash"></i>
-                </a>
+                </button>
             </div>
         </div>
     </div>
@@ -73,4 +73,58 @@
     @endforelse
 </div>
 
+@include('partials.modal_delete_confirm', [
+'modal_title' => 'Delete Hosting Package',
+'modal_body' => 'Are you Sure? You want to delete this Hosting Package.'
+])
+
+@include('partials.modal_delete_error')
+
+@include('partials.modal_delete_success')
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        let hostingPackageId;
+        $(document).on('click', '.deleteHostingPackage', function() {
+            hostingPackageId = $(this).attr('data-id');
+            $('#deleteModal').modal('show');
+        })
+
+        $(document).on('click', '#deleteConfirm', function() {
+            $.ajax({
+                url: "{{ url('hosting-package-delete')}}",
+                method: "POST",
+                data: {
+                    hostingPackageId: hostingPackageId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    $('#deleteModal').modal('hide');
+                    if (response.status == 404 || response.status == 400) {
+                        $('#errorModalTitle').text(response.title);
+                        $('#errorModalMessage').text(response.message);
+                        $('#errorModal').modal('show');
+                    }
+
+                    if (response.status == 200) {
+                        $('#hostingPackageId-' + hostingPackageId).remove();
+                        $('#successModalTitle').text(response.title);
+                        $('#successModalMessage').text(response.message);
+                        $('#successModal').modal('show');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#deleteModal').modal('hide');
+                    if (jqXHR.status == 500) {
+                        alert('Internal error: ' + jqXHR.responseText);
+                    } else {
+                        alert('Unexpected error.');
+                    }
+                }
+            });
+        });
+    });
+</script>
 @endsection

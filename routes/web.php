@@ -41,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('hosting-reseller/renew-store', 'HostigResellerRenewController@store')->name('hosting-reseller.renew-store');
     Route::delete('hosting-reseller', 'HostigResellerRenewController@destroy')->name('hosting-reseller.destroy');
     Route::resource('hosting-packages', 'HostingPackageController');
+    Route::post('hosting-package-delete', 'HostingPackageController@destroy')->name('hosting-package-delete');
     Route::get('invoices', 'InvoiceControler@index')->name('invoices');
     Route::get('invoices/{id}/create', 'InvoiceControler@create')->name('invoices.create');
     Route::get('invoices/{invoice_number}/renew', 'InvoiceControler@renew')->name('invoices.renew');

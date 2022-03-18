@@ -291,10 +291,10 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                             <td>{{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }}</td>
                             <td>{{ $serviceLog->invoice_number }}</td>
                             <td>
-                                @if($serviceLog->invoice_status === 0)
+                                @if($serviceLog->invoice_status == 0)
                                 Invoice Not Ready
                                 @endif
-                                @if($serviceLog->invoice_status === 1)
+                                @if($serviceLog->invoice_status == 1)
                                 <a href="{{ route('invoices.download', $serviceLog->invoice_number) }}" target="_blank" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Downlad Invoice No {{ $serviceLog->invoice_number }}">
                                     <i class="fas fa-file-download"></i>
                                 </a>
@@ -304,19 +304,23 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                                 </a>
                                 @endif
                                 @endif
-                                @if($serviceLog->invoice_status === 1 && (strtotime(date('Y-m-d')) == strtotime(date('Y-m-d', strtotime($serviceLog->created_at)))))
+                                @if($serviceLog->invoice_status == 1 && (strtotime(date('Y-m-d')) == strtotime(date('Y-m-d', strtotime($serviceLog->created_at)))))
                                 <a href="{{ route('invoices.renew', $serviceLog->invoice_number) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Invoice No {{ $serviceLog->invoice_number }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 @endif
                             </td>
                             <td>
-                                @if($service->checkServicePaymentSatusbyInvoiceNumber($serviceLog->invoice_number) === 0)
+                                @if($serviceLog->invoice_status == 1)
+                                @if($service->checkServicePaymentSatusbyInvoiceNumber($serviceLog->invoice_number) == 0)
                                 Unpaid
-                                @elseif($service->checkServicePaymentSatusbyInvoiceNumber($serviceLog->invoice_number) === 1 )
+                                @elseif($service->checkServicePaymentSatusbyInvoiceNumber($serviceLog->invoice_number) == 1 )
                                 Paid
                                 @else
                                 Partial Paid
+                                @endif
+                                @else
+                                Unpaid
                                 @endif
                             </td>
                         </tr>

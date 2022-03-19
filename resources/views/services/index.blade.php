@@ -33,10 +33,18 @@
 
                 <div class="form-group mr-2">
                     <select class="form-control" id="selectCustomer">
-                        <option selected>Select Customer Option</option>
+                        <option selected>Select Customer</option>
                         <option value="all">All</option>
-                        <option value="company">Company</option>
-                        <option value="individual">Individual</option>
+                        @foreach($customers as $customer)
+                        <option value="{{ $customer->id }}">
+                            @if($customer->customer_type === 'individual')
+                            {{ $customer->customer_first_name }} {{ $customer->customer_last_name }}
+                            @endif
+                            @if($customer->customer_type === 'company')
+                            {{ $customer->company_name }}
+                            @endif
+                        </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group mr-2">
@@ -116,10 +124,19 @@
 </div>
 @endsection
 
-@section('scripts')
+@section('styles')
+<style>
+    .select2-container--default .select2-selection--single {
+        height: 41px !important;
+        overflow: auto !important;
+    }
+</style>
+@endsection
 
+@section('scripts')
 <script>
     $(document).ready(function() {
+        $("#selectCustomer").select2();
         $("#expireDateFrom").datepicker({
             format: "dd-mm-yyyy",
             todayHighlight: true,
@@ -139,13 +156,12 @@
         })
 
         $(document).on('click', '#filterSearch', function(e) {
-
             $('#selectCustomer').removeClass('is-invalid');
             $('#expireDateFrom').removeClass('is-invalid');
             $('#expireDateTo').removeClass('is-invalid');
 
             if (selectCustomer == null) {
-                $('#selectCustomer').addClass('is-invalid');
+                alert('Please select Customer');
             } else if (!$('#expireDateFrom').val()) {
                 $('#expireDateFrom').addClass('is-invalid');
             } else if (!$('#expireDateTo').val()) {
@@ -153,7 +169,6 @@
             } else {
                 let expireDateFrom = $('#expireDateFrom').val();
                 let expireDateTo = $('#expireDateTo').val();
-                console.log(selectCustomer, expireDateFrom, expireDateTo)
 
                 $.ajax({
                     url: "{{ route('services-filter') }}",

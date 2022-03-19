@@ -88,7 +88,9 @@ class ServicesController extends Controller
      */
     public function index()
     {
-        return view('services.index')->with('services', Service::all());
+        return view('services.index')
+            ->with('services', Service::all())
+            ->with('customers', Customer::all());
     }
 
     /**
@@ -426,20 +428,14 @@ class ServicesController extends Controller
         $expireDateFrom = date('Y-m-d', strtotime($request->expireDateFrom));
         $expireDateTo = date('Y-m-d', strtotime($request->expireDateTo));
 
-        if ($selectCustomer == 'company') :
-            $services = Service::join('customers', 'customers.id',  '=', 'services.customer_id')
-                ->where('customers.customer_type', '=', 'company')
-                ->whereBetween('services.service_expire_date', [$expireDateFrom, $expireDateTo])
-                ->get('services.*');
-            return response()->view('services.service-report', compact('services'));
-        elseif ($selectCustomer == 'individual') :
-            $services = Service::join('customers', 'customers.id',  '=', 'services.customer_id')
-                ->where('customers.customer_type', '=', 'individual')
-                ->whereBetween('services.service_expire_date', [$expireDateFrom, $expireDateTo])
-                ->get('services.*');
+        if ($selectCustomer == 'all') :
+            $services = Service::whereBetween('service_expire_date', [$expireDateFrom, $expireDateTo])->get();
             return response()->view('services.service-report', compact('services'));
         else :
-            $services = Service::whereBetween('service_expire_date', [$expireDateFrom, $expireDateTo])->get();
+            $services = Service::join('customers', 'customers.id',  '=', 'services.customer_id')
+                ->where('customers.id', '=', $selectCustomer)
+                ->whereBetween('services.service_expire_date', [$expireDateFrom, $expireDateTo])
+                ->get('services.*');
             return response()->view('services.service-report', compact('services'));
         endif;
     }

@@ -22,6 +22,7 @@
   <link href="{{ asset('resources/assets/vendor/datetimepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
   @endif
   <script src="{{ asset('resources/assets/vendor/jquery/jquery.min.js') }}"></script>
+  @yield('styles')
 </head>
 
 <body id="page-top">

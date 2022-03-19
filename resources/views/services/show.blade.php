@@ -145,12 +145,12 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                                 <i class="fas fa-handshake"></i>
                             </a>
                             @endif
-                            <a href="#" class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Deactive This Service">
+                            {{-- <a href="#" class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" title="Deactive This Service">
                                 <i class="fas fa-thumbs-down"></i>
                             </a>
                             <a href="#" class="btn btn-danger btn-circle">
                                 <i class="fas fa-trash"></i>
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                 </div>

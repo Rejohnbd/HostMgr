@@ -57,4 +57,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('expenses', 'ExpensesController');
     Route::resource('email-templates', 'EmailTemplateController');
     Route::post('email-template-delete', 'EmailTemplateController@destroy')->name('email-template-delete');
+    Route::get('email-send', 'EmailSendController@index')->name('email-send');
+    Route::post('email-template-details', 'EmailSendController@templateDetails')->name('email-template-details');
 });

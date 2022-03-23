@@ -95,15 +95,15 @@
   <div class="sidebar-heading">
     Email
   </div>
-  <li class="nav-item @if(Request::is('email-templates*')) active @endif">
+  <li class="nav-item @if(Request::is('email-templates*') || Request::is('email-send')) active @endif">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmail" aria-expanded="true" aria-controls="collapseEmail">
       <i class="fas fa-envelope"></i>
       <span>Email</span>
     </a>
-    <div id="collapseEmail" class="collapse @if(Request::is('email-templates*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+    <div id="collapseEmail" class="collapse @if(Request::is('email-templates*') || Request::is('email-send')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <a class="collapse-item  @if(Request::is('email-templates*')) active @endif" href="{{ route('email-templates.index') }}">Template</a>
-        <a class="collapse-item  @if(Request::is('services-expire-soon')) active @endif" href="">Email</a>
+        <a class="collapse-item  @if(Request::is('email-send')) active @endif" href="{{ route('email-send') }}">Email</a>
       </div>
     </div>
   </li>

@@ -32,7 +32,7 @@
             <div class="form-inline">
 
                 <div class="form-group mr-2">
-                    <select class="form-control" id="selectCustomer">
+                    <select class="form-control" id="selectCustomer" style="width: 250px">
                         <option selected>Select Customer</option>
                         <option value="all">All</option>
                         @foreach($customers as $customer)

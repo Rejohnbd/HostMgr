@@ -95,7 +95,7 @@
   <div class="sidebar-heading">
     Email
   </div>
-  <li class="nav-item ">
+  <li class="nav-item @if(Request::is('email-templates*')) active @endif">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmail" aria-expanded="true" aria-controls="collapseEmail">
       <i class="fas fa-envelope"></i>
       <span>Email</span>

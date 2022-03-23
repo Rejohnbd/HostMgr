@@ -47,9 +47,9 @@
                         <td>{{ $template->template_name }}</td>
                         <td>{{ $template->email_subject }}</td>
                         <td>
-                            <a href="{{ route('email-templates.show', $template->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Details">
-                                <i class="fas fa-search-plus"></i>
-                            </a>
+                            {{-- <a href="{{ route('email-templates.show', $template->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Details">
+                            <i class="fas fa-search-plus"></i>
+                            </a> --}}
                             <a href="{{ route('email-templates.edit', $template->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Reseller Edit">
                                 <i class="far fa-edit"></i>
                             </a>

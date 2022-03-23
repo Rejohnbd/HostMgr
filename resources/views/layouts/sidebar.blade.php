@@ -77,7 +77,7 @@
   </li>
   <hr class="sidebar-divider">
   <div class="sidebar-heading">
-    Accounts
+    Accounts & Expenses
   </div>
   <li class="nav-item @if(Request::is('payments')) active @endif">
     <a class="nav-link" href="{{ route('payments.index') }}">
@@ -85,14 +85,26 @@
       <span>Payments</span>
     </a>
   </li>
-  <hr class="sidebar-divider">
-  <div class="sidebar-heading">
-    Expenses
-  </div>
   <li class="nav-item @if(Request::is('expenses')) active @endif">
     <a class="nav-link" href="{{ route('expenses.index') }}">
       <i class="fas fa-money-bill"></i>
       <span>Expenses</span>
     </a>
+  </li>
+  <hr class="sidebar-divider">
+  <div class="sidebar-heading">
+    Email
+  </div>
+  <li class="nav-item ">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmail" aria-expanded="true" aria-controls="collapseEmail">
+      <i class="fas fa-envelope"></i>
+      <span>Email</span>
+    </a>
+    <div id="collapseEmail" class="collapse @if(Request::is('email-templates*')) show @endif" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item  @if(Request::is('email-templates*')) active @endif" href="{{ route('email-templates.index') }}">Template</a>
+        <a class="collapse-item  @if(Request::is('services-expire-soon')) active @endif" href="">Email</a>
+      </div>
+    </div>
   </li>
 </ul>

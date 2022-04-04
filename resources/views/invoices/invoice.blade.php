@@ -365,7 +365,7 @@
             <p>Dear Client,</p>
         </div>
         <div>
-            <p>Thanks for your purchase. Kindly make the payment for the following services {{ $service->domain_name }} </p>
+            <p>Thanks for your purchase. Kindly make the payment for the following services:</p>
         </div>
     </aside>
 
@@ -386,10 +386,10 @@
                     <td class="text-center"><span>{{ $loop->iteration }}</span></td>
                     <td>
                         @if($invoiceItem->service_type_id === 1)
-                        <span>{{ 'Domain' }}</span>
+                        <span>{{ 'Domain' }} ( {{ $service->domain_name }} )</span>
                         @endif
                         @if($invoiceItem->service_type_id === 2)
-                        <span>{{ 'Hosting' }}</span>
+                        <span>{{ 'Hosting' }} ( {{ $service->domain_name }} )</span>
                         @endif
                         @if($invoiceItem->service_type_id === 3)
                         <span>{{ 'Others' }}</span>

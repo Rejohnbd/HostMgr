@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Expenses;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class ExpensesController extends Controller

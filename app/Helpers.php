@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Transaction;
+use Illuminate\Support\Facades\DB;
+
 if (!function_exists('calculate_month_differents')) {
     /**
      * Parameter format must be YYYY-mm-dd
@@ -19,5 +22,18 @@ if (!function_exists('calculate_month_differents')) {
 
         $diff = (($to_date_year - $from_date_year) * 12) + ($to_date_month - $from_date_month);
         return $diff;
+    }
+}
+
+if (!function_exists('check_current_balance')) {
+    function check_current_balance()
+    {
+        $presentBlance = Transaction::select('present_balance')->orderBy('id', 'DESC')->first();
+        if (is_null($presentBlance)) :
+            $initialBalance = DB::table('initial_balance')->where('id', 1)->select('initial_balance')->first();
+            return $initialBalance->initial_balance;
+        else :
+            return $presentBlance->present_balance;
+        endif;
     }
 }

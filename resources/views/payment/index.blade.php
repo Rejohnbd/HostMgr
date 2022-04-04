@@ -20,7 +20,8 @@
 @endif
 
 <div class="col-lg-12">
-    <div class="card mb-4 ">
+    <h5><b>Current Balance:</b> {{ check_current_balance() }}</h5>
+    <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Payment Table</h6>
         </div>

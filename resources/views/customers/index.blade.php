@@ -32,7 +32,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        {{-- <th>Website</th> --}}
+                        <th>Phone</th>
                         <th>Total Services</th>
                         <th>Type</th>
                         <th>Actions</th>
@@ -51,8 +51,8 @@
                             {{ $customer->company_name }}
                         </td>
                         @endif
-                        <td>{{ $customer->user->email }}</td>
-                        {{-- <td>{{ $customer->company_website }}</td> --}}
+                        <td>{{ $customer->company_website }}</td>
+                        <td>@if($customer->customer_type === 'individual'){{ $customer->customer_mobile }}@endif</td>
                         <td>{{ $customer->customerServices->count() }}</td>
                         <td>{{ ucfirst($customer->customer_type) }}</td>
                         <td>

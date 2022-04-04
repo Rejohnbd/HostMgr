@@ -87,6 +87,14 @@
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
+
+                        <div class="form-group col-md-12 required">
+                            <label for="customerMobileNumber" class="col-form-label text-right text-gray-900">Customer Mobile Number</label>
+                            <input type="number" name="customer_mobile" class="form-control @error('customer_mobile') is-invalid @enderror" id="customerMobileNumber" placeholder="Customer Mobile Number" value="{{ $customer->customer_mobile }}">
+                            @error('customer_mobile')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="company-form">

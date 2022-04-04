@@ -49,6 +49,7 @@ class CustomerController extends Controller
         $attributeNames['customer_gender']      = 'Customer Gender';
         $attributeNames['customer_first_name']  = 'Customer First Name';
         $attributeNames['customer_last_name']   = 'Customer Last Name';
+        $attributeNames['customer_mobile']      = 'Customer Mobile Number';
         $attributeNames['customer_address']     = 'Customer Address';
         $attributeNames['email']                = 'Customer Email';
         $attributeNames['password']             = 'Customer Password';
@@ -68,6 +69,7 @@ class CustomerController extends Controller
         $rules['customer_gender']       = 'required|string';
         $rules['customer_first_name']   = 'required|string';
         $rules['customer_last_name']    = 'required|string';
+        $rules['customer_mobile']       = 'required|numeric|digits:11';
         $rules['customer_address']      = 'required|string';
         $rules['email']                 = 'required|email|unique:users';
         $rules['password']              = 'required';
@@ -77,12 +79,34 @@ class CustomerController extends Controller
         return $rules;
     }
 
+    protected function createIndividualCustomer($user, $request)
+    {
+        return Customer::create([
+            'user_id'               => $user->id,
+            'customer_first_name'   => $request->customer_first_name,
+            'customer_last_name'    => $request->customer_last_name,
+            'customer_mobile'       => $request->customer_mobile,
+            'customer_type'         => $request->customer_type,
+            'customer_gender'       => $request->customer_gender,
+            'customer_address'      => $request->customer_address,
+            'customer_join_date'    => date('Y-m-d', strtotime($request->customer_join_date)),
+            'customer_join_year'    => $request->customer_join_year,
+            'customer_reference'    => $request->customer_reference,
+            'created_by'            => auth()->user()->id,
+        ]);
+    }
+
+    /**
+     * Store Individual Customer
+     */
+
     protected function attributesForIndividualCustomerUpdate()
     {
         $attributeNames['customer_type']        = 'Customer Type';
         $attributeNames['customer_gender']      = 'Customer Gender';
         $attributeNames['customer_first_name']  = 'Customer First Name';
         $attributeNames['customer_last_name']   = 'Customer Last Name';
+        $attributeNames['customer_mobile']      = 'Customer Mobile Number';
         $attributeNames['customer_address']     = 'Customer Address';
         $attributeNames['email']                = 'Customer Email';
         $attributeNames['customer_join_date']   = 'Customer Join Date';
@@ -97,6 +121,7 @@ class CustomerController extends Controller
         $rules['customer_gender']       = 'required|string';
         $rules['customer_first_name']   = 'required|string';
         $rules['customer_last_name']    = 'required|string';
+        $rules['customer_mobile']       = 'required|numeric|digits:11';
         $rules['customer_address']      = 'required|string';
         $rules['email']                 = 'required|email|unique:users,email,' . $user->id;
         $rules['customer_join_date']    = 'required|date_format:d-m-Y';
@@ -105,31 +130,13 @@ class CustomerController extends Controller
         return $rules;
     }
 
-    /**
-     * Store Individual Customer
-     */
-    protected function createIndividualCustomer($user, $request)
-    {
-        return Customer::create([
-            'user_id'               => $user->id,
-            'customer_first_name'   => $request->customer_first_name,
-            'customer_last_name'    => $request->customer_last_name,
-            'customer_type'         => $request->customer_type,
-            'customer_gender'       => $request->customer_gender,
-            'customer_address'      => $request->customer_address,
-            'customer_join_date'    => date('Y-m-d', strtotime($request->customer_join_date)),
-            'customer_join_year'    => $request->customer_join_year,
-            'customer_reference'    => $request->customer_reference,
-            'created_by'            => auth()->user()->id,
-        ]);
-    }
-
     protected function updateIndividualCustomer($request, $customer)
     {
         $customer = Customer::find($customer->id);
 
         $customer->customer_first_name  = $request->customer_first_name;
         $customer->customer_last_name   = $request->customer_last_name;
+        $customer->customer_mobile      = $request->customer_mobile;
         $customer->customer_type        = $request->customer_type;
         $customer->customer_gender      = $request->customer_gender;
         $customer->customer_address     = $request->customer_address;

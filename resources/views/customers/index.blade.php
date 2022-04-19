@@ -51,7 +51,12 @@
                             {{ $customer->company_name }}
                         </td>
                         @endif
+                        @if($customer->customer_type === 'individual')
+                        <td>{{ $customer->user->email }}</td>
+                        @endif
+                        @if($customer->customer_type === 'company')
                         <td>{{ $customer->company_website }}</td>
+                        @endif
                         <td>@if($customer->customer_type === 'individual'){{ $customer->customer_mobile }}@endif</td>
                         <td>{{ $customer->customerServices->count() }}</td>
                         <td>{{ ucfirst($customer->customer_type) }}</td>

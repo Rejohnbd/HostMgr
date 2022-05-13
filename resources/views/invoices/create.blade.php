@@ -115,6 +115,18 @@
                                 <span>{{ ucfirst($service->serviceItems->first()->item_details)}} </span>
                             </li>
                             @endif
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong class="text-primary">Domain </strong>
+                                <span>{{ $service->domain_name }} </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong class="text-primary">Hosting </strong>
+                                @if($service->hosting_type == 'package')
+                                <span>{{ $service->hostingPackage->name }}</span>
+                                @elseif ($service->hosting_type == 'custom')
+                                <span>{{ $service->hosting_space }}, {{ $service->hosting_bandwidth }}, {{ $service->hosting_db_qty }}, {{ $service->hosting_emails_qty }}, {{ $service->hosting_subdomain_qty }}, {{ $service->hosting_ftp_qty }}, {{ $service->hosting_park_domain_qty }}, {{ $service->hosting_addon_domain_qty }}</span>
+                                @endif
+                            </li>
                         </ul>
                     </div>
                 </div>

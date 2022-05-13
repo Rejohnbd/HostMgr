@@ -124,7 +124,7 @@
                                 @if($service->hosting_type == 'package')
                                 <span>{{ $service->hostingPackage->name }}</span>
                                 @elseif ($service->hosting_type == 'custom')
-                                <span>{{ $service->hosting_space }}, {{ $service->hosting_bandwidth }}, {{ $service->hosting_db_qty }}, {{ $service->hosting_emails_qty }}, {{ $service->hosting_subdomain_qty }}, {{ $service->hosting_ftp_qty }}, {{ $service->hosting_park_domain_qty }}, {{ $service->hosting_addon_domain_qty }}</span>
+                                <span>Space: {{ $service->hosting_space }}, Brandwidth: {{ $service->hosting_bandwidth }}, DB Qty: {{ $service->hosting_db_qty }}, Email Qty: {{ $service->hosting_emails_qty }}, Sub-Domain: {{ $service->hosting_subdomain_qty }}, {{ $service->hosting_ftp_qty }}, Park Domain: {{ $service->hosting_park_domain_qty }}, Addon Domain: {{ $service->hosting_addon_domain_qty }}</span>
                                 @endif
                             </li>
                         </ul>

@@ -42,7 +42,7 @@
 
                         <div class="form-group col-md-4 required">
                             <label for="paidAmount" class="col-form-label text-right text-gray-900">Paid Amount</label>
-                            <input type="number" name="paid_amount" class="form-control @error('paid_amount') is-invalid @enderror" id="paidAmount" placeholder="Paid Discount" value="{{ old('paid_amount') }}" required>
+                            <input type="number" name="paid_amount" class="form-control @error('paid_amount') is-invalid @enderror" id="paidAmount" {{-- placeholder="Paid Discount" --}} value="{{ old('paid_amount') }}" required>
                             @error('paid_amount')
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror

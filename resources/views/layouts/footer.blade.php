@@ -24,7 +24,7 @@
 <script src="{{ asset('resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('resources/assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/admin.min.js') }}"></script>
-@if(Request::is('domain-resellers*') || Request::is('hosting-resellers*') || Request::is('customers') || Request::is('services*') || Request::is('invoices*') || Request::is('payments') || Request::is('expenses') || Request::is('email-templates'))
+@if(Request::is('domain-resellers*') || Request::is('hosting-resellers*') || Request::is('customers') || Request::is('services*') || Request::is('invoices*') || Request::is('payments') || Request::is('expenses') || Request::is('email-templates') || Request::is('transactions'))
 <script src="{{ asset('resources/assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('resources/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script>

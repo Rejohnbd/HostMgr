@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('payments/{invoiceNo}/invoice', 'PaymentController@invoicePayment')->name('payment-invoice');
     Route::post('payments-store', 'PaymentController@storePayment')->name('payments.store');
     Route::resource('expenses', 'ExpensesController');
+    Route::resource('transactions', 'TransactionController')->only('index');
     Route::resource('email-templates', 'EmailTemplateController');
     Route::post('email-template-delete', 'EmailTemplateController@destroy')->name('email-template-delete');
     Route::get('email-send', 'EmailSendController@index')->name('email-send');

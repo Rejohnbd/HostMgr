@@ -91,6 +91,12 @@
       <span>Expenses</span>
     </a>
   </li>
+  <li class="nav-item @if(Request::is('transactions')) active @endif">
+    <a class="nav-link" href="{{ route('transactions.index') }}">
+      <i class="fas fa-money-bill"></i>
+      <span>Transaction</span>
+    </a>
+  </li>
   <hr class="sidebar-divider">
   <div class="sidebar-heading">
     Email

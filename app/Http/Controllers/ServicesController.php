@@ -161,12 +161,18 @@ class ServicesController extends Controller
             if ($request->service_types[$i] == 2) :
                 $attributeNames['hosting_reseller_id']  = 'Hosting Reseller Name';
                 $attributeNames['hosting_type']         = 'Hosting Type';
+                $attributeNames['cpanel_username']      = 'Cpanel Username';
+                $attributeNames['cpanel_password']      = 'Cpanel Password';
                 $rules['hosting_reseller_id']           = 'required';
                 $rules['hosting_type']                  = 'required';
+                $rules['cpanel_username']               = 'required';
+                $rules['cpanel_password']               = 'required';
                 $this->checkValidity($request, $rules, $attributeNames);
 
                 $data['hosting_reseller_id']    = $request->hosting_reseller_id;
                 $data['hosting_type']           = $request->hosting_type;
+                $data['cpanel_username']        = $request->cpanel_username;
+                $data['cpanel_password']        = $request->cpanel_password;
 
                 if ($request->hosting_type == 'package') :
                     $attributeNames['hosting_package_id']     = 'Hosting Package';

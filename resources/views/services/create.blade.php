@@ -213,7 +213,24 @@
                         </div>
                     </div>
 
-                    <div class="form-group required other-details">
+                    <div class="form-row hosting-reseller">
+                        <div class="form-group col-md-6 required">
+                            <label for="cpanelUsername" class="col-form-label text-right text-gray-900">Cpanel Username</label>
+                            <input type="text" name="cpanel_username" class="form-control" id="cpanelUsername" placeholder="Cpanel Username" value="{{ old('hosting_park_domain_qty') }}">
+                            @error('cpanel_username')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6 required">
+                            <label for="cpanelPassword" class="col-form-label text-right text-gray-900">Cpanel Password</label>
+                            <input type="text" name="cpanel_password" class="form-control" id="cpanelPassword" placeholder="Cpanel Password" value="{{ old('cpanel_password') }}">
+                            @error('cpanel_password')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class=" form-group required other-details">
                         <label for="itemDetails" class="col-form-label text-right text-gray-900">Item Details</label>
                         <textarea name="item_details" class="form-control @error('item_details') is-invalid @enderror" id="itemDetails" rows="3" placeholder="Others Details">{{ old('item_details') }}</textarea>
                         @error('item_details')

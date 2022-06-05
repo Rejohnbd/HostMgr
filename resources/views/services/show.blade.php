@@ -129,6 +129,28 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                                     <th scope="row">Service Expire Date</th>
                                     <td>{{ date('d/m/Y', strtotime($service->service_expire_date)) }}</td>
                                 </tr>
+                                @if(!empty($service->cpanel_username))
+                                <tr>
+                                    <th scope="row">Cpanel Username</th>
+                                    <td>
+                                        <span id="cpanelUserName">{{ $service->cpanel_username }}</span>
+                                        <button onclick="copyFunction('cpanelUserName');return false;" class="btn btn-info btn-sm float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Copy Cpanel Username">
+                                            <i class="far fa-copy"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endif
+                                @if(!empty($service->cpanel_password))
+                                <tr>
+                                    <th scope="row">Cpanel Password</th>
+                                    <td>
+                                        <span id="cpanelPass">{{ $service->cpanel_password }}</span>
+                                        <button onclick="copyFunction('cpanelPass');return false;" class="btn btn-info btn-sm float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Copy Cpanel Password">
+                                            <i class="far fa-copy"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endif
                             </tbody>
                         </table>
                         <div class="card-footer d-flex justify-content-between align-items-center">
@@ -331,4 +353,17 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    function copyFunction(id) {
+        var r = document.createRange();
+        r.selectNode(document.getElementById(id));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(r);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+    }
+</script>
 @endsection

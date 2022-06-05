@@ -36,6 +36,8 @@ class CreateServicesTable extends Migration
             $table->tinyInteger('invoice_status')->default('0')->comment('0 = Invoice Not Ready, 1 = Invoice Ready');
             $table->tinyInteger('payment_status')->default('0')->comment('0 = Not Paid, 1 = Paid, 2 = Partial Paid');
             $table->date('service_discontinued_from')->nullable();
+            $table->string('cpanel_username', 100)->nullable();
+            $table->string('cpanel_password', 100)->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->default('0');
             $table->timestamps();

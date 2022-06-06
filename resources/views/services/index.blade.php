@@ -110,6 +110,11 @@
                             <a href=" {{ route('services.show', $service->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Service Details">
                                 <i class="fas fa-search-plus"></i>
                             </a>
+                            @if($serviceItem->service_type_id === 2)
+                            <button class="mt-1 btn btn-success btn-sm editHostingInfo" data-id="{{ $service->id }}" data-name="{{ $service->domain_name }}" data-toggle="tooltip" data-placement="top" title="Edit Hosting Access Info">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            @endif
                         </td>
                     </tr>
                     @empty
@@ -119,6 +124,34 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="hostingInfoUpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Hosing Info of <span class="text-info" id="serviceName"></span></h5>
+                <button type="button" class="close modalClose" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="serviceId" value="" />
+                <div class="form-group">
+                    <label for="cpanelUserName">Cpanel Username</label>
+                    <input type="text" class="form-control" id="cpanelUserName" value="" placeholder="Enter Cpanel Username">
+                </div>
+                <div class="form-group">
+                    <label for="cpanelPassword">Cpanel Password</label>
+                    <input type="text" class="form-control" id="cpanelPassword" value="" placeholder="Enter Cpanel Password">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modalClose" data-dismiss="modal">Close</button>
+                <button type="button" id="hostingInfoUpdate" class="btn btn-primary">Save</button>
+            </div>
         </div>
     </div>
 </div>
@@ -185,6 +218,70 @@
                 })
             }
         })
+
+        $('.editHostingInfo').click(function() {
+            let dataId = $(this).data("id");
+            let dataServiceName = $(this).data("name");
+            $.ajax({
+                url: "{{ route('services-hosting-info') }}",
+                method: 'POST',
+                data: {
+                    serviceId: dataId,
+                    _token: '{{csrf_token()}}',
+                },
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#serviceName').text(dataServiceName);
+                        $('#serviceId').val(dataId);
+                        $('#cpanelUserName').val(response.data.cpanel_username);
+                        $('#cpanelPassword').val(response.data.cpanel_password);
+                        $('#hostingInfoUpdateModal').modal('show');
+                    }
+                }
+            });
+        });
+
+        $('#hostingInfoUpdateModal').on('hidden.bs.modal', function() {
+            $('#serviceName').empty();
+            $('#serviceId').val('');
+            $('#cpanelUserName').val('');
+            $('#cpanelPassword').val('');
+        });
+
+        $(document).on('click', '#hostingInfoUpdate', function() {
+            let serviceId = $('#serviceId').val();
+            let cpanelUserName = $('#cpanelUserName').val();
+            let cpanelPassword = $('#cpanelPassword').val();
+
+            $('#cpanelUserName').removeClass('is-invalid');
+            $('#cpanelPassword').removeClass('is-invalid');
+            $('#expireDateTo').removeClass('is-invalid');
+
+            if (!$('#cpanelUserName').val()) {
+                $('#cpanelUserName').addClass('is-invalid');
+            } else if (!$('#cpanelPassword').val()) {
+                $('#cpanelPassword').addClass('is-invalid');
+            } else {
+
+                $.ajax({
+                    url: "{{ route('services-hosting-info-update') }}",
+                    method: 'POST',
+                    data: {
+                        serviceId: serviceId,
+                        cpanelUserName: cpanelUserName,
+                        cpanelPassword: cpanelPassword,
+                        _token: '{{csrf_token()}}',
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
+                            $('#hostingInfoUpdateModal').modal('hide');
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        })
+
     });
 </script>
 @endsection

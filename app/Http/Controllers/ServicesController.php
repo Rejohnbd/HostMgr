@@ -445,4 +445,23 @@ class ServicesController extends Controller
             return response()->view('services.service-report', compact('services'));
         endif;
     }
+
+    public function servicesHostingInfo(Request $request)
+    {
+        $hostingInfo = Service::select('cpanel_username', 'cpanel_password')->where('id', $request->serviceId)->first();
+        return response()->json(['status' => 200, 'data' => $hostingInfo]);
+    }
+
+    public function servicesHostingInfoUpdate(Request $request)
+    {
+        $updateHotingInfo = Service::where('id', $request->serviceId)->update([
+            'cpanel_username'   => $request->cpanelUserName,
+            'cpanel_password'   => $request->cpanelPassword,
+        ]);
+
+        if ($updateHotingInfo) {
+            session()->flash('success', 'Hosting Info Update Successfully.');
+            return response()->json(['status' => 200]);
+        }
+    }
 }

@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('services-filter', 'ServicesController@filterServices')->name('services-filter');
     Route::post('services-hosting-info', 'ServicesController@servicesHostingInfo')->name('services-hosting-info');
     Route::post('services-hosting-info-update', 'ServicesController@servicesHostingInfoUpdate')->name('services-hosting-info-update');
+    Route::post('services-by-customer-id', 'ServicesController@servicesByCustomerId')->name('services-by-customer-id');
     Route::get('services/{service}/renew', 'ServicesController@renewService')->name('services.renew');
     Route::post('services-renewal', 'ServicesController@renewalService')->name('services_renewal');
     Route::get('services-expire-soon', 'ServicesController@expireSoonServices')->name('services-expire-soon');
@@ -61,5 +62,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('email-templates', 'EmailTemplateController');
     Route::post('email-template-delete', 'EmailTemplateController@destroy')->name('email-template-delete');
     Route::get('email-send', 'EmailSendController@index')->name('email-send');
+    Route::post('email-send', 'EmailSendController@sendEmail')->name('email-send');
     Route::post('email-template-details', 'EmailSendController@templateDetails')->name('email-template-details');
 });

@@ -464,4 +464,14 @@ class ServicesController extends Controller
             return response()->json(['status' => 200]);
         }
     }
+
+    public function servicesByCustomerId(Request $request)
+    {
+        $services = Service::select('id', 'domain_name')->where('customer_id', $request->customerId)->get();
+        $data = [
+            'status'    => 200,
+            'datas'   => $services,
+        ];
+        return response()->json($data);
+    }
 }

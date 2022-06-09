@@ -51,8 +51,18 @@ class EmailSendController extends Controller
                 $email_body = strip_tags($request->email_body);
                 $seperate_string = explode('{' . $shortcode . '}', $email_body);
                 $mailData['service_cpanel_info'] = true;
-                $mailData['cpanel_username'] = $serviceInfo->cpanel_username;
-                $mailData['cpanel_password'] = $serviceInfo->cpanel_password;
+
+                if (!is_null($serviceInfo->cpanel_username)) :
+                    $mailData['cpanel_username'] = $serviceInfo->cpanel_username;
+                else :
+                    $mailData['cpanel_username'] = ' ';
+                endif;
+
+                if (!is_null($serviceInfo->cpanel_password)) :
+                    $mailData['cpanel_password'] = $serviceInfo->cpanel_password;
+                else :
+                    $mailData['cpanel_password'] = ' ';
+                endif;
                 break;
             default:
                 session()->flash('warning', 'Something happed worng in email shortcode. Try Again.');

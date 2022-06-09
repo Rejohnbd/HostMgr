@@ -467,7 +467,7 @@ class ServicesController extends Controller
 
     public function servicesByCustomerId(Request $request)
     {
-        $services = Service::select('id', 'domain_name')->where('customer_id', $request->customerId)->get();
+        $services = Service::select('id', 'domain_name', 'domain_reseller_id', 'hosting_reseller_id')->where('customer_id', $request->customerId)->get();
         $data = [
             'status'    => 200,
             'datas'   => $services,

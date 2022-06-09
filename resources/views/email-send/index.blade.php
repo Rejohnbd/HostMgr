@@ -47,6 +47,15 @@
                     </div>
 
                     <div id="selectCustomerSericeContainer">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="domainCheckbox" value="domain">
+                            <label class="form-check-label" for="domainCheckbox">Domain</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="hostingCheckbox" value="hosting">
+                            <label class="form-check-label" for="hostingCheckbox">Hosing</label>
+                        </div>
+
                         <div class="form-group required">
                             <label for="selectCustomerSerice" class="col-form-label text-right text-gray-900">Select Customer Service</label>
                             <select class="form-control" id="selectCustomerSerice" name="service_id"></select>
@@ -108,6 +117,8 @@
         selector: '#emailBody',
     });
 
+    let serviceInfoObj = {};
+
     let btnDisabled = {
         'customerInfo': false,
         'emailInfo': false
@@ -115,6 +126,8 @@
 
     $('#selectCustomer').on('change', function() {
         $('#selectCustomerSerice').empty();
+        $('#domainCheckbox').prop('disabled', true);
+        $('#hostingCheckbox').prop('disabled', true);
         let customerId = $(this).val();
         if (customerId === 'Select Customer') {
             $('#selectCustomerSericeContainer').hide();
@@ -131,14 +144,26 @@
                 },
                 success: function(response) {
                     if (response.status == 200) {
-                        let toAppend = '';
+                        serviceInfoObj = {};
                         $.each(response.datas, function(i, value) {
-
-                            toAppend += '<option value="' + value.id + '">' + value.domain_name + '</option>';
+                            if (value.domain_reseller_id > 0) {
+                                $('#domainCheckbox').prop('disabled', false);
+                                $('#domainCheckbox').prop('checked', true);
+                            }
+                            if (value.hosting_reseller_id > 0) {
+                                $('#hostingCheckbox').prop('disabled', false);
+                                $('#hostingCheckbox').prop('checked', true);
+                            }
+                            serviceInfoObj[i] = {
+                                id: value.id,
+                                domain_name: value.domain_name,
+                                domain: value.domain_reseller_id,
+                                hosting: value.hosting_reseller_id,
+                            };
                         });
+                        render_services_option(true, true);
                         btnDisabled.customerInfo = true;
                         btn_enable();
-                        $('#selectCustomerSerice').append(toAppend);
                         $('#selectCustomerSericeContainer').show();
                     }
                 },
@@ -192,10 +217,54 @@
 
     function btn_enable() {
         if (btnDisabled.customerInfo && btnDisabled.emailInfo) {
-            $('.btn-primary').prop('disabled', false)
+            let domainStatus = $("#domainCheckbox").is(':checked');
+            let hostingStatus = $("#hostingCheckbox").is(':checked');
+            if (!domainStatus && !hostingStatus) {
+                $('.btn-primary').prop('disabled', true)
+            } else {
+                $('.btn-primary').prop('disabled', false)
+            }
         } else {
             $('.btn-primary').prop('disabled', true)
         }
+    }
+
+    $('#domainCheckbox').on('click', function() {
+        let domainStatus = $("#domainCheckbox").is(':checked');
+        let hostingStatus = $("#hostingCheckbox").is(':checked');
+        $('#selectCustomerSerice').empty();
+        render_services_option(domainStatus, hostingStatus);
+        btn_enable();
+    });
+
+    $('#hostingCheckbox').on('click', function() {
+        let domainStatus = $("#domainCheckbox").is(':checked');
+        let hostingStatus = $("#hostingCheckbox").is(':checked');
+        $('#selectCustomerSerice').empty();
+        render_services_option(domainStatus, hostingStatus);
+        btn_enable();
+    });
+
+    function render_services_option(dom, hos) {
+        let toAppend = '';
+        $.each(serviceInfoObj, function(i, value) {
+            if (dom && hos) {
+                toAppend += '<option value="' + value.id + '">' + value.domain_name + '</option>';
+            } else if (!dom && hos) {
+                if (value.hosting > 0) {
+                    toAppend += '<option value="' + value.id + '">' + value.domain_name + '</option>';
+                }
+            } else if (dom && !hos) {
+                if (value.domain > 0) {
+                    toAppend += '<option value="' + value.id + '">' + value.domain_name + '</option>';
+                }
+            } else {
+                if (value.hosting > 0) {
+                    toAppend += '';
+                }
+            }
+        });
+        $('#selectCustomerSerice').append(toAppend);
     }
 </script>
 @endsection

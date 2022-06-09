@@ -434,14 +434,14 @@
                                 <tr>
                                     <td class="padded">
                                         <p>{!! nl2br($data['email_bottom']) !!}</p>
-                                        <br />
+                                        {{-- <br />
                                         <br />
                                         <p><strong>Thanks and Regards,</strong><br />
                                             Hosting Team<br />
                                             CodeRiver Applications<br />
                                             Email: <a href="mailto:hosting@coderiverbd.com" style="color: #05549a;">hosting@coderiverbd.com</a><br />
                                             Mobile: 01710826403
-                                        </p>
+                                        </p> --}}
                                     </td>
                                 </tr>
                             </tbody>

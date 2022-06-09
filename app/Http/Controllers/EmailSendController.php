@@ -36,16 +36,34 @@ class EmailSendController extends Controller
         $customerInfo = Customer::with('user')->where('id', $request->customer_id)->first();
         $serviceInfo = Service::with('hostingPackage')->where('id', $request->service_id)->first();
 
-        $email_body = strip_tags($request->email_body);
-        $seperate_string = explode('{service_info}', $email_body);
+        $shortcode = $this->get_string_between($request->email_body, '{', '}');
+
+        switch ($shortcode):
+            case 'service_info':
+                $email_body = strip_tags($request->email_body);
+                $seperate_string = explode('{' . $shortcode . '}', $email_body);
+                $mailData['service_info'] = true;
+                if (!is_null($serviceInfo->hostingPackage)) :
+                    $mailData['hosting_package']    = $serviceInfo->hostingPackage->name;
+                endif;
+                break;
+            case 'service_cpanel_info':
+                $email_body = strip_tags($request->email_body);
+                $seperate_string = explode('{' . $shortcode . '}', $email_body);
+                $mailData['service_cpanel_info'] = true;
+                $mailData['cpanel_username'] = $serviceInfo->cpanel_username;
+                $mailData['cpanel_password'] = $serviceInfo->cpanel_password;
+                break;
+            default:
+                session()->flash('warning', 'Something happed worng in email shortcode. Try Again.');
+                return redirect()->back();
+                break;
+        endswitch;
 
         $mailData['customer_email'] = $customerInfo->user->email;
         $mailData['domain_name']    = $serviceInfo->domain_name;
         $mailData['email_top']      = $seperate_string[0];
         $mailData['email_bottom']   = $seperate_string[1];
-        if (!is_null($serviceInfo->hostingPackage)) :
-            $mailData['hosting_package']    = $serviceInfo->hostingPackage->name;
-        endif;
         $mailData['expire_date']    = $serviceInfo->service_expire_date;
         $mailData['email_subject']  = $request->email_subject;
 
@@ -53,5 +71,15 @@ class EmailSendController extends Controller
 
         session()->flash('success', 'Email Send Successfully');
         return redirect()->back();
+    }
+
+    public function get_string_between($string, $start, $end)
+    {
+        $string = ' ' . $string;
+        $ini = strpos($string, $start);
+        if ($ini == 0) return '';
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+        return substr($string, $ini, $len);
     }
 }

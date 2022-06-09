@@ -335,7 +335,7 @@
                         <div class="column-bottom">&nbsp;</div>
                     </td>
                 </tr>
-
+                @if(isset($data['service_info']))
                 <tr>
                     <td class="column">
                         <div class="column-top">&nbsp;</div>
@@ -381,7 +381,51 @@
                         <div class="column-bottom">&nbsp;</div>
                     </td>
                 </tr>
-
+                @endif
+                @if(isset($data['service_cpanel_info']))
+                <tr>
+                    <td class="column">
+                        <div class="column-top">&nbsp;</div>
+                        <table class="content" border="0" cellspacing="0" cellpadding="0">
+                            <tbody>
+                                <tr style="border: 1px solid #000; text-align: center;">
+                                    <td style="border: 1px solid #000;">
+                                        <p style="margin: 0px !important; padding: 5px;">cPanel Url</p>
+                                    </td>
+                                    <td style="border: 1px solid #000;">
+                                        <p style="margin: 0px !important; padding: 5px;"><a href="{{ $data['domain_name'] }}" target="_blank"> {{ $data['domain_name'] }}/cpanel</a></p>
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid #000; text-align: center;">
+                                    <td style="border: 1px solid #000;">
+                                        <p style="margin: 0px !important; padding: 5px;">Username</p>
+                                    </td>
+                                    <td style="border: 1px solid #000;">
+                                        <p style="margin: 0px !important; padding: 5px;">{{ $data['cpanel_username'] }}</p>
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid #000; text-align: center;">
+                                    <td style="border: 1px solid #000;">
+                                        <p style="margin: 0px !important; padding: 5px;">Password </p>
+                                    </td>
+                                    <td style="border: 1px solid #000;">
+                                        <p style="margin: 0px !important; padding: 5px;">{{ $data['cpanel_password'] }}</p>
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid #000; text-align: center;">
+                                    <td style="border: 1px solid #000;">
+                                        <p style="margin: 0px !important; padding: 5px;">Expired Date </p>
+                                    </td>
+                                    <td style="border: 1px solid #000;">
+                                        <p style="margin: 0px !important; padding: 5px;">{{ $data['expire_date'] }}</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="column-bottom">&nbsp;</div>
+                    </td>
+                </tr>
+                @endif
                 <tr>
                     <td class="column">
                         <div class="column-top">&nbsp;</div>

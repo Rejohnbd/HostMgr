@@ -360,7 +360,7 @@
                                         <p style="margin: 0px !important; padding: 5px;"><a href="{{ $data['domain_name'] }}" target="_blank"> {{ $data['domain_name'] }}</a></p>
                                     </td>
                                     <td style="border: 1px solid #000;">
-                                        <p style="margin: 0px !important; padding: 5px;">{{ $data['expire_date'] }}</p>
+                                        <p style="margin: 0px !important; padding: 5px;">{{ date('d/m/Y', strtotime($data['expire_date'])) }}</p>
                                     </td>
                                 </tr>
                                 @if(isset($data['hosting_package']))
@@ -372,7 +372,7 @@
                                         <p style="margin: 0px !important; padding: 5px;"><a href="{{ $data['domain_name'] }}" target="_blank"> {{ $data['domain_name'] }}</a></p>
                                     </td>
                                     <td style="border: 1px solid #000;">
-                                        <p style="margin: 0px !important; padding: 5px;">{{ $data['expire_date'] }}</p>
+                                        <p style="margin: 0px !important; padding: 5px;">{{ date('d/m/Y', strtotime($data['expire_date'])) }}</p>
                                     </td>
                                 </tr>
                                 @endif
@@ -417,7 +417,7 @@
                                         <p style="margin: 0px !important; padding: 5px;">Expired Date </p>
                                     </td>
                                     <td style="border: 1px solid #000;">
-                                        <p style="margin: 0px !important; padding: 5px;">{{ $data['expire_date'] }}</p>
+                                        <p style="margin: 0px !important; padding: 5px;">{{ date('d/m/Y', strtotime($data['expire_date'])) }}</p>
                                     </td>
                                 </tr>
                             </tbody>

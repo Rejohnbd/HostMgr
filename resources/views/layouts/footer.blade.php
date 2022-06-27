@@ -53,6 +53,10 @@
 <script src="{{ asset('resources/assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/services.js') }}"></script>
 @endif
+@if(Request::is('services/*/edit'))
+<script src="{{ asset('resources/assets/vendor/select-option/js/select2.min.js') }}"></script>
+<script src="{{ asset('resources/assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js') }}"></script>
+@endif
 @yield('scripts')
 </body>
 

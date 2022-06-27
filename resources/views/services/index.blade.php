@@ -107,12 +107,17 @@
                             <button class="btn btn-sm @if($service->payment_status == 1) btn-success @elseif($service->payment_status == 2) btn-warning @else btn-danger @endif">@if($service->payment_status == 1) Paid @elseif($service->payment_status == 2) Partial Paid @else Not Paid @endif</button>
                         </td>
                         <td>
-                            <a href=" {{ route('services.show', $service->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Service Details">
+                            <a href="{{ route('services.show', $service->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Service Details">
                                 <i class="fas fa-search-plus"></i>
                             </a>
+                            @if($service->invoice_status === 0)
+                            <a href="{{ route('services.edit', $service->id) }}" class="mt-1 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Service {{ $service->domain_name }}">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            @endif
                             @if($serviceItem->service_type_id === 2)
                             <button class="mt-1 btn btn-success btn-sm editHostingInfo" data-id="{{ $service->id }}" data-name="{{ $service->domain_name }}" data-toggle="tooltip" data-placement="top" title="Edit Hosting Access Info">
-                                <i class="fas fa-edit"></i>
+                                <i class="fas fa-wrench"></i>
                             </button>
                             @endif
                         </td>

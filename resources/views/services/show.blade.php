@@ -163,6 +163,11 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                             </a>
                             @endif
                             @if($service->invoice_status === 1)
+                            <button class="btn btn-success btn-circle btnPaymentFirst" data-toggle="tooltip" data-placement="top" title="Renew Services">
+                                <i class="fas fa-handshake"></i>
+                            </button>
+                            @endif
+                            @if($service->invoice_status === 1 && $service->payment_status === 1)
                             <a href="{{ route('services.renew', $service->id) }}" class="btn btn-success btn-circle" data-toggle="tooltip" data-placement="top" title="Renew Services">
                                 <i class="fas fa-handshake"></i>
                             </a>
@@ -353,10 +358,35 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="payFirstModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cannot Renew Service</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Pay your previous due first</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
 <script>
+    $(document).ready(function() {
+        $('.btnPaymentFirst').on('click', function() {
+            $('#payFirstModal').modal('show');
+        })
+    })
+
     function copyFunction(id) {
         var r = document.createRange();
         r.selectNode(document.getElementById(id));

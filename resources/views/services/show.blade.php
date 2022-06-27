@@ -162,7 +162,7 @@ if (strtotime($service->service_expire_date) <= strtotime(date('Y-m-d'))) {
                                 <i class="fas fa-file-signature"></i>
                             </a>
                             @endif
-                            @if($service->invoice_status === 1)
+                            @if($service->invoice_status === 1 && $service->payment_status === 0)
                             <button class="btn btn-success btn-circle btnPaymentFirst" data-toggle="tooltip" data-placement="top" title="Renew Services">
                                 <i class="fas fa-handshake"></i>
                             </button>

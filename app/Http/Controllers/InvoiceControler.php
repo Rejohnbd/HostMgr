@@ -470,7 +470,8 @@ class InvoiceControler extends Controller
             'customer' => $customer,
             'user' => $user,
             'invoice' => $invoice,
-            'invoiceItems' => $invoiceItems
+            'invoiceItems' => $invoiceItems,
+            'serviceLog' => $serviceLogInfo
         ]);
         $pdf->setPaper('A4');
         // return view('invoices.invoice');

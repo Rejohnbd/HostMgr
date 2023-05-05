@@ -30,6 +30,7 @@
             <table class="table align-items-center table-flush" id="dataTable">
                 <thead class="thead-light">
                     <tr>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Domain</th>
                         <th>Invoice No</th>
@@ -43,6 +44,7 @@
                 <tbody>
                     @forelse($payments as $payment)
                     <tr>
+                        <td>{{ $payment->id }}</td>
                         <td>{{ $payment->findCustomerNameByUserId($payment->user_id) }}</td>
                         <td>{{ $payment->service->domain_name }}</td>
                         <td>{{ $payment->invoice->invoice_number }}</td>

@@ -29,6 +29,7 @@
             <table class="table align-items-center table-flush" id="dataTable">
                 <thead class="thead-light">
                     <tr>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Domain</th>
                         <th>Invoice No</th>
@@ -42,6 +43,7 @@
                 <tbody>
                     @forelse($invoices as $invoice)
                     <tr>
+                        <td>{{ $invoice->id }}</td>
                         <td>{{ $invoice->findCustomerNameByUserId($invoice->user_id) }}</td>
                         <td>{{ $invoice->service->domain_name }}</td>
                         <td>{{ $invoice->invoice_number }}</td>
@@ -60,6 +62,9 @@
                                 <i class="fas fa-edit"></i>
                             </a>
                             @endif
+                            <a href="{{ route('invoices.download', $invoice->invoice_number) }}" target="_blank" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="" data-original-title="Downlad Invoice No {{ $invoice->invoice_number }}">
+                                <i class="fas fa-file-download"></i>
+                            </a>
                         </td>
                     </tr>
                     @empty

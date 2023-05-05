@@ -20,6 +20,7 @@
             <table class="table align-items-center table-flush" id="dataTable">
                 <thead class="thead-light">
                     <tr>
+                        <th>#</th>
                         <th>Domain Name</th>
                         <th>Expense</th>
                         <th>Income</th>
@@ -30,6 +31,7 @@
                 <tbody>
                     @forelse($transactions as $transaction)
                     <tr>
+                        <td>{{ $transaction->id }}</td>
                         <td> @if(isset($transaction->payment_id)){{ $transaction->findDomainNameByPaymentId($transaction->payment_id) }} @endif</td>
                         <td>{{ $transaction->expenses }}</td>
                         <td>{{ $transaction->income }}</td>

@@ -20,6 +20,16 @@ class Customer extends Model
         return $this->hasMany(CustomerContactPerson::class);
     }
 
+    public function customerContactPersonFirst()
+    {
+        $data = $this->hasOne(CustomerContactPerson::class)->first();
+        if (!is_null($data)) {
+            return $data->contact_mobile;
+        } else {
+            return '';
+        }
+    }
+
     public function customerServices()
     {
         return $this->hasMany(Service::class);

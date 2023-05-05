@@ -13,10 +13,10 @@
                     <th scope="row">Email</th>
                     <td>{{ $customer->user->email }}</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <th scope="row">Phone Number</th>
                     <td>{{ $customer->user->mobile }}</td>
-                </tr>
+                </tr> --}}
                 <tr>
                     <th scope="row">Customer Type </th>
                     <td>{{ ucfirst($customer->customer_type) }}</td>

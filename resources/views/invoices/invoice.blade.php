@@ -386,10 +386,18 @@
                     <td class="text-center"><span>{{ $loop->iteration }}</span></td>
                     <td>
                         @if($invoiceItem->service_type_id === 1)
-                        <span>{{ 'Domain' }} ( {{ $service->domain_name }} )</span>
+                        <span>
+                            {{ 'Domain' }} ( {{ $service->domain_name }} )
+                            <br />
+                            {{ date('d/m/Y', strtotime($serviceLog->service_start_date ))}} to {{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }}
+                        </span>
                         @endif
                         @if($invoiceItem->service_type_id === 2)
-                        <span>{{ 'Hosting' }} ( {{ $service->domain_name }} )</span>
+                        <span>
+                            {{ 'Hosting' }} ( {{ $service->domain_name }} )
+                            <br />
+                            {{ date('d/m/Y', strtotime($serviceLog->service_start_date ))}} to {{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }}
+                        </span>
                         @endif
                         @if($invoiceItem->service_type_id === 3)
                         <span>{{ 'Others' }}</span>

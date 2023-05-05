@@ -6,7 +6,7 @@
         <div class="collapse show" id="collapseService-{{ $loop->iteration }}">
             <div class="card-body">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{-- <li class="list-group-item d-flex justify-content-between align-items-center">
                         <strong>Service For </strong>
                         @foreach($service->serviceLogs as $serviceLog)
 
@@ -15,10 +15,16 @@
                         foreach($serviceTypeIds as $id){
                         @endphp
                         <span class="badge badge-primary">{{ $service->findServiceTypeNameFromId($id) }}</span>
-                        @php
-                        }
-                        @endphp
+                    @php
+                    }
+                    @endphp
 
+                    @endforeach
+                    </li> --}}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Service For </strong>
+                        @foreach($service->serviceItems as $item)
+                        <span class="badge badge-primary">{{ $service->findServiceTypeNameFromId($item->service_type_id) }}</span>
                         @endforeach
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">

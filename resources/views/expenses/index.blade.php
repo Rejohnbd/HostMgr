@@ -36,6 +36,7 @@
             <table class="table align-items-center table-flush" id="dataTable">
                 <thead class="thead-light">
                     <tr>
+                        <th>#</th>
                         <th>Amount</th>
                         <th>Description</th>
                         <th>Date</th>
@@ -45,6 +46,7 @@
                 <tbody>
                     @forelse($expenses as $expense)
                     <tr>
+                        <td>{{ $expense->id }}</td>
                         <td>{{ $expense->expenses_amount }}</td>
                         <td>{{ $expense->details }}</td>
                         <td>{{ date('d/m/Y' , strtotime($expense->created_at)) }}</td>

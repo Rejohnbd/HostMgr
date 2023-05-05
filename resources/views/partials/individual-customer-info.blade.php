@@ -19,7 +19,7 @@
                 </tr>
                 <tr>
                     <th scope="row">Phone Number</th>
-                    <td>{{ $customer->user->mobile }}</td>
+                    <td>{{ $customer->customer_mobile }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Customer Type </th>

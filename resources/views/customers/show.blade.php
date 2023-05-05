@@ -33,7 +33,7 @@
                     <div class="nav nav-tabs justify-content-between align-items-center" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" id="client-info-tab" data-toggle="tab" href="#client-info" role="tab" aria-controls="client-info" aria-selected="true">Customer Information</a>
                         <a class="nav-item nav-link" id="client-service-tab" data-toggle="tab" href="#client-service" role="tab" aria-controls="client-service" aria-selected="false">Customer Services <span class="badge badge-danger">{{ $customer->customerServices->count() }}</span></a>
-                        <a class="nav-item nav-link" id="client-billing-tab" data-toggle="tab" href="#client-billing" role="tab" aria-controls="client-billing" aria-selected="false">Billing Information</a>
+                        <a class="nav-item nav-link" id="client-billing-tab" data-toggle="tab" href="#client-billing" role="tab" aria-controls="client-billing" aria-selected="false">Payment</a>
                     </div>
                 </nav>
                 <div class="tab-content mt-4" id="nav-tabContent">
@@ -70,7 +70,46 @@
                     </div>
 
                     <div class="tab-pane fade" id="client-billing" role="tabpanel" aria-labelledby="client-billing-tab">
-                        <h1>Work Here Later</h1>
+                        <div class="table-responsive p-3">
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Service Id</th>
+                                        <th>Domain</th>
+                                        <th>Start-End date</th>
+                                        <th>Invoide No.</th>
+                                        <th>Amount</th>
+                                        <th>Payment Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($customer->customerServices as $service)
+                                    <tr>
+                                        <td>{{ $service->id }}</td>
+                                        <td>{{ $service->domain_name }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($service->service_start_date)) }} To {{ date('d/m/Y', strtotime($service->service_expire_date)) }}</td>
+                                        <td>
+                                            @if(count($service->invoices) > 0)
+                                            @foreach($service->invoices as $key => $invoice)
+                                            @if($key == 0)
+                                            {{$invoice->invoice_number}}
+                                            @else
+                                            , {{ $invoice->invoice_number }}
+                                            @endif
+                                            @endforeach
+                                            @endif
+                                        </td>
+                                        <td>{{ $service->invoice_total }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($service->created_at)) }}</td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="6">No Data Found</td>
+                                    </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

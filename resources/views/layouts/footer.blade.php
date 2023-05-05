@@ -29,7 +29,9 @@
 <script src="{{ asset('resources/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script>
   $(document).ready(function() {
-    $('#dataTable').DataTable();
+    $('#dataTable').DataTable({
+      "aaSorting": []
+    });
   });
 </script>
 @endif

@@ -341,6 +341,12 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
+        // foreach ($customer->customerServices as $service) {
+        //     echo "<pre>";
+        //     print_r($service->serviceItemLatest());
+        //     echo "<br/>";
+        // }
+        // dd($customer->customerServices);
         // dd($customer->customerContactPersons->pluck(2));
         return view('customers.show', compact('customer'));
     }

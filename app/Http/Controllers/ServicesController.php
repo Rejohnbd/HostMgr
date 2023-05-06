@@ -605,4 +605,19 @@ class ServicesController extends Controller
         ];
         return response()->json($data);
     }
+
+    public function servicesFilterByCustomer(Request $request)
+    {
+        $selectCustomer = $request->selectCustomer;
+
+        if ($selectCustomer == 'all' || $selectCustomer == 'Select Customer') :
+            $services = Service::all();
+            return response()->view('services.service-report', compact('services'));
+        else :
+            $services = Service::join('customers', 'customers.id',  '=', 'services.customer_id')
+                ->where('customers.id', '=', $selectCustomer)
+                ->get('services.*');
+            return response()->view('services.service-report', compact('services'));
+        endif;
+    }
 }

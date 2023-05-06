@@ -191,7 +191,18 @@
 
         $('#selectCustomer').on('change', function() {
             selectCustomer = this.value;
-        })
+            $.ajax({
+                url: "{{ route('services-filter-by-customer') }}",
+                method: 'POST',
+                data: {
+                    selectCustomer: selectCustomer,
+                    _token: '{{csrf_token()}}',
+                },
+                success: function(response) {
+                    $('#filterServiceReport').html(response);
+                }
+            })
+        });
 
         $(document).on('click', '#filterSearch', function(e) {
             $('#selectCustomer').removeClass('is-invalid');

@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('cusomter-delete', 'CustomerController@destroy');
     Route::resource('services', 'ServicesController');
     Route::post('services-filter', 'ServicesController@filterServices')->name('services-filter');
+    Route::post('services_filter_by_customer', 'ServicesController@servicesFilterByCustomer')->name('services-filter-by-customer');
     Route::post('services-hosting-info', 'ServicesController@servicesHostingInfo')->name('services-hosting-info');
     Route::post('services-hosting-info-update', 'ServicesController@servicesHostingInfoUpdate')->name('services-hosting-info-update');
     Route::post('services-by-customer-id', 'ServicesController@servicesByCustomerId')->name('services-by-customer-id');

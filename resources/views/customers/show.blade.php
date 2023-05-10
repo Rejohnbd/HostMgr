@@ -84,24 +84,18 @@
                                 </thead>
                                 <tbody>
                                     @forelse($customer->customerServices as $service)
+                                    @if(count($service->serviceLogs) > 0)
+                                    @foreach($service->serviceLogs as $key => $serviceLog)
                                     <tr>
                                         <td>{{ $service->id }}</td>
                                         <td>{{ $service->domain_name }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($service->service_start_date)) }} To {{ date('d/m/Y', strtotime($service->service_expire_date)) }}</td>
-                                        <td>
-                                            @if(count($service->invoices) > 0)
-                                            @foreach($service->invoices as $key => $invoice)
-                                            @if($key == 0)
-                                            {{$invoice->invoice_number}}
-                                            @else
-                                            , {{ $invoice->invoice_number }}
-                                            @endif
-                                            @endforeach
-                                            @endif
-                                        </td>
-                                        <td>{{ $service->invoice_total }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($service->created_at)) }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($serviceLog->service_start_date)) }} To {{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }}</td>
+                                        <td>{{ $serviceLog->invoice_number }}</td>
+                                        <td>{{ find_payment_date_by_invoice_number($serviceLog->invoice_number, 'paid_amount') }}</td>
+                                        <td>{{ date('d/m/Y', strtotime(find_payment_date_by_invoice_number($serviceLog->invoice_number, 'payment_date'))) }}</td>
                                     </tr>
+                                    @endforeach
+                                    @endif
                                     @empty
                                     <tr>
                                         <td colspan="6">No Data Found</td>

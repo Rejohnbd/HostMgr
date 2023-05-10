@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 
@@ -34,6 +36,19 @@ if (!function_exists('check_current_balance')) {
             return $initialBalance->initial_balance;
         else :
             return $presentBlance->present_balance;
+        endif;
+    }
+}
+
+if (!function_exists('find_payment_date_by_invoice_number')) {
+    function find_payment_date_by_invoice_number($invoiceNumber, $type)
+    {
+        $invoiceInfo = Invoice::where('invoice_number', $invoiceNumber)->first();
+        $paymentInfo = Payment::where('invoice_id', $invoiceInfo->id)->first();
+        if ($type == 'payment_date') :
+            return $paymentInfo->payment_date;
+        elseif ($type == 'paid_amount') :
+            return $paymentInfo->paid_amount;
         endif;
     }
 }

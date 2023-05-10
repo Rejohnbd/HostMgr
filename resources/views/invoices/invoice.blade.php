@@ -389,14 +389,14 @@
                         <span>
                             {{ 'Domain' }} ( {{ $service->domain_name }} )
                             <br />
-                            {{ date('d/m/Y', strtotime($serviceLog->service_start_date ))}} to {{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }}
+                            ({{ date('d/m/Y', strtotime($serviceLog->service_start_date ))}} to {{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }})
                         </span>
                         @endif
                         @if($invoiceItem->service_type_id === 2)
                         <span>
                             {{ 'Hosting' }} ( {{ $service->domain_name }} )
                             <br />
-                            {{ date('d/m/Y', strtotime($serviceLog->service_start_date ))}} to {{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }}
+                            ({{ date('d/m/Y', strtotime($serviceLog->service_start_date ))}} to {{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }})
                         </span>
                         @endif
                         @if($invoiceItem->service_type_id === 3)

@@ -397,6 +397,14 @@
                             {{ 'Hosting' }} ( {{ $service->domain_name }} )
                             <br />
                             ({{ date('d/m/Y', strtotime($serviceLog->service_start_date ))}} to {{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }})
+                            <br />
+                            @if($service->hostingPackage->space > 1024)
+                            @php
+                            echo floor(($service->hostingPackage->space / 1024) * 100) / 100 . ' GB';
+                            @endphp
+                            @else
+                            {{ $service->hostingPackage->space }} MB
+                            @endif
                         </span>
                         @endif
                         @if($invoiceItem->service_type_id === 3)

@@ -46,9 +46,17 @@ if (!function_exists('find_payment_date_by_invoice_number')) {
         $invoiceInfo = Invoice::where('invoice_number', $invoiceNumber)->first();
         $paymentInfo = Payment::where('invoice_id', $invoiceInfo->id)->first();
         if ($type == 'payment_date') :
-            return $paymentInfo->payment_date;
+            if (is_null($paymentInfo)) :
+                return '';
+            else :
+                return $paymentInfo->payment_date;
+            endif;
         elseif ($type == 'paid_amount') :
-            return $paymentInfo->paid_amount;
+            if (is_null($paymentInfo)) :
+                return '';
+            else :
+                return $paymentInfo->paid_amount;
+            endif;
         endif;
     }
 }

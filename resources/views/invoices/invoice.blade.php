@@ -393,6 +393,7 @@
                         </span>
                         @endif
                         @if($invoiceItem->service_type_id === 2)
+                        @if($service->hosting_type == 'package')
                         <span>
                             {{ 'Hosting' }} ( {{ $service->domain_name }} )
                             <br />
@@ -406,6 +407,16 @@
                             {{ $service->hostingPackage->space }} MB
                             @endif
                         </span>
+                        @endif
+                        @if($service->hosting_type == 'custom')
+                        <span>
+                            {{ 'Hosting' }} ( {{ $service->domain_name }} )
+                            <br />
+                            ({{ date('d/m/Y', strtotime($serviceLog->service_start_date ))}} to {{ date('d/m/Y', strtotime($serviceLog->service_expire_date)) }})
+                            <br />
+                            {{ $service->hosting_space }}
+                        </span>
+                        @endif
                         @endif
                         @if($invoiceItem->service_type_id === 3)
                         <span>{{ 'Others' }}</span>
